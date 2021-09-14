@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app/main.dart';
+import 'package:flutter_app/screen/splash/onbroad/onbroad.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -14,14 +15,14 @@ class IntroPage extends StatefulWidget {
 }
 
 class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
-  late AnimationController _lottieAnimation;
+  static late AnimationController lottieAnimation;
   var expanded = false;
   double _bigFontSize = kIsWeb ? 234 : 178;
   final transitionDuration = Duration(seconds: 1);
 
   @override
   void initState() {
-    _lottieAnimation = AnimationController(
+    lottieAnimation = AnimationController(
       vsync: this,
       duration: Duration(seconds: 1),
     );
@@ -29,17 +30,12 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
     Future.delayed(Duration(seconds: 1))
         .then((value) => setState(() => expanded = true))
         .then((value) => Duration(seconds: 1))
-        .then(
-          (value) => Future.delayed(Duration(seconds: 1)).then(
-            (value) => _lottieAnimation.forward().then(
-                  (value) => Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              MyHomePage(title: 'Flutter Demo Home Page')),
-                      (route) => false),
-                ),
-          ),
-        );
+        .then((value) => Future.delayed(Duration(seconds: 1)))
+        .then((value) => lottieAnimation.forward())
+        .then((value) => Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => Onbroad()),
+            (route) => false));
+
     super.initState();
   }
 
@@ -99,14 +95,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
           child: LottieBuilder.asset(
             'assets/food.json',
             onLoaded: (composition) {
-              _lottieAnimation..duration = composition.duration;
+              lottieAnimation..duration = composition.duration;
             },
             frameRate: FrameRate.max,
             repeat: false,
             animate: false,
             height: 90,
             width: 90,
-            controller: _lottieAnimation,
+            controller: lottieAnimation,
           ),
         )
       ],
