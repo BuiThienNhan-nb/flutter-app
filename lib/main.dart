@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/screens/authenticate/authentication.dart';
+import 'package:flutter_app/screens/google_map/google_map.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/intro/onboarding_screen.dart';
 import 'package:flutter_app/screens/intro/splash_screen.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
       // ),
 
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        primaryColor: Colors.white,
         primarySwatch: Palette.myOrangeMaterialColor,
       ),
 
@@ -46,8 +47,9 @@ class MyApp extends StatelessWidget {
         GetPage(name: "/authenticate", page: () => Authenication()),
         GetPage(name: "/splashScreen", page: () => SplashScreen()),
         GetPage(name: "/onboardingScreen", page: () => OnboardingScreen()),
+        GetPage(name: "/mapscreen", page: () => MapScreen()),
       ],
-      initialRoute: '/splashScreen',
+      initialRoute: '/mapscreen',
     );
   }
 }

@@ -39,6 +39,13 @@ dependencies:
   curved_navigation_bar: ^1.0.1
   lottie: ^1.0.1
   introduction_screen: ^2.1.0
+  geolocator: ^7.6.1
+  google_maps_flutter: ^2.0.9
+  http: ^0.13.3
+  flutter_polyline_points: ^1.0.0 
+  intent: ^1.4.0
+  maps_launcher: ^2.0.1
+  url_launcher: ^6.0.10
 
 dev_dependencies:
   flutter_test:
