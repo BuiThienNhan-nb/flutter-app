@@ -32,6 +32,16 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  navigateToHome() async {
+    UserRepo userRepo = UserRepo();
+    await userRepo
+        .fetchUser(FirebaseAuth.instance.currentUser!.uid)
+        .then((value) => UserRepo.customer = value);
+    Get.offAllNamed('/mainContainer');
+    showSnackbar(
+        "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+  }
+
   login() async {
     AuthenticationServices _auth = AuthenticationServices();
     if (_formKey.currentState!.validate()) {
@@ -53,13 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // userRepo.createUser(UserRepo.customer.uid);
 
         //fetch user and navigate to home page here
-        UserRepo userRepo = UserRepo();
-        await userRepo
-            .fetchUser(FirebaseAuth.instance.currentUser!.uid)
-            .then((value) => UserRepo.customer = value);
-        Get.offAllNamed('/mainContainer');
-        showSnackbar(
-            "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+        navigateToHome();
       }
     }
   }

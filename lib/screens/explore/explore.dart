@@ -28,6 +28,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
         // backgroundColor: Palette.myColor,
       ),
       body: Container(
+        // color: Colors.blue[50],
         child: Center(
           child: ButtonWidget(text: 'Logout', onClicked: signOut),
         ),

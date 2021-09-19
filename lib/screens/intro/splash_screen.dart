@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/services/usersRepo.dart';
+import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
@@ -32,10 +35,24 @@ class _IntroPageState extends State<SplashScreen>
         .then((value) => lottieAnimation.forward())
         .then((value) => {
               //navigate to another screen, page
-              Get.offAllNamed("/onboardingScreen")
+              navigate()
             });
 
     super.initState();
+  }
+
+  navigate() async {
+    if (FirebaseAuth.instance.currentUser != null) {
+      UserRepo userRepo = UserRepo();
+      await userRepo
+          .fetchUser(FirebaseAuth.instance.currentUser!.uid)
+          .then((value) => UserRepo.customer = value);
+      Get.offAllNamed('/mainContainer');
+      showSnackbar(
+          "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+    } else {
+      Get.offAllNamed("/authenticate");
+    }
   }
 
   @override

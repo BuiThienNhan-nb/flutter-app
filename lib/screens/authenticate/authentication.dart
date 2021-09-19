@@ -12,6 +12,8 @@ class Authenication extends StatefulWidget {
 class _AuthenicationState extends State<Authenication> {
   bool isLogin = true;
 
+  bool isSignined = true;
+
   toggleScreen() {
     setState(() {
       isLogin = !isLogin;

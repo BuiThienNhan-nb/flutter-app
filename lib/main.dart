@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
+import 'package:flutter_app/controllers/destinationController.dart';
+import 'package:flutter_app/controllers/pageDisplayController.dart';
 import 'package:flutter_app/screens/authenticate/authentication.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/intro/onboarding_screen.dart';
@@ -12,15 +15,16 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  // SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+  await Firebase.initializeApp().then((value) {
+    Get.put(PageDisplayController());
+    Get.put(DestinationController());
+  });
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([]);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -38,13 +42,13 @@ class MyApp extends StatelessWidget {
 
       // home: Authenication(),
       getPages: [
-        GetPage(
-            name: "/mainContainer",
-            page: () => MainContainer(
-                  pageDisplay: HomeScreen(),
-                )),
+        GetPage(name: "/mainContainer", page: () => MainContainer()),
         GetPage(name: "/authenticate", page: () => Authenication()),
-        GetPage(name: "/splashScreen", page: () => SplashScreen()),
+        GetPage(
+          name: "/splashScreen",
+          page: () => SplashScreen(),
+          transition: Transition.fade,
+        ),
         GetPage(name: "/onboardingScreen", page: () => OnboardingScreen()),
       ],
       initialRoute: '/splashScreen',
