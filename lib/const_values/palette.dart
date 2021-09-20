@@ -7,7 +7,10 @@ class Palette {
   static const Color lightBlue = Color(0xff489FB5);
   static const Color orange = Color(0xffFFA62B);
   static const Color darkOrange = Color(0xffCC7700);
+  static const Color myLightGrey = Color(0xFFE7EBEE);
   static Color myColor = HexColor('#ff5c01');
+
+  //0xFFF3F5F7           0xFFE7EBEE
 
   // Print int value for Color() from hex string
   void hexToColor(String code) {

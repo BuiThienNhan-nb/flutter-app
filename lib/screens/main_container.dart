@@ -110,7 +110,7 @@ class _MainContainerState extends State<MainContainer> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       // confineInSafeArea: true,
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.transparent,
       // handleAndroidBackButtonPress: true,
       // resizeToAvoidBottomInset: true,
       // stateManagement: true,

@@ -10,10 +10,12 @@ import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/intro/onboarding_screen.dart';
 import 'package:flutter_app/screens/intro/splash_screen.dart';
 import 'package:flutter_app/screens/main_container.dart';
+import 'package:fullscreen/fullscreen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() async {
+  // document.documentElement!.requestFullscreen();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp().then((value) {
     Get.put(PageDisplayController());
@@ -25,6 +27,7 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setEnabledSystemUIOverlays([]);
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -42,14 +45,30 @@ class MyApp extends StatelessWidget {
 
       // home: Authenication(),
       getPages: [
-        GetPage(name: "/mainContainer", page: () => MainContainer()),
-        GetPage(name: "/authenticate", page: () => Authenication()),
+        GetPage(
+          name: "/mainContainer",
+          page: () => MainContainer(),
+          transition: Transition.rightToLeft,
+          transitionDuration: Duration(milliseconds: 350),
+        ),
+        GetPage(
+          name: "/authenticate",
+          page: () => Authenication(),
+          transition: Transition.rightToLeft,
+          transitionDuration: Duration(milliseconds: 350),
+        ),
         GetPage(
           name: "/splashScreen",
           page: () => SplashScreen(),
-          transition: Transition.fade,
+          transition: Transition.rightToLeft,
+          transitionDuration: Duration(milliseconds: 350),
         ),
-        GetPage(name: "/onboardingScreen", page: () => OnboardingScreen()),
+        GetPage(
+          name: "/onboardingScreen",
+          page: () => OnboardingScreen(),
+          transition: Transition.rightToLeft,
+          transitionDuration: Duration(milliseconds: 350),
+        ),
       ],
       initialRoute: '/splashScreen',
     );

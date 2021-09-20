@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_app/models/destinations.dart';
 import 'package:flutter_app/models/provinces.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
@@ -18,6 +19,7 @@ class DestinationController extends GetxController {
   void onInit() async {
     super.onInit();
     listProvince.bindStream(ProvinceRepo().provinceStream());
+    listDestination.bindStream(DestinationRepo().destinationStream());
   }
 
   Future<void> fetchDestinations() async {

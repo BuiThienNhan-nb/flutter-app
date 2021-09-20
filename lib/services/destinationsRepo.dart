@@ -12,9 +12,25 @@ class DestinationRepo {
         .snapshots()
         .map((QuerySnapshot query) {
       List<Destination> list = [];
-      query.docChanges.forEach((element) {
+      query.docs.forEach((element) {
         //add data
-        list.add(Destination.fromJson(element.doc));
+        list.add(Destination.fromJson(element));
+      });
+      return list;
+    });
+  }
+
+  Stream<List<Destination>> destinationByProvinceStream(String provinceId) {
+    return _db
+        .collection('destinations')
+        .orderBy('name', descending: true)
+        .where('provinceId', isEqualTo: provinceId)
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<Destination> list = [];
+      query.docs.forEach((element) {
+        //add data
+        list.add(Destination.fromJson(element));
       });
       return list;
     });

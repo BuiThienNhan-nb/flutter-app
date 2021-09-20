@@ -11,9 +11,9 @@ class ProvinceRepo {
         .snapshots()
         .map((QuerySnapshot query) {
       List<Province> list = [];
-      query.docChanges.forEach((element) {
+      query.docs.forEach((element) {
         //add data
-        list.add(Province.fromJson(element.doc));
+        list.add(Province.fromJson(element));
       });
       return list;
     });
