@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/models/provinces.dart';
+import 'package:get/get.dart';
 
 class ProvinceRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -7,7 +9,7 @@ class ProvinceRepo {
   Stream<List<Province>> provinceStream() {
     return _db
         .collection('provinces')
-        .orderBy('name', descending: true)
+        // .orderBy('name')
         .snapshots()
         .map((QuerySnapshot query) {
       List<Province> list = [];
@@ -15,6 +17,7 @@ class ProvinceRepo {
         //add data
         list.add(Province.fromJson(element));
       });
+      destinationController.provinceSelectedId = list[0].uid.obs;
       return list;
     });
   }

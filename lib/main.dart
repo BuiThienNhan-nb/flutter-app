@@ -10,7 +10,6 @@ import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/intro/onboarding_screen.dart';
 import 'package:flutter_app/screens/intro/splash_screen.dart';
 import 'package:flutter_app/screens/main_container.dart';
-import 'package:fullscreen/fullscreen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 

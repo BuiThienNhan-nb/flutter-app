@@ -33,10 +33,17 @@ class UserRepo {
         await _db.collection('users').doc(uid).get();
 
     if (documentReference.exists) {
-      return Customer.fromJson(documentReference.data());
+      return Customer.fromJson(
+          documentReference.data() as Map<String, dynamic>?);
     } else {
       print('USER REPO: Fecth user failed');
-      return Customer(uid: '', email: '', name: '', phoneNumber: '');
+      return Customer(
+        uid: '',
+        email: '',
+        name: '',
+        phoneNumber: '',
+        imageUrl: '',
+      );
     }
   }
 }

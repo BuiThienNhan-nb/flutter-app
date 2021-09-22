@@ -1,35 +1,27 @@
 import 'dart:ui';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_app/const_values/palette.dart';
+import 'package:flutter_app/screens/home/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/const_values/controller.dart';
-import 'package:flutter_app/const_values/palette.dart';
-import 'package:flutter_app/screens/home/utils/status_bar.dart';
-import 'package:flutter_app/services/authentication.dart';
-import 'package:flutter_app/services/usersRepo.dart';
-import 'package:flutter_app/utils/button_widget.dart';
-import 'package:flutter_app/utils/hor_destination_card.dart';
-import 'package:flutter_app/utils/recommended_destination_card.dart';
-import 'package:flutter_app/utils/email_field_widget.dart';
+import 'package:flutter_app/screens/home/status_bar.dart';
+import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
+import 'package:flutter_app/utils/custom_listview_item/province_cate_item.dart';
+import 'package:flutter_app/utils/custom_listview_item/recommended_destination_card.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shimmer/shimmer.dart';
 
-// class HomeScreen extends StatefulWidget {
-//   const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
-
-class HomeScreen extends StatelessWidget {
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     Size sizeDevice = MediaQuery.of(context).size;
     final size = sizeDevice.width * (6 / 11);
-
     return SafeArea(
       child: Container(
         // color: Colors.amber,
@@ -37,7 +29,6 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
-            // child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -45,24 +36,8 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 15,
                 ),
-                Container(
-                  width: size * 1.35,
-                  height: size * 0.22,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      )
-                    ],
-                  ),
-                  child: CupertinoSearchTextField(
-                    backgroundColor: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
+                SearchField(
+                  size: size,
                 ),
                 SizedBox(
                   height: 15,
@@ -86,7 +61,8 @@ class HomeScreen extends StatelessWidget {
                       itemBuilder: (context, index) =>
                           RecommendedDestinationCard(
                               size: size,
-                              function: () {},
+                              function:
+                                  destinationController.navigateToDesDetail,
                               destination: destinationController
                                   .listDestinations[index]),
                     ),
@@ -96,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  'Categories',
+                  'Provinces List',
                   style: GoogleFonts.varelaRound(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -105,28 +81,54 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                // SizedBox(
-                //   height: size,
-                // Flexible(
-                // child:
+                Container(
+                  height: size * 0.13,
+                  child: Obx(
+                    () => ListView.builder(
+                      // physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemCount: destinationController.listProvinces.length,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {
+                          setState(() {
+                            destinationController.updateSelectedProvince(
+                                destinationController.listProvinces[index].uid);
+                          });
+                        },
+                        splashColor: Colors.grey.shade300,
+                        // splashFactory: InkRipple.splashFactory,
+                        borderRadius: BorderRadius.circular(10),
+                        child: ProvinceItem(
+                          province: destinationController.listProvinces[index],
+                          function:
+                              destinationController.updateSelectedProvince,
+                        ),
+                      ),
+                      // ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
                 Obx(
                   () => ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.vertical,
-                    itemCount: destinationController.listDestinations.length,
+                    itemCount:
+                        destinationController.listDestinationsByProvince.length,
                     itemBuilder: (context, index) => HorizontalDestinationCard(
-                      destination:
-                          destinationController.listDestinations[index],
-                      function: () {},
+                      destination: destinationController
+                          .listDestinationsByProvince[index],
+                      function: destinationController.navigateToDesDetail,
                       size: size,
                     ),
                   ),
                 ),
-                // ),
               ],
             ),
-            // ),
           ),
         ),
       ),

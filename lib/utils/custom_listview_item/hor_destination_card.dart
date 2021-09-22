@@ -15,6 +15,8 @@ class HorizontalDestinationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double borderRadius = 15.0;
+    final tag = 'horizontal-${destination.uid}';
     return Container(
       padding: EdgeInsets.only(bottom: 15),
       width: size,
@@ -25,9 +27,9 @@ class HorizontalDestinationCard extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Hero(
-                tag: 'horizontal-${destination.uid}',
+                tag: tag,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   child: CachedNetworkImage(
                     width: size * 0.4,
                     height: size * 0.3,
@@ -90,9 +92,9 @@ class HorizontalDestinationCard extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 splashColor: Palette.myLightGrey,
-                // splashFactory: InkRipple.splashFactory,
-                borderRadius: BorderRadius.circular(20),
-                onTap: () {},
+                splashFactory: InkRipple.splashFactory,
+                borderRadius: BorderRadius.circular(borderRadius),
+                onTap: () => function(destination, tag),
               ),
             ),
           ),

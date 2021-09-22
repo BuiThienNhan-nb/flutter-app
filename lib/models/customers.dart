@@ -5,22 +5,31 @@ class Customer {
   String? email = '';
   String? name = '';
   String? phoneNumber = '';
+  String? imageUrl = '';
 
   Customer(
       {required this.uid,
-      required this.email,
-      required this.name,
-      required this.phoneNumber});
+      this.email,
+      this.name,
+      this.phoneNumber,
+      this.imageUrl});
 
   factory Customer.fromJson(Map<String, dynamic>? data) {
     return Customer(
-        uid: FirebaseAuth.instance.currentUser!.uid,
-        email: data!['email'] as String,
-        name: data['name'] as String,
-        phoneNumber: data['phoneNumber'] as String);
+      uid: FirebaseAuth.instance.currentUser!.uid,
+      email: data!['email'] as String,
+      name: data['name'] as String,
+      phoneNumber: data['phoneNumber'] as String,
+      imageUrl: data['imageUrl'] as String,
+    );
   }
 
   Map<String, dynamic> toMap() {
-    return {'email': email, 'name': name, 'phoneNumber': phoneNumber};
+    return {
+      'email': email,
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'imageUrl': imageUrl,
+    };
   }
 }

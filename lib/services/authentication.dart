@@ -43,6 +43,12 @@ class AuthenticationServices {
 
   Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
-    UserRepo.customer = Customer(uid: '', email: '', name: '', phoneNumber: '');
+    UserRepo.customer = Customer(
+      uid: '',
+      email: '',
+      name: '',
+      phoneNumber: '',
+      imageUrl: '',
+    );
   }
 }

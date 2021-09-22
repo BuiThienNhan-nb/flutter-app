@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/models/destinations.dart';
-import 'package:flutter_app/models/provinces.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -29,6 +27,7 @@ class RecommendedDestinationCard extends StatelessWidget {
       fit: BoxFit.fill,
       imageUrl: destination.imageUrl,
     );
+    final tag = 'recommended-${destination.uid}';
 
     Widget tagContainer(String head, String des) {
       return Padding(
@@ -88,7 +87,7 @@ class RecommendedDestinationCard extends StatelessWidget {
                         color: Colors.black.withOpacity(0.3),
                         spreadRadius: 5,
                         blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
@@ -100,7 +99,7 @@ class RecommendedDestinationCard extends StatelessWidget {
                           )
                         : Container(
                             child: Hero(
-                              tag: 'recommended-${destination.uid}',
+                              tag: tag,
                               child: CachedNetworkImage(
                                 height: size,
                                 width: size,
@@ -158,7 +157,7 @@ class RecommendedDestinationCard extends StatelessWidget {
                 splashColor: Palette.myLightGrey,
                 splashFactory: InkRipple.splashFactory,
                 borderRadius: BorderRadius.circular(20),
-                onTap: () {},
+                onTap: () => function(destination, tag),
               ),
             ),
           ),

@@ -27,7 +27,7 @@ class _MainContainerState extends State<MainContainer> {
       PersistentBottomNavBarItem(
         icon: Icon(Icons.home),
         title: ("Home"),
-        activeColorPrimary: Palette.myColor,
+        activeColorPrimary: Palette.orange,
         activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),

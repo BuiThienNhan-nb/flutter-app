@@ -13,7 +13,7 @@ class Destination {
       required this.imageUrl});
 
   factory Destination.fromJson(DocumentSnapshot doc) {
-    Map<String, dynamic>? data = doc.data();
+    Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
     return Destination(
       uid: doc.id,
       name: data!['name'] as String,
