@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/destinations.dart';
+import 'package:flutter_app/services/usersRepo.dart';
+import 'package:flutter_app/utils/fav_button.dart';
 import 'package:get/get.dart';
 
 class DestinationDetail extends StatelessWidget {
@@ -50,6 +52,13 @@ class DestinationDetail extends StatelessWidget {
 
                     // )
                   ],
+                ),
+                FavoriteButton(
+                  isFavorite:
+                      UserRepo.customer.favoriteDes!.contains(destination.uid),
+                  count: destination.favorites,
+                  size: 40.0,
+                  destination: destination,
                 ),
                 Container(
                   color: Colors.white,

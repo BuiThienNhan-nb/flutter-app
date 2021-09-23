@@ -49,6 +49,7 @@ class AuthenticationServices {
       name: '',
       phoneNumber: '',
       imageUrl: '',
+      favoriteDes: [],
     );
   }
 }

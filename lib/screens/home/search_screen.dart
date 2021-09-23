@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/models/destinations.dart';
-import 'package:flutter_app/screens/home/destination_detail.dart';
+import 'package:flutter_app/screens/home/destination_detail/destination_detail.dart';
 
 class SearchField extends StatelessWidget {
   final size;
@@ -94,8 +94,14 @@ class SearchData extends SearchDelegate<Destination> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       onPressed: () {
-        close(context,
-            Destination(uid: '', name: '', description: '', imageUrl: ''));
+        close(
+            context,
+            Destination(
+                uid: '',
+                name: '',
+                description: '',
+                imageUrl: '',
+                favorites: 0));
       },
       icon: Icon(Icons.arrow_back),
     );

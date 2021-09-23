@@ -59,10 +59,12 @@ class _SignUpState extends State<SignUp> {
       } else {
         User? user = FirebaseAuth.instance.currentUser;
         UserRepo.customer = Customer(
-            uid: user!.uid,
-            email: user.email,
-            name: _nameController.text.trim(),
-            phoneNumber: _phoneController.text.trim());
+          uid: user!.uid,
+          email: user.email,
+          name: _nameController.text.trim(),
+          phoneNumber: _phoneController.text.trim(),
+          favoriteDes: [],
+        );
         UserRepo userRepo = UserRepo();
         await userRepo.createUser(UserRepo.customer.uid);
         Get.offAllNamed('/mainContainer');

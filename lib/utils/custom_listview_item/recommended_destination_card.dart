@@ -57,7 +57,7 @@ class RecommendedDestinationCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "128 views this month.",
+                          "${destination.favorites} likes this month.",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(fontSize: 12.0, color: Colors.white),
                         ),

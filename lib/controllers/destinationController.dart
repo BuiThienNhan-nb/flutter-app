@@ -1,6 +1,6 @@
 import 'package:flutter_app/models/destinations.dart';
 import 'package:flutter_app/models/provinces.dart';
-import 'package:flutter_app/screens/home/destination_detail.dart';
+import 'package:flutter_app/screens/home/destination_detail/destination_detail.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
 import 'package:flutter_app/services/provincesRepo.dart';
 import 'package:get/get.dart';

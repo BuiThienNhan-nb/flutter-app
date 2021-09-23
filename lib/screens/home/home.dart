@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/screens/home/status_bar.dart';
+import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
 import 'package:flutter_app/utils/custom_listview_item/province_cate_item.dart';
 import 'package:flutter_app/utils/custom_listview_item/recommended_destination_card.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    // print('LIST FAVORITE DESTINATIONS: ${UserRepo.customer.favoriteDes}');
     Size sizeDevice = MediaQuery.of(context).size;
     final size = sizeDevice.width * (6 / 11);
     return SafeArea(

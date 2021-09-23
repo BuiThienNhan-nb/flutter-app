@@ -4,7 +4,7 @@ import 'package:flutter_app/utils/snack_bar_widget.dart';
 
 class UserRepo {
   static Customer customer =
-      Customer(uid: '', email: '', name: '', phoneNumber: '');
+      Customer(uid: '', email: '', name: '', phoneNumber: '', favoriteDes: []);
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<bool> checkExist(String uid) async {
@@ -43,6 +43,7 @@ class UserRepo {
         name: '',
         phoneNumber: '',
         imageUrl: '',
+        favoriteDes: [],
       );
     }
   }
