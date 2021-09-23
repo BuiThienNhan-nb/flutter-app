@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/destinations.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
+import 'package:flutter_app/services/usersRepo.dart';
+import 'package:get/get.dart';
 import 'package:like_button/like_button.dart';
 
-class FavoriteButton extends StatelessWidget {
+class FavoriteButton extends StatefulWidget {
   final size;
-  final bool isFavorite;
-  final int count;
+  bool isFavorite;
+  int count;
   final Destination destination;
-  const FavoriteButton({
+  FavoriteButton({
     Key? key,
     this.size,
     required this.isFavorite,
@@ -17,14 +19,24 @@ class FavoriteButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _FavoriteButtonState createState() => _FavoriteButtonState();
+}
+
+class _FavoriteButtonState extends State<FavoriteButton> {
+  @override
   Widget build(BuildContext context) {
     return LikeButton(
-      size: size,
-      isLiked: isFavorite,
-      likeCount: count,
+      size: widget.size,
+      isLiked: widget.isFavorite,
+      likeCount: widget.count,
       onTap: (isLiked) async {
-        await DestinationRepo().updateUserFav(destination, isFavorite);
-        return !isLiked;
+        final bool _success = await DestinationRepo()
+            .updateUserFav(widget.destination, widget.isFavorite);
+        widget.count = widget.destination.favorites = _success
+            ? (widget.isFavorite ? widget.count - 1 : widget.count + 1)
+            : widget.count;
+        widget.isFavorite = _success ? !widget.isFavorite : widget.isFavorite;
+        return _success ? !isLiked : isLiked;
       },
       // circleColor:
       //     CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
@@ -36,7 +48,7 @@ class FavoriteButton extends StatelessWidget {
         return Icon(
           Icons.favorite,
           color: isLiked ? Colors.red : Colors.grey,
-          size: size * 0.7,
+          size: widget.size * 0.7,
         );
       },
       likeCountPadding: const EdgeInsets.only(left: 0.0),

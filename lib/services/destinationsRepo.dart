@@ -52,7 +52,34 @@ class DestinationRepo {
     }
   }
 
-  Future<void> updateUserFav(Destination destination, bool isLiked) async {
+  // Future<void> updateUserFav(Destination destination, bool isLiked) async {
+  //   if (!isLiked) {
+  //     await _db.collection('users').doc('${UserRepo.customer.uid}').update({
+  //       'favoriteDes': UserRepo.customer.favoriteDes
+  //     }).then((value) async => {
+  //           await _db
+  //               .collection('destinations')
+  //               .doc('${destination.uid}')
+  //               .update({'favorites': destination.favorites + 1}).then(
+  //                   (value) =>
+  //                       UserRepo.customer.favoriteDes!.add(destination.uid))
+  //         });
+  //   } else {
+  //     await _db.collection('users').doc('${UserRepo.customer.uid}').update({
+  //       'favoriteDes': UserRepo.customer.favoriteDes
+  //     }).then((value) async => {
+  //           await _db
+  //               .collection('destinations')
+  //               .doc('${destination.uid}')
+  //               .update({'favorites': destination.favorites - 1}).then(
+  //                   (value) =>
+  //                       UserRepo.customer.favoriteDes!.remove(destination.uid))
+  //         });
+  //   }
+  // }
+
+  Future<bool> updateUserFav(Destination destination, bool isLiked) async {
+    bool _success = false;
     if (!isLiked) {
       UserRepo.customer.favoriteDes!.add(destination.uid);
       await _db
@@ -63,6 +90,7 @@ class DestinationRepo {
           .collection('destinations')
           .doc('${destination.uid}')
           .update({'favorites': destination.favorites + 1});
+      _success = true;
     } else {
       UserRepo.customer.favoriteDes!.remove(destination.uid);
       await _db
@@ -73,6 +101,8 @@ class DestinationRepo {
           .collection('destinations')
           .doc('${destination.uid}')
           .update({'favorites': destination.favorites - 1});
+      _success = true;
     }
+    return _success;
   }
 }

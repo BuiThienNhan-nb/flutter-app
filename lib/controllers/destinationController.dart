@@ -3,6 +3,7 @@ import 'package:flutter_app/models/provinces.dart';
 import 'package:flutter_app/screens/home/destination_detail/destination_detail.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
 import 'package:flutter_app/services/provincesRepo.dart';
+import 'package:flutter_app/services/usersRepo.dart';
 import 'package:get/get.dart';
 
 class DestinationController extends GetxController {
@@ -12,11 +13,13 @@ class DestinationController extends GetxController {
   RxList<Destination> listDestination = <Destination>[].obs;
   RxString provinceSelectedId = ''.obs;
   RxList<Destination> listDestinationByProvince = <Destination>[].obs;
+  RxList<Destination> listFavDestination = <Destination>[].obs;
 
   List<Province> get listProvinces => listProvince.value;
   List<Destination> get listDestinations => listDestination.value;
   List<Destination> get listDestinationsByProvince =>
       listDestinationByProvince.value;
+  List<Destination> get listFavDestinations => listFavDestination.value;
 
   @override
   void onInit() {
@@ -26,9 +29,9 @@ class DestinationController extends GetxController {
     listDestination.bindStream(DestinationRepo().destinationStream());
     listDestinationByProvince.bindStream(DestinationRepo()
         .destinationByProvinceStream(provinceSelectedId.value));
+    // ever(UserRepo.customer.favoriteDes.obs, loadFavDes);
     // ever(listProvince, initDestinationByProvince);
     // ever(provinceSelectedId, updateDestinationByProvince);
-
     // ever(provinceSelectedId, fetchDestinationByProvince);
     // listDestinationByProvince.bindStream(DestinationRepo()
     //     .destinationByProvinceStream(provinceSelectedId.value));
@@ -40,10 +43,12 @@ class DestinationController extends GetxController {
         .bindStream(DestinationRepo().destinationByProvinceStream(list[0].uid));
   }
 
-  // updateDestinationByProvince(String id) {
-  //   listDestinationByProvince
-  //       .bindStream(DestinationRepo().destinationByProvinceStream(id));
-  // }
+  void loadFavDes(List<String>? uids) {
+    listFavDestination = <Destination>[].obs;
+    listDestinations.forEach((element) {
+      if (uids!.contains(element.uid)) listFavDestinations.add(element);
+    });
+  }
 
   void navigateToDesDetail(Destination destination, tag) {
     Get.to(() => DestinationDetail(destination: destination, tag: tag));

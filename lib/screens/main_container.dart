@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
-import 'package:flutter_app/screens/explore/explore.dart';
+import 'package:flutter_app/screens/favorites/favorite.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/setting/setting.dart';
 import 'package:get/get.dart';
@@ -19,7 +19,7 @@ class _MainContainerState extends State<MainContainer> {
   Widget pageChosen = HomeScreen();
 
   List<Widget> _buildScreens() {
-    return [HomeScreen(), ExploreScreen(), SettingScreen()];
+    return [HomeScreen(), FavoriteScreen(), SettingScreen()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -32,16 +32,16 @@ class _MainContainerState extends State<MainContainer> {
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.explore),
+        icon: Icon(Icons.favorite),
         title: ("Explore"),
-        activeColorPrimary: Palette.myColor,
+        activeColorPrimary: Palette.orange,
         activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.settings),
         title: ("Settings"),
-        activeColorPrimary: Palette.myColor,
+        activeColorPrimary: Palette.orange,
         activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),
