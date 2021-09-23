@@ -30,32 +30,36 @@ class HorizontalDestinationCard extends StatelessWidget {
                 tag: tag,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(borderRadius),
-                  child: CachedNetworkImage(
-                    width: size * 0.4,
-                    height: size * 0.3,
-                    fit: BoxFit.fill,
-                    imageUrl: destination.imageUrl,
-                    placeholder: (context, url) => Shimmer.fromColors(
-                      baseColor: Colors.grey,
-                      highlightColor: Colors.grey.shade200,
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
+                  child: destination.imageUrl.isEmpty
+                      ? Container(
+                          color: Colors.grey.shade400,
+                        )
+                      : CachedNetworkImage(
+                          width: size * 0.4,
+                          height: size * 0.3,
+                          fit: BoxFit.fill,
+                          imageUrl: destination.imageUrl,
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey,
+                            highlightColor: Colors.grey.shade200,
+                            child: Stack(
                               children: [
-                                Expanded(
-                                  child: Container(
-                                    color: Colors.grey,
+                                Positioned.fill(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
+                        ),
                 ),
               ),
               Expanded(

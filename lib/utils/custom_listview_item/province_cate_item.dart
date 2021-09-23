@@ -38,7 +38,9 @@ class _ProvinceItemState extends State<ProvinceItem> {
             () => Column(
               children: [
                 Text(
-                  '${widget.province.name}',
+                  widget.province.name != ''
+                      ? '${widget.province.name}'
+                      : 'Null',
                   style: TextStyle(
                     color: widget.province.uid ==
                             destinationController.provinceSelectedId.value

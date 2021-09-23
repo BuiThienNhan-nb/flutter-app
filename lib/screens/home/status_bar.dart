@@ -27,7 +27,9 @@ class HomeStatusBar extends StatelessWidget {
             //   height: 5,
             // ),
             Text(
-              'Hello, ${UserRepo.customer.name}!',
+              UserRepo.customer.name!.isEmpty
+                  ? 'Hello, guest!'
+                  : 'Hello, ${UserRepo.customer.name}!',
               style: TextStyle(
                 fontSize: 10,
               ),
@@ -47,31 +49,41 @@ class HomeStatusBar extends StatelessWidget {
         Container(
           height: size,
           child: ClipOval(
-            child: CachedNetworkImage(
-              width: size,
-              fit: BoxFit.fill,
-              imageUrl: UserRepo.customer.imageUrl!,
-              placeholder: (context, url) => Shimmer.fromColors(
-                baseColor: Colors.grey,
-                highlightColor: Colors.grey.shade200,
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
+            child: UserRepo.customer.imageUrl == ''
+                ? Container(
+                    width: size,
+                    color: Colors.grey.shade400,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 35,
+                    ),
+                  )
+                : CachedNetworkImage(
+                    width: size,
+                    fit: BoxFit.fill,
+                    imageUrl: UserRepo.customer.imageUrl!,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: Colors.grey,
+                      highlightColor: Colors.grey.shade200,
+                      child: Stack(
                         children: [
-                          Expanded(
-                            child: Container(
-                              color: Colors.grey,
+                          Positioned.fill(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
           ),
         ),
       ],

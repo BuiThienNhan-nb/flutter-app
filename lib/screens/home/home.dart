@@ -24,7 +24,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final size = sizeDevice.width * (6 / 11);
     return SafeArea(
       child: Container(
-        // color: Colors.amber,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/background.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
         padding: EdgeInsets.only(bottom: 30),
         child: SingleChildScrollView(
           child: Padding(

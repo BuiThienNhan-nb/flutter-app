@@ -16,9 +16,10 @@ class Destination {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
     return Destination(
       uid: doc.id,
-      name: data!['name'] as String,
-      description: data['description'] as String,
-      imageUrl: data['imageUrl'] as String,
+      name: data!.containsKey('name') ? data['name'] as String : '',
+      description:
+          data.containsKey('description') ? data['description'] as String : '',
+      imageUrl: data.containsKey('imageUrl') ? data['imageUrl'] as String : '',
     );
   }
 
