@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
+import 'package:flutter_app/screens/setting/editProfile/edit_profile.dart';
 import 'package:flutter_app/screens/setting/settingChild.dart';
 import 'package:flutter_app/services/authentication.dart';
 import 'package:flutter_app/utils/button_widget.dart';
@@ -36,13 +37,8 @@ class _SettingScreenState extends State<SettingScreen> {
             child: ButtonWidget(
                 text: 'Go to Child Screen',
                 onClicked: () {
-                  pageDisplayController.add();
-                  pushNewScreen(
-                    context,
-                    screen: SettingChildScreen(),
-                    withNavBar: true,
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
+                  Get.to(() => EditProfile(),
+                      transition: Transition.leftToRight);
                 }),
           ),
         ),
