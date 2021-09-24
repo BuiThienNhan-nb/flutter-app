@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/const_values/palette.dart';
 
 class HeaderWidget extends StatefulWidget {
   final double _height;
@@ -23,7 +24,8 @@ class _HeaderWidgetState extends State<HeaderWidget> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-
+    final Color color1 = Palette.orange;
+    final Color color2 = Palette.lightBlue;
     return Container(
       child: Stack(
         children: [
@@ -53,8 +55,10 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               decoration: new BoxDecoration(
                 gradient: new LinearGradient(
                     colors: [
-                      Theme.of(context).primaryColor.withOpacity(0.4),
-                      Theme.of(context).accentColor.withOpacity(0.4),
+                      // Theme.of(context).primaryColor.withOpacity(0.4),
+                      // Theme.of(context).accentColor.withOpacity(0.4),
+
+                      color1, color2,
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),
@@ -74,8 +78,9 @@ class _HeaderWidgetState extends State<HeaderWidget> {
               decoration: new BoxDecoration(
                 gradient: new LinearGradient(
                     colors: [
-                      Theme.of(context).primaryColor,
-                      Theme.of(context).accentColor,
+                      // Theme.of(context).primaryColor,
+                      // Theme.of(context).accentColor,
+                      color1, color2,
                     ],
                     begin: const FractionalOffset(0.0, 0.0),
                     end: const FractionalOffset(1.0, 0.0),

@@ -18,7 +18,7 @@ class _SettingScreenState extends State<SettingScreen> {
   signOut() async {
     AuthenticationServices _auth = AuthenticationServices();
     await _auth.signOut();
-    Get.offAllNamed('/authenticate');
+    Get.offAllNamed('/login');
   }
 
   @override
@@ -37,8 +37,9 @@ class _SettingScreenState extends State<SettingScreen> {
             child: ButtonWidget(
                 text: 'Go to Child Screen',
                 onClicked: () {
-                  Get.to(() => EditProfile(),
-                      transition: Transition.leftToRight);
+                  // Get.to(() => EditProfile(),
+                  //     transition: Transition.leftToRight);
+                  signOut();
                 }),
           ),
         ),

@@ -19,6 +19,7 @@ class ButtonWidget extends StatelessWidget {
           shadowColor: Colors.grey,
           minimumSize: Size(150, 60),
           shape: StadiumBorder(),
+          primary: Palette.myColor,
         ),
         child: FittedBox(
           child: Text(

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/services/authentication.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:get/get.dart';
@@ -42,6 +43,8 @@ class _IntroPageState extends State<SplashScreen>
   }
 
   navigate() async {
+    // AuthenticationServices _auth = AuthenticationServices();
+    // await _auth.signOut();
     if (FirebaseAuth.instance.currentUser != null) {
       UserRepo userRepo = UserRepo();
       await userRepo
@@ -51,7 +54,7 @@ class _IntroPageState extends State<SplashScreen>
       showSnackbar(
           "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
     } else {
-      Get.offAllNamed("/authenticate");
+      Get.offAllNamed("/login");
     }
   }
 
