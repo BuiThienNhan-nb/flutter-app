@@ -47,4 +47,18 @@ class UserRepo {
       );
     }
   }
+
+  // Stream<List<String>> listUserFavDesIdStream(String id) {
+  //   return _db
+  //       .collection('destinations')
+  //       .snapshots()
+  //       .map((QuerySnapshot query) {
+  //     List<Destination> list = [];
+  //     query.docs.forEach((element) {
+  //       //add data
+  //       list.add(Destination.fromJson(element));
+  //     });
+  //     return list;
+  //   });
+  // }
 }

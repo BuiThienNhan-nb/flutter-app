@@ -19,30 +19,49 @@ class _MainContainerState extends State<MainContainer> {
   Widget pageChosen = HomeScreen();
 
   List<Widget> _buildScreens() {
-    return [HomeScreen(), FavoriteScreen(), SettingScreen()];
+    return [HomeScreen(), FavoriteScreen(), SettingScreen(), SettingScreen()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.home),
+        icon: Icon(
+          Icons.home,
+          size: 25,
+        ),
         title: ("Home"),
         activeColorPrimary: Palette.orange,
-        activeColorSecondary: Colors.white,
+        // activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.favorite),
+        icon: Icon(
+          Icons.favorite,
+          size: 25,
+        ),
         title: ("Explore"),
         activeColorPrimary: Palette.orange,
-        activeColorSecondary: Colors.white,
+        // activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(Icons.settings),
+        icon: Icon(
+          Icons.history,
+          size: 25,
+        ),
+        title: ("History"),
+        activeColorPrimary: Palette.orange,
+        // activeColorSecondary: Colors.white,
+        inactiveColorPrimary: CupertinoColors.systemGrey2,
+      ),
+      PersistentBottomNavBarItem(
+        icon: Icon(
+          Icons.settings,
+          size: 25,
+        ),
         title: ("Settings"),
         activeColorPrimary: Palette.orange,
-        activeColorSecondary: Colors.white,
+        // activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,
       ),
     ];
@@ -110,18 +129,18 @@ class _MainContainerState extends State<MainContainer> {
       screens: _buildScreens(),
       items: _navBarsItems(),
       // confineInSafeArea: true,
-      // backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       // handleAndroidBackButtonPress: true,
       // resizeToAvoidBottomInset: true,
       // stateManagement: true,
-      navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0 ? 0.0 : 60,
+      navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0 ? 0.0 : 45,
       hideNavigationBarWhenKeyboardShows: true,
-      margin: EdgeInsets.only(left: 0, right: 0, bottom: 0),
+      margin: EdgeInsets.only(left: 70, right: 70, bottom: 20),
       popActionScreens: PopActionScreensType.all,
       bottomScreenMargin: 0.0,
       decoration: NavBarDecoration(
           colorBehindNavBar: Palette.myColor,
-          borderRadius: BorderRadius.circular(50.0)),
+          borderRadius: BorderRadius.circular(60.0)),
       popAllScreensOnTapOfSelectedTab: true,
       itemAnimationProperties: ItemAnimationProperties(
         duration: Duration(milliseconds: 400),
@@ -133,7 +152,7 @@ class _MainContainerState extends State<MainContainer> {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style7, // Choose the nav bar style with this property
+          NavBarStyle.style12, // Choose the nav bar style with this property
     );
   }
 }
