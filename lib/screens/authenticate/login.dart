@@ -55,17 +55,25 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       if (result == null) {
       } else {
-        // User? user = FirebaseAuth.instance.currentUser;
-        // UserRepo.customer = Customer(
-        //     uid: user!.uid,
-        //     email: user.email,
-        //     name: user.displayName,
-        //     phoneNumber: user.phoneNumber);
-        // UserRepo userRepo = UserRepo();
-        // userRepo.createUser(UserRepo.customer.uid);
+        User? user = FirebaseAuth.instance.currentUser;
+        UserRepo.customer = Customer(
+          uid: user!.uid,
+          email: user.email,
+          name: user.displayName,
+          phoneNumber: user.phoneNumber,
+          imageUrl: '',
+        );
+        UserRepo userRepo = UserRepo();
+        userRepo.createUser(UserRepo.customer.uid);
 
         //fetch user and navigate to home page here
-        navigateToHome();
+        if (FirebaseAuth.instance.currentUser!.emailVerified)
+          navigateToHome();
+        else {
+          Get.to(() => VerifyEmail(),
+              transition: Transition.rightToLeft,
+              duration: Duration(milliseconds: 800));
+        }
       }
     }
   }
@@ -129,12 +137,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   TextButton(
                                     // onPressed: () => widget.toggleScreen(),
+
                                     onPressed: () => Get.to(
                                         () => SignUp(toggleScreen: () {}),
                                         transition: Transition.rightToLeft,
                                         duration: Duration(milliseconds: 800)),
-                                    // onPressed: () => Get.to(
-                                    //     () => VerifyEmail(name: '', phone: ''),
+                                    // onPressed: () => Get.to(() => VerifyEmail(),
                                     //     transition: Transition.rightToLeft,
                                     //     duration: Duration(milliseconds: 800)),
                                     child: Text(

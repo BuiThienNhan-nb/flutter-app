@@ -27,10 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background.jpg"),
-            fit: BoxFit.cover,
-          ),
+          // image: DecorationImage(
+          //   image: AssetImage("assets/background.jpg"),
+          //   fit: BoxFit.cover,
+          // ),
+          color: Palette.myLightGrey,
         ),
         // padding: EdgeInsets.only(bottom: 30),
         child: SingleChildScrollView(
