@@ -27,15 +27,16 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/background.jpg"),
-            fit: BoxFit.cover,
-          ),
+          // image: DecorationImage(
+          //   image: AssetImage("assets/background.jpg"),
+          //   fit: BoxFit.cover,
+          // ),
+          color: Palette.myLightGrey,
         ),
-        padding: EdgeInsets.only(bottom: 30),
+        // padding: EdgeInsets.only(bottom: 30),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

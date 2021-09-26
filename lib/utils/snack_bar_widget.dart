@@ -11,9 +11,9 @@ showSnackbar(title, message, valid) {
       title,
       message,
       snackPosition: SnackPosition.BOTTOM,
-      borderRadius: 10,
+      borderRadius: 15,
       backgroundColor: Colors.white,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       icon: valid
           ? Icon(
               Icons.check_circle,
@@ -35,7 +35,7 @@ showSnackbar(title, message, valid) {
         ),
       ],
     );
-    Future.delayed(Duration(seconds: 2))
+    Future.delayed(Duration(seconds: 3))
         .then((value) => _isShowSnakbar = false);
   }
 }

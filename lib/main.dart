@@ -5,7 +5,8 @@ import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/controllers/destinationController.dart';
 import 'package:flutter_app/controllers/pageDisplayController.dart';
-import 'package:flutter_app/screens/authenticate/authentication.dart';
+import 'package:flutter_app/screens/authenticate/verify_email.dart';
+import 'package:flutter_app/screens/authenticate/login.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/intro/onboarding_screen.dart';
 import 'package:flutter_app/screens/intro/splash_screen.dart';
@@ -51,8 +52,8 @@ class MyApp extends StatelessWidget {
           transitionDuration: Duration(milliseconds: 350),
         ),
         GetPage(
-          name: "/authenticate",
-          page: () => Authenication(),
+          name: "/login",
+          page: () => LoginScreen(toggleScreen: () {}),
           transition: Transition.rightToLeft,
           transitionDuration: Duration(milliseconds: 350),
         ),

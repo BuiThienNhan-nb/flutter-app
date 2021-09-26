@@ -29,6 +29,7 @@ class DestinationController extends GetxController {
     listDestination.bindStream(DestinationRepo().destinationStream());
     listDestinationByProvince.bindStream(DestinationRepo()
         .destinationByProvinceStream(provinceSelectedId.value));
+
     // ever(UserRepo.customer.favoriteDes.obs, loadFavDes);
     // ever(listProvince, initDestinationByProvince);
     // ever(provinceSelectedId, updateDestinationByProvince);
@@ -43,12 +44,12 @@ class DestinationController extends GetxController {
         .bindStream(DestinationRepo().destinationByProvinceStream(list[0].uid));
   }
 
-  void loadFavDes(List<String>? uids) {
-    listFavDestination = <Destination>[].obs;
-    listDestinations.forEach((element) {
-      if (uids!.contains(element.uid)) listFavDestinations.add(element);
-    });
-  }
+  // void loadFavDes(List<String>? uids) {
+  //   listFavDestination = <Destination>[].obs;
+  //   listDestinations.forEach((element) {
+  //     if (uids!.contains(element.uid)) listFavDestinations.add(element);
+  //   });
+  // }
 
   void navigateToDesDetail(Destination destination, tag) {
     Get.to(() => DestinationDetail(destination: destination, tag: tag));

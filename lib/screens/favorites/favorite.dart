@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/models/destinations.dart';
+import 'package:flutter_app/services/destinationsRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -10,9 +12,8 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // RxList<Destination> _destination = UserRepo.customer.favoriteDes.obs;
-    destinationController.loadFavDes(UserRepo.customer.favoriteDes);
-    ever(UserRepo.customer.favoriteDes.obs, destinationController.loadFavDes);
+    destinationController.listFavDestination.bindStream(
+        DestinationRepo().favDestinationStream(UserRepo.customer.favoriteDes));
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -25,22 +26,41 @@ class FavoriteScreen extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
         ),
-        body: Container(
-          child:
-              // Obx(
-              //   () =>
-              ListView.builder(
-            // physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: destinationController.listFavDestinations.length,
-            itemBuilder: (context, index) => HorizontalDestinationCard(
-              destination: destinationController.listFavDestinations[index],
-              function: destinationController.navigateToDesDetail,
-              size: 300.0,
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(12, 12, 0, 30),
+          child: Container(
+            child:
+                // Obx(
+                //   () =>
+                ListView.builder(
+              // physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: destinationController.listFavDestinations.length,
+              itemBuilder: (context, index) => Slidable(
+                actionPane: SlidableScrollActionPane(),
+                actionExtentRatio: 0.3,
+                child: HorizontalDestinationCard(
+                  destination: destinationController.listFavDestinations[index],
+                  function: destinationController.navigateToDesDetail,
+                  size: 300.0,
+                ),
+                secondaryActions: <Widget>[
+                  IconSlideAction(
+                    caption: 'Remove',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () {
+                      DestinationRepo().updateUserFav(
+                          destinationController.listFavDestinations[index],
+                          true);
+                    },
+                  ),
+                ],
+              ),
             ),
+            // ),
           ),
-          // ),
         ),
       ),
     );

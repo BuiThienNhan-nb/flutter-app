@@ -52,6 +52,21 @@ class DestinationRepo {
     }
   }
 
+  Stream<List<Destination>> favDestinationStream(List<String>? listId) {
+    return _db
+        .collection('destinations')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      List<Destination> list = [];
+      query.docs.forEach((element) {
+        //add data
+        if (listId!.contains(element.id))
+          list.add(Destination.fromJson(element));
+      });
+      return list;
+    });
+  }
+
   // Future<void> updateUserFav(Destination destination, bool isLiked) async {
   //   if (!isLiked) {
   //     await _db.collection('users').doc('${UserRepo.customer.uid}').update({
