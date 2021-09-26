@@ -1,7 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/services/usersRepo.dart';
+import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_app/utils/text_field_editProfile.dart';
+import 'package:flutter_app/utils/text_field_birthday.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -9,13 +17,12 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  DateTime _selectedDate = DateTime.now();
-  TextEditingController _textEditingController = TextEditingController();
-  bool isObscurePassword = true;
   bool isLoading = false;
   var txtName = TextEditingController();
   var txtPhoneNumber = TextEditingController();
   var txtEmail = TextEditingController();
+  File? _pickedImage = null;
+  late String url;
   @override
   void initState() {
     super.initState();
@@ -43,6 +50,41 @@ class _EditProfileState extends State<EditProfile> {
           .doc('users/${UserRepo.customer.uid}')
           .update(UserRepo.customer.toMap());
     }
+  }
+
+  updateImage() async {
+    var imageFile = FirebaseStorage.instance
+        .ref()
+        .child('usersimages')
+        .child(UserRepo.customer.name! + '.jpg');
+    UploadTask task = imageFile.putFile(_pickedImage!);
+    TaskSnapshot snapshot = await task;
+    url = await snapshot.ref.getDownloadURL();
+    UserRepo.customer.imageUrl = url;
+    await FirebaseFirestore.instance
+        .doc('users/${UserRepo.customer.uid}')
+        .update(UserRepo.customer.toMap());
+  }
+
+  Future _pickImageCamera() async {
+    final picker = ImagePicker();
+    final pickedImage =
+        await picker.getImage(source: ImageSource.camera, imageQuality: 100);
+    final pickedImageFile = File(pickedImage!.path);
+    setState(() {
+      _pickedImage = pickedImageFile;
+    });
+    Navigator.pop(context);
+  }
+
+  Future _pickImageGallery() async {
+    final picker = ImagePicker();
+    final pickedImage = await picker.getImage(source: ImageSource.gallery);
+    final pickedImageFile = File(pickedImage!.path);
+    setState(() {
+      _pickedImage = pickedImageFile;
+    });
+    Navigator.pop(context);
   }
 
   @override
@@ -94,7 +136,19 @@ class _EditProfileState extends State<EditProfile> {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
-                                  image: AssetImage('assets/avt.jpg'),
+                                  image: _pickedImage == null &&
+                                          UserRepo.customer.imageUrl == null
+                                      ? AssetImage('assets/avt.jpg')
+                                      : _pickedImage == null &&
+                                              UserRepo.customer.imageUrl != null
+                                          ? NetworkImage(
+                                              UserRepo.customer.imageUrl!)
+                                          : _pickedImage != null &&
+                                                  UserRepo.customer.imageUrl !=
+                                                      null
+                                              ? FileImage(_pickedImage!)
+                                              : FileImage(_pickedImage!)
+                                                  as ImageProvider,
                                 ),
                               ),
                             ),
@@ -114,13 +168,13 @@ class _EditProfileState extends State<EditProfile> {
                                 color: Colors.blue,
                               ),
                               child: InkWell(
-                                onTap: () {
-                                  print('object');
-                                  showModalBottomSheet(
-                                    context: context,
-                                    builder: ((builder) => bottomSheet()),
-                                  );
-                                },
+                                // onTap: () {
+                                //   print('object');
+                                //   showModalBottomSheet(
+                                //     context: context,
+                                //     builder: ((builder) => bottomSheet()),
+                                //   );
+                                // },
                                 child: Icon(
                                   Icons.add_a_photo,
                                   color: Colors.white,
@@ -152,32 +206,30 @@ class _EditProfileState extends State<EditProfile> {
                       EdgeInsets.only(top: 80, left: 30, right: 30, bottom: 30),
                   child: Column(
                     children: [
-                      buildTextField("Full Name", "Long", false, txtName, true),
-                      buildTextField(
-                          "SDT", "01234567", false, txtPhoneNumber, true),
-                      buildTextField("Email", "longdh210@gmail.com", false,
-                          txtEmail, false),
-                      TextField(
-                        focusNode: AlwaysDisabledFocusNode(),
-                        controller: _textEditingController,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                        onTap: () {
-                          _selectDate(context);
-                        },
-                        decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(bottom: 5),
-                          labelText: 'Birthday',
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          hintText: 'Sep 21, 1998',
-                          hintStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey,
-                          ),
-                        ),
+                      TextFieldEditProfile(
+                          labelText: "Full Name",
+                          placeholder: "Long",
+                          controller: txtName,
+                          turnOnOff: true,
+                          formatter:
+                              FilteringTextInputFormatter.singleLineFormatter),
+                      TextFieldEditProfile(
+                        labelText: "Phone Number",
+                        placeholder: "01234567",
+                        controller: txtPhoneNumber,
+                        turnOnOff: true,
+                        formatter: FilteringTextInputFormatter.digitsOnly,
+                      ),
+                      TextFieldEditProfile(
+                          labelText: "Email",
+                          placeholder: "longdh210@gmail.com",
+                          controller: txtEmail,
+                          turnOnOff: false,
+                          formatter:
+                              FilteringTextInputFormatter.singleLineFormatter),
+                      TextFieldBirthday(
+                        labelText: "Birthday",
+                        placeholder: "Sep 12, 1998",
                       ),
                       Container(
                         alignment: Alignment.center,
@@ -194,9 +246,14 @@ class _EditProfileState extends State<EditProfile> {
                               isLoading = true;
                             });
                             await updateInfor();
+                            if (_pickedImage != null) {
+                              await updateImage();
+                            }
                             setState(() {
                               isLoading = false;
                             });
+                            showSnackbar("Update succesful",
+                                'Hello ${UserRepo.customer.name}', true);
                           },
                           style: ElevatedButton.styleFrom(
                             textStyle: TextStyle(fontSize: 28),
@@ -214,24 +271,6 @@ class _EditProfileState extends State<EditProfile> {
         ),
       ),
     );
-  }
-
-  _selectDate(BuildContext context) async {
-    DateTime? newSelectedDate = await showDatePicker(
-      context: context,
-      initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2040),
-    );
-
-    if (newSelectedDate != null) {
-      _selectedDate = newSelectedDate;
-      _textEditingController
-        ..text = DateFormat.yMMMd().format(_selectedDate)
-        ..selection = TextSelection.fromPosition(TextPosition(
-            offset: _textEditingController.text.length,
-            affinity: TextAffinity.upstream));
-    }
   }
 
   Widget bottomSheet() {
@@ -254,14 +293,21 @@ class _EditProfileState extends State<EditProfile> {
             height: 20,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               FlatButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  await _pickImageCamera();
+                  // _openCamera(context);
+                },
                 icon: Icon(Icons.camera),
                 label: Text('Camera'),
               ),
               FlatButton.icon(
-                onPressed: () {},
+                onPressed: () async {
+                  await _pickImageGallery();
+                  // _openGallery(context);
+                },
                 icon: Icon(Icons.image),
                 label: Text('Gallery'),
               )
@@ -271,47 +317,4 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
-
-  Widget buildTextField(
-      String labelText,
-      String placeholder,
-      bool isPasswordTextField,
-      TextEditingController controller,
-      bool turnOnOff) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 30),
-      child: TextField(
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
-        obscureText: isPasswordTextField ? isObscurePassword : false,
-        decoration: InputDecoration(
-          suffixIcon: isPasswordTextField
-              ? IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.remove_red_eye,
-                    color: Colors.grey,
-                  ),
-                )
-              : null,
-          contentPadding: EdgeInsets.only(bottom: 5),
-          labelText: labelText,
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: placeholder,
-          hintStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-          ),
-        ),
-        controller: controller,
-        enabled: turnOnOff,
-      ),
-    );
-  }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
 }

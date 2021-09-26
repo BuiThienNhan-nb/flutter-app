@@ -18,7 +18,7 @@ class _SettingScreenState extends State<SettingScreen> {
   signOut() async {
     AuthenticationServices _auth = AuthenticationServices();
     await _auth.signOut();
-    Get.offAllNamed('/authenticate');
+    Get.offAllNamed('/login');
   }
 
   @override
@@ -39,6 +39,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 onClicked: () {
                   Get.to(() => EditProfile(),
                       transition: Transition.leftToRight);
+                  // signOut();
                 }),
           ),
         ),
