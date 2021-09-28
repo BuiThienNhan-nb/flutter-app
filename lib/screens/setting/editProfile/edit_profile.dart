@@ -108,17 +108,26 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     Positioned(
                       bottom: -50.0,
-                      child: Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              print('object');
-                              showModalBottomSheet(
-                                context: context,
-                                builder: ((builder) => bottomSheet()),
-                              );
-                            },
-                            child: Container(
+                      child: InkWell(
+                        onTap: () {
+                          print('object');
+                          showModalBottomSheet(
+                            context: context,
+                            builder: ((builder) => bottomSheet()),
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            // InkWell(
+                            //   onTap: () {
+                            //     print('object');
+                            //     showModalBottomSheet(
+                            //       context: context,
+                            //       builder: ((builder) => bottomSheet()),
+                            //     );
+                            //   },
+                            //   child:
+                            Container(
                               width: 140,
                               height: 140,
                               decoration: BoxDecoration(
@@ -152,37 +161,38 @@ class _EditProfileState extends State<EditProfile> {
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: 4,
-                                  color: Colors.white,
+                            // ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 4,
+                                    color: Colors.white,
+                                  ),
+                                  color: Colors.blue,
                                 ),
-                                color: Colors.blue,
-                              ),
-                              child: InkWell(
-                                // onTap: () {
-                                //   print('object');
-                                //   showModalBottomSheet(
-                                //     context: context,
-                                //     builder: ((builder) => bottomSheet()),
-                                //   );
-                                // },
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
+                                child: InkWell(
+                                  // onTap: () {
+                                  //   print('object');
+                                  //   showModalBottomSheet(
+                                  //     context: context,
+                                  //     builder: ((builder) => bottomSheet()),
+                                  //   );
+                                  // },
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(

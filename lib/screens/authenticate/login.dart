@@ -39,9 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
     await userRepo
         .fetchUser(FirebaseAuth.instance.currentUser!.uid)
         .then((value) => UserRepo.customer = value);
-    Get.offAllNamed('/mainContainer');
-    showSnackbar(
-        "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+    if (FirebaseAuth.instance.currentUser!.emailVerified) {
+      Get.offAllNamed('/mainContainer');
+      showSnackbar(
+          "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+    } else {
+      Get.to(() => VerifyEmail(),
+          transition: Transition.rightToLeft,
+          duration: Duration(milliseconds: 800));
+    }
   }
 
   login() async {
@@ -55,25 +61,26 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       if (result == null) {
       } else {
-        User? user = FirebaseAuth.instance.currentUser;
-        UserRepo.customer = Customer(
-          uid: user!.uid,
-          email: user.email,
-          name: user.displayName,
-          phoneNumber: user.phoneNumber,
-          imageUrl: '',
-        );
-        UserRepo userRepo = UserRepo();
-        userRepo.createUser(UserRepo.customer.uid);
+        // User? user = FirebaseAuth.instance.currentUser;
+        // UserRepo.customer = Customer(
+        //   uid: user!.uid,
+        //   email: user.email,
+        //   name: user.displayName,
+        //   phoneNumber: user.phoneNumber,
+        //   imageUrl: '',
+        // );
+        // UserRepo userRepo = UserRepo();
+        // userRepo.createUser(UserRepo.customer.uid);
 
         //fetch user and navigate to home page here
-        if (FirebaseAuth.instance.currentUser!.emailVerified)
-          navigateToHome();
-        else {
-          Get.to(() => VerifyEmail(),
-              transition: Transition.rightToLeft,
-              duration: Duration(milliseconds: 800));
-        }
+        navigateToHome();
+        // if (FirebaseAuth.instance.currentUser!.emailVerified)
+        //   navigateToHome();
+        // else {
+        //   Get.to(() => VerifyEmail(),
+        //       transition: Transition.rightToLeft,
+        //       duration: Duration(milliseconds: 800));
+        // }
       }
     }
   }

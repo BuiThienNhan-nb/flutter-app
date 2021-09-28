@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/screens/authenticate/verify_email.dart';
 import 'package:flutter_app/services/authentication.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
@@ -50,9 +51,15 @@ class _IntroPageState extends State<SplashScreen>
       await userRepo
           .fetchUser(FirebaseAuth.instance.currentUser!.uid)
           .then((value) => UserRepo.customer = value);
-      Get.offAllNamed('/mainContainer');
-      showSnackbar(
-          "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+      if (FirebaseAuth.instance.currentUser!.emailVerified) {
+        Get.offAllNamed('/mainContainer');
+        showSnackbar(
+            "Login succesful", 'Welcome back ${UserRepo.customer.name}', true);
+      } else {
+        Get.to(() => VerifyEmail(),
+            transition: Transition.rightToLeft,
+            duration: Duration(milliseconds: 800));
+      }
     } else {
       Get.offAllNamed("/login");
     }

@@ -21,14 +21,23 @@ class Customer {
     return Customer(
       uid: FirebaseAuth.instance.currentUser!.uid,
       // email: data!['email'] as String,
-      email: data!.containsKey('email') ? data['email'] as String : '',
-      name: data.containsKey('name') ? data['name'] as String : '',
+      email: (data!.containsKey('email') && data['email'] != null)
+          ? data['email'] as String
+          : '',
+      name: (data.containsKey('name') && data['name'] != null)
+          ? data['name'] as String
+          : '',
       phoneNumber:
-          data.containsKey('phoneNumber') ? data['phoneNumber'] as String : '',
-      imageUrl: data.containsKey('imageUrl') ? data['imageUrl'] as String : '',
-      favoriteDes: data.containsKey('favoriteDes')
-          ? (data['favoriteDes'] as List<dynamic>).cast<String>()
-          : [],
+          (data.containsKey('phoneNumber') && data['phoneNumber'] != null)
+              ? data['phoneNumber'] as String
+              : '',
+      imageUrl: (data.containsKey('imageUrl') && data['imageUrl'] != null)
+          ? data['imageUrl'] as String
+          : '',
+      favoriteDes:
+          (data.containsKey('favoriteDes') && data['favoriteDes'] != null)
+              ? (data['favoriteDes'] as List<dynamic>).cast<String>()
+              : [],
     );
   }
 

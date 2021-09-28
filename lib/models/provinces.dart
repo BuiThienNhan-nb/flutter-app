@@ -10,7 +10,9 @@ class Province {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
     return Province(
       uid: doc.id,
-      name: data!.containsKey('name') ? data['name'] as String : '',
+      name: (data!.containsKey('name') && data['name'] != null)
+          ? data['name'] as String
+          : '',
     );
   }
 

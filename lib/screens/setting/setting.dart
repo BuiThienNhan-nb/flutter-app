@@ -37,9 +37,9 @@ class _SettingScreenState extends State<SettingScreen> {
             child: ButtonWidget(
                 text: 'Go to Child Screen',
                 onClicked: () {
-                  Get.to(() => EditProfile(),
-                      transition: Transition.leftToRight);
-                  // signOut();
+                  // Get.to(() => EditProfile(),
+                  //     transition: Transition.leftToRight);
+                  signOut();
                 }),
           ),
         ),
