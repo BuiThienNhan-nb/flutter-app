@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_app/utils/text_field_editProfile.dart';
 import 'package:flutter_app/utils/text_field_birthday.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -32,19 +34,11 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> updateInfor() async {
-    if (txtName.text != UserRepo.customer.name) {
+    if (txtName.text != UserRepo.customer.name ||
+        txtPhoneNumber.text != UserRepo.customer.phoneNumber ||
+        txtEmail.text != UserRepo.customer.email) {
       UserRepo.customer.name = txtName.text;
-      await FirebaseFirestore.instance
-          .doc('users/${UserRepo.customer.uid}')
-          .update(UserRepo.customer.toMap());
-    }
-    if (txtPhoneNumber.text != UserRepo.customer.phoneNumber) {
       UserRepo.customer.phoneNumber = txtPhoneNumber.text;
-      await FirebaseFirestore.instance
-          .doc('users/${UserRepo.customer.uid}')
-          .update(UserRepo.customer.toMap());
-    }
-    if (txtEmail.text != UserRepo.customer.email) {
       UserRepo.customer.email = txtEmail.text;
       await FirebaseFirestore.instance
           .doc('users/${UserRepo.customer.uid}')
@@ -56,7 +50,7 @@ class _EditProfileState extends State<EditProfile> {
     var imageFile = FirebaseStorage.instance
         .ref()
         .child('usersimages')
-        .child(UserRepo.customer.name! + '.jpg');
+        .child(UserRepo.customer.uid + '.jpg');
     UploadTask task = imageFile.putFile(_pickedImage!);
     TaskSnapshot snapshot = await task;
     url = await snapshot.ref.getDownloadURL();
@@ -70,20 +64,24 @@ class _EditProfileState extends State<EditProfile> {
     final picker = ImagePicker();
     final pickedImage =
         await picker.getImage(source: ImageSource.camera, imageQuality: 100);
-    final pickedImageFile = File(pickedImage!.path);
-    setState(() {
-      _pickedImage = pickedImageFile;
-    });
+    if (pickedImage != null) {
+      final pickedImageFile = File(pickedImage.path);
+      setState(() {
+        _pickedImage = pickedImageFile;
+      });
+    }
     Navigator.pop(context);
   }
 
   Future _pickImageGallery() async {
     final picker = ImagePicker();
     final pickedImage = await picker.getImage(source: ImageSource.gallery);
-    final pickedImageFile = File(pickedImage!.path);
-    setState(() {
-      _pickedImage = pickedImageFile;
-    });
+    if (pickedImage != null) {
+      final pickedImageFile = File(pickedImage.path);
+      setState(() {
+        _pickedImage = pickedImageFile;
+      });
+    }
     Navigator.pop(context);
   }
 
@@ -91,117 +89,113 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: ListView(
-              children: [
-                Stack(
-                  overflow: Overflow.visible,
-                  alignment: Alignment.center,
-                  children: [
-                    Image.asset(
-                      'assets/background.png',
-                      fit: BoxFit.cover,
+        body: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                right: 0,
+                left: 0,
+                child: Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/background.png'),
+                        fit: BoxFit.fill),
+                  ),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: FlatButton(
+                      height: 50,
+                      minWidth: 50,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 50.0,
+                        color: Colors.white,
+                      ),
                     ),
-                    Positioned(
-                      bottom: -50.0,
-                      child: Stack(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              print('object');
-                              showModalBottomSheet(
-                                context: context,
-                                builder: ((builder) => bottomSheet()),
-                              );
-                            },
-                            child: Container(
-                              width: 140,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 4,
-                                  color: Colors.white,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    spreadRadius: 2,
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1),
-                                  )
-                                ],
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: _pickedImage == null &&
-                                          UserRepo.customer.imageUrl == null
-                                      ? AssetImage('assets/avt.jpg')
-                                      : _pickedImage == null &&
-                                              UserRepo.customer.imageUrl != null
-                                          ? NetworkImage(
-                                              UserRepo.customer.imageUrl!)
-                                          : _pickedImage != null &&
-                                                  UserRepo.customer.imageUrl !=
-                                                      null
-                                              ? FileImage(_pickedImage!)
-                                              : FileImage(_pickedImage!)
-                                                  as ImageProvider,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  width: 4,
-                                  color: Colors.white,
-                                ),
-                                color: Colors.blue,
-                              ),
-                              child: InkWell(
-                                // onTap: () {
-                                //   print('object');
-                                //   showModalBottomSheet(
-                                //     context: context,
-                                //     builder: ((builder) => bottomSheet()),
-                                //   );
-                                // },
-                                child: Icon(
-                                  Icons.add_a_photo,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 130,
+                right: 120,
+                child: Stack(
+                  children: [
+                    Container(
+                      width: 140,
+                      height: 140,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 4,
+                          color: Colors.white,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            spreadRadius: 2,
+                            blurRadius: 10,
+                            color: Colors.black.withOpacity(0.1),
+                          )
                         ],
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: _pickedImage == null &&
+                                  UserRepo.customer.imageUrl == ""
+                              ? AssetImage('assets/avt.jpg')
+                              : _pickedImage == null &&
+                                      UserRepo.customer.imageUrl != ""
+                                  ? NetworkImage(UserRepo.customer.imageUrl!)
+                                  : _pickedImage != null &&
+                                          UserRepo.customer.imageUrl != ""
+                                      ? FileImage(_pickedImage!)
+                                      : FileImage(_pickedImage!)
+                                          as ImageProvider,
+                        ),
                       ),
                     ),
                     Positioned(
-                      top: 0,
-                      left: -10,
-                      child: FlatButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: 50.0,
-                          color: Colors.white,
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 4,
+                            color: Colors.white,
+                          ),
+                          color: Colors.blue,
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: ((builder) => bottomSheet()),
+                            );
+                          },
+                          child: Icon(
+                            Icons.add_a_photo,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ],
                 ),
-                Container(
+              ),
+              Positioned(
+                top: 200,
+                right: 0,
+                left: 0,
+                child: Container(
                   padding:
                       EdgeInsets.only(top: 80, left: 30, right: 30, bottom: 30),
                   child: Column(
@@ -265,8 +259,8 @@ class _EditProfileState extends State<EditProfile> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

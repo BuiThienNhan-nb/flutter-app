@@ -17,7 +17,7 @@ class TextFieldEditProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 30),
-      child: TextField(
+      child: TextFormField(
         style: TextStyle(
             color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
         decoration: InputDecoration(
