@@ -120,6 +120,7 @@ class _EditProfileState extends State<EditProfile> {
                         color: Colors.white,
                       ),
                     ),
+<<<<<<< HEAD
                   ),
                 ),
               ),
@@ -157,6 +158,94 @@ class _EditProfileState extends State<EditProfile> {
                                       ? FileImage(_pickedImage!)
                                       : FileImage(_pickedImage!)
                                           as ImageProvider,
+=======
+                    Positioned(
+                      bottom: -50.0,
+                      child: InkWell(
+                        onTap: () {
+                          print('object');
+                          showModalBottomSheet(
+                            context: context,
+                            builder: ((builder) => bottomSheet()),
+                          );
+                        },
+                        child: Stack(
+                          children: [
+                            // InkWell(
+                            //   onTap: () {
+                            //     print('object');
+                            //     showModalBottomSheet(
+                            //       context: context,
+                            //       builder: ((builder) => bottomSheet()),
+                            //     );
+                            //   },
+                            //   child:
+                            Container(
+                              width: 140,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 4,
+                                  color: Colors.white,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.1),
+                                  )
+                                ],
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: _pickedImage == null &&
+                                          UserRepo.customer.imageUrl == null
+                                      ? AssetImage('assets/avt.jpg')
+                                      : _pickedImage == null &&
+                                              UserRepo.customer.imageUrl != null
+                                          ? NetworkImage(
+                                              UserRepo.customer.imageUrl!)
+                                          : _pickedImage != null &&
+                                                  UserRepo.customer.imageUrl !=
+                                                      null
+                                              ? FileImage(_pickedImage!)
+                                              : FileImage(_pickedImage!)
+                                                  as ImageProvider,
+                                ),
+                              ),
+                            ),
+                            // ),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 4,
+                                    color: Colors.white,
+                                  ),
+                                  color: Colors.blue,
+                                ),
+                                child: InkWell(
+                                  // onTap: () {
+                                  //   print('object');
+                                  //   showModalBottomSheet(
+                                  //     context: context,
+                                  //     builder: ((builder) => bottomSheet()),
+                                  //   );
+                                  // },
+                                  child: Icon(
+                                    Icons.add_a_photo,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+>>>>>>> cc4468fad2e4d4c089f6ef493b23f7abb38b2733
                         ),
                       ),
                     ),

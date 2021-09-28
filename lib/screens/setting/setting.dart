@@ -34,13 +34,6 @@ class _SettingScreenState extends State<SettingScreen> {
         body: Container(
           // color: Colors.grey[200],
           child: Center(
-            // child: ButtonWidget(
-            //     text: 'Go to Child Screen',
-            //     onClicked: () {
-            //       Get.to(() => EditProfile(),
-            //           transition: Transition.leftToRight);
-            //       // signOut();
-            //     }),
             child: Column(
               children: [
                 ButtonWidget(
@@ -48,7 +41,6 @@ class _SettingScreenState extends State<SettingScreen> {
                     onClicked: () {
                       Get.to(() => EditProfile(),
                           transition: Transition.leftToRight);
-                      // signOut();
                     }),
                 ButtonWidget(text: "Logout", onClicked: signOut),
               ],
