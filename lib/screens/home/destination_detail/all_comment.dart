@@ -24,13 +24,13 @@ class _AllCommentState extends State<AllComment> {
         itemBuilder: (BuildContext context, DataSnapshot snapshot,
             Animation<double> animation, int index) {
           // var x = snapshot.value['name'];
-          print(widget.nameDes);
+          print(snapshot.value['image']);
           return ListTile(
             title: Text(snapshot.value['name']),
             subtitle: Text(snapshot.value['comment']),
             trailing: Icon(Icons.delete),
             leading: CircleAvatar(
-              backgroundImage: NetworkImage('${Text(snapshot.value['image'])}'),
+              backgroundImage: NetworkImage('${snapshot.value['image']}'),
             ),
           );
         },
