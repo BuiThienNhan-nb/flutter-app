@@ -11,6 +11,7 @@ import 'package:flutter_app/utils/text_field_editProfile.dart';
 import 'package:flutter_app/utils/text_field_birthday.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class EditProfile extends StatefulWidget {
@@ -20,11 +21,20 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   bool isLoading = false;
+  var formKey = GlobalKey<FormState>();
   var txtName = TextEditingController();
   var txtPhoneNumber = TextEditingController();
   var txtEmail = TextEditingController();
   File? _pickedImage = null;
   late String url;
+  // @override
+  // void dispose() {
+  //   txtName.dispose();
+  //   txtPhoneNumber.dispose();
+  //   txtEmail.dispose();
+  //   super.dispose();
+  // }
+
   @override
   void initState() {
     super.initState();
@@ -34,15 +44,19 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   Future<void> updateInfor() async {
-    if (txtName.text != UserRepo.customer.name ||
-        txtPhoneNumber.text != UserRepo.customer.phoneNumber ||
-        txtEmail.text != UserRepo.customer.email) {
-      UserRepo.customer.name = txtName.text;
-      UserRepo.customer.phoneNumber = txtPhoneNumber.text;
-      UserRepo.customer.email = txtEmail.text;
-      await FirebaseFirestore.instance
-          .doc('users/${UserRepo.customer.uid}')
-          .update(UserRepo.customer.toMap());
+    if (formKey.currentState!.validate()) {
+      if (txtName.text != UserRepo.customer.name ||
+          txtPhoneNumber.text != UserRepo.customer.phoneNumber ||
+          txtEmail.text != UserRepo.customer.email) {
+        UserRepo.customer.name = txtName.text;
+        UserRepo.customer.phoneNumber = txtPhoneNumber.text;
+        UserRepo.customer.email = txtEmail.text;
+        await FirebaseFirestore.instance
+            .doc('users/${UserRepo.customer.uid}')
+            .update(UserRepo.customer.toMap());
+        showSnackbar(
+            "Update succesful", 'Hello ${UserRepo.customer.name}', true);
+      }
     }
   }
 
@@ -87,6 +101,9 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    final Size sizeDevice = MediaQuery.of(context).size;
+    final sizeWidth = sizeDevice.width;
+    final sizeHeight = sizeDevice.height;
     return SafeArea(
       child: Scaffold(
         body: GestureDetector(
@@ -100,7 +117,8 @@ class _EditProfileState extends State<EditProfile> {
                 right: 0,
                 left: 0,
                 child: Container(
-                  height: 200,
+                  height: sizeHeight / 4,
+                  width: sizeWidth,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/background.png'),
@@ -120,13 +138,12 @@ class _EditProfileState extends State<EditProfile> {
                         color: Colors.white,
                       ),
                     ),
-<<<<<<< HEAD
                   ),
                 ),
               ),
               Positioned(
-                top: 130,
-                right: 120,
+                top: sizeHeight * (3 / 20),
+                right: sizeWidth * 1 / 3,
                 child: Stack(
                   children: [
                     Container(
@@ -145,108 +162,55 @@ class _EditProfileState extends State<EditProfile> {
                           )
                         ],
                         shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: _pickedImage == null &&
-                                  UserRepo.customer.imageUrl == ""
-                              ? AssetImage('assets/avt.jpg')
-                              : _pickedImage == null &&
-                                      UserRepo.customer.imageUrl != ""
-                                  ? NetworkImage(UserRepo.customer.imageUrl!)
-                                  : _pickedImage != null &&
-                                          UserRepo.customer.imageUrl != ""
-                                      ? FileImage(_pickedImage!)
-                                      : FileImage(_pickedImage!)
-                                          as ImageProvider,
-=======
-                    Positioned(
-                      bottom: -50.0,
-                      child: InkWell(
-                        onTap: () {
-                          print('object');
-                          showModalBottomSheet(
-                            context: context,
-                            builder: ((builder) => bottomSheet()),
-                          );
-                        },
-                        child: Stack(
-                          children: [
-                            // InkWell(
-                            //   onTap: () {
-                            //     print('object');
-                            //     showModalBottomSheet(
-                            //       context: context,
-                            //       builder: ((builder) => bottomSheet()),
-                            //     );
-                            //   },
-                            //   child:
-                            Container(
-                              width: 140,
-                              height: 140,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 4,
+                      ),
+                      child: ClipOval(
+                        child: _pickedImage == null &&
+                                UserRepo.customer.imageUrl == ""
+                            ? Container(
+                                color: Colors.grey.shade400,
+                                child: Icon(
+                                  Icons.person,
                                   color: Colors.white,
+                                  size: 100,
                                 ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    spreadRadius: 2,
-                                    blurRadius: 10,
-                                    color: Colors.black.withOpacity(0.1),
+                              )
+                            : _pickedImage == null &&
+                                    UserRepo.customer.imageUrl != ""
+                                ? CachedNetworkImage(
+                                    fit: BoxFit.fill,
+                                    imageUrl: UserRepo.customer.imageUrl!,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey,
+                                      highlightColor: Colors.grey.shade200,
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   )
-                                ],
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: _pickedImage == null &&
-                                          UserRepo.customer.imageUrl == null
-                                      ? AssetImage('assets/avt.jpg')
-                                      : _pickedImage == null &&
-                                              UserRepo.customer.imageUrl != null
-                                          ? NetworkImage(
-                                              UserRepo.customer.imageUrl!)
-                                          : _pickedImage != null &&
-                                                  UserRepo.customer.imageUrl !=
-                                                      null
-                                              ? FileImage(_pickedImage!)
-                                              : FileImage(_pickedImage!)
-                                                  as ImageProvider,
-                                ),
-                              ),
-                            ),
-                            // ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Colors.white,
-                                  ),
-                                  color: Colors.blue,
-                                ),
-                                child: InkWell(
-                                  // onTap: () {
-                                  //   print('object');
-                                  //   showModalBottomSheet(
-                                  //     context: context,
-                                  //     builder: ((builder) => bottomSheet()),
-                                  //   );
-                                  // },
-                                  child: Icon(
-                                    Icons.add_a_photo,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
->>>>>>> cc4468fad2e4d4c089f6ef493b23f7abb38b2733
-                        ),
+                                : _pickedImage != null &&
+                                        UserRepo.customer.imageUrl != ""
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            FileImage(_pickedImage!),
+                                      )
+                                    : CircleAvatar(
+                                        backgroundImage:
+                                            FileImage(_pickedImage!),
+                                      ),
                       ),
                     ),
                     Positioned(
@@ -263,7 +227,7 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           color: Colors.blue,
                         ),
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             showModalBottomSheet(
                               context: context,
@@ -287,65 +251,88 @@ class _EditProfileState extends State<EditProfile> {
                 child: Container(
                   padding:
                       EdgeInsets.only(top: 80, left: 30, right: 30, bottom: 30),
-                  child: Column(
-                    children: [
-                      TextFieldEditProfile(
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        TextFieldEditProfile(
                           labelText: "Full Name",
                           placeholder: "Long",
                           controller: txtName,
                           turnOnOff: true,
                           formatter:
-                              FilteringTextInputFormatter.singleLineFormatter),
-                      TextFieldEditProfile(
-                        labelText: "Phone Number",
-                        placeholder: "01234567",
-                        controller: txtPhoneNumber,
-                        turnOnOff: true,
-                        formatter: FilteringTextInputFormatter.digitsOnly,
-                      ),
-                      TextFieldEditProfile(
+                              FilteringTextInputFormatter.singleLineFormatter,
+                          typeValidation: 'name',
+                          textInputType: TextInputType.name,
+                        ),
+                        TextFieldEditProfile(
+                          labelText: "Phone Number",
+                          placeholder: "01234567",
+                          controller: txtPhoneNumber,
+                          turnOnOff: true,
+                          formatter: FilteringTextInputFormatter.digitsOnly,
+                          typeValidation: 'phone',
+                          textInputType: TextInputType.phone,
+                        ),
+                        TextFieldEditProfile(
                           labelText: "Email",
                           placeholder: "longdh210@gmail.com",
                           controller: txtEmail,
                           turnOnOff: false,
                           formatter:
-                              FilteringTextInputFormatter.singleLineFormatter),
-                      TextFieldBirthday(
-                        labelText: "Birthday",
-                        placeholder: "Sep 12, 1998",
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        padding: EdgeInsets.all(35),
-                        child: ElevatedButton(
-                          child: isLoading
-                              ? CircularProgressIndicator(
-                                  color: Colors.white,
-                                )
-                              : Text('Save'),
-                          onPressed: () async {
-                            if (isLoading) return;
-                            setState(() {
-                              isLoading = true;
-                            });
-                            await updateInfor();
-                            if (_pickedImage != null) {
-                              await updateImage();
-                            }
-                            setState(() {
-                              isLoading = false;
-                            });
-                            showSnackbar("Update succesful",
-                                'Hello ${UserRepo.customer.name}', true);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            textStyle: TextStyle(fontSize: 28),
-                            minimumSize: Size.fromHeight(55),
-                            shape: StadiumBorder(),
-                          ),
+                              FilteringTextInputFormatter.singleLineFormatter,
+                          typeValidation: '',
+                          textInputType: TextInputType.emailAddress,
                         ),
-                      )
-                    ],
+                        TextFieldBirthday(
+                          labelText: "Birthday",
+                          placeholder: "Sep 12, 1998",
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.all(35),
+                          child: ElevatedButton(
+                            child: isLoading
+                                ? CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Text('Save'),
+                            onPressed: () async {
+                              if (isLoading) return;
+                              setState(() {
+                                isLoading = true;
+                              });
+                              if (txtName.text != UserRepo.customer.name ||
+                                  txtPhoneNumber.text !=
+                                      UserRepo.customer.phoneNumber ||
+                                  txtEmail.text != UserRepo.customer.email) {
+                                await updateInfor();
+                              }
+                              if (_pickedImage != null) {
+                                await updateImage();
+                                showSnackbar("Update succesful",
+                                    'Hello ${UserRepo.customer.name}', true);
+                              }
+                              if (txtName.text == UserRepo.customer.name &&
+                                  txtPhoneNumber.text ==
+                                      UserRepo.customer.phoneNumber &&
+                                  txtEmail.text == UserRepo.customer.email) {
+                                showSnackbar("Everything is up to date",
+                                    'Hello ${UserRepo.customer.name}', true);
+                              }
+                              setState(() {
+                                isLoading = false;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(fontSize: 28),
+                              minimumSize: Size.fromHeight(55),
+                              shape: StadiumBorder(),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
