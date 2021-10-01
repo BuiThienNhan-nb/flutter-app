@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TextFieldBirthday extends StatelessWidget {
-  TextFieldBirthday({required this.labelText, required this.placeholder});
+  TextFieldBirthday(
+      {required this.labelText,
+      required this.placeholder,
+      required this.textEditingController});
   final String labelText;
   final String placeholder;
-  DateTime _selectedDate = DateTime.now();
-  TextEditingController _textEditingController = TextEditingController();
+  DateTime _selectedDate = DateTime(2020);
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class TextFieldBirthday extends StatelessWidget {
       padding: EdgeInsets.only(bottom: 10),
       child: TextField(
         focusNode: AlwaysDisabledFocusNode(),
-        controller: _textEditingController,
+        controller: textEditingController,
         style: TextStyle(
             color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
         onTap: () {
@@ -38,17 +41,17 @@ class TextFieldBirthday extends StatelessWidget {
   _selectDate(BuildContext context) async {
     DateTime? newSelectedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2040),
+      initialDate: _selectedDate != null ? _selectedDate : DateTime(2020),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2021),
     );
 
     if (newSelectedDate != null) {
       _selectedDate = newSelectedDate;
-      _textEditingController
+      textEditingController
         ..text = DateFormat.yMMMd().format(_selectedDate)
         ..selection = TextSelection.fromPosition(TextPosition(
-            offset: _textEditingController.text.length,
+            offset: textEditingController.text.length,
             affinity: TextAffinity.upstream));
     }
   }

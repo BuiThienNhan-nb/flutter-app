@@ -25,6 +25,7 @@ class _EditProfileState extends State<EditProfile> {
   var txtName = TextEditingController();
   var txtPhoneNumber = TextEditingController();
   var txtEmail = TextEditingController();
+  var txtBirthday = TextEditingController();
   File? _pickedImage = null;
   late String url;
   // @override
@@ -41,16 +42,19 @@ class _EditProfileState extends State<EditProfile> {
     txtName.text = '${UserRepo.customer.name}';
     txtPhoneNumber.text = '${UserRepo.customer.phoneNumber}';
     txtEmail.text = '${UserRepo.customer.email}';
+    txtBirthday.text = '${UserRepo.customer.birthday}';
   }
 
   Future<void> updateInfor() async {
     if (formKey.currentState!.validate()) {
       if (txtName.text != UserRepo.customer.name ||
           txtPhoneNumber.text != UserRepo.customer.phoneNumber ||
-          txtEmail.text != UserRepo.customer.email) {
+          txtEmail.text != UserRepo.customer.email ||
+          txtBirthday.text != UserRepo.customer.birthday) {
         UserRepo.customer.name = txtName.text;
         UserRepo.customer.phoneNumber = txtPhoneNumber.text;
         UserRepo.customer.email = txtEmail.text;
+        UserRepo.customer.birthday = txtBirthday.text;
         await FirebaseFirestore.instance
             .doc('users/${UserRepo.customer.uid}')
             .update(UserRepo.customer.toMap());
@@ -63,7 +67,8 @@ class _EditProfileState extends State<EditProfile> {
   updateImage() async {
     var imageFile = FirebaseStorage.instance
         .ref()
-        .child('usersimages')
+        .child('images')
+        .child('avatar')
         .child(UserRepo.customer.uid + '.jpg');
     UploadTask task = imageFile.putFile(_pickedImage!);
     TaskSnapshot snapshot = await task;
@@ -72,6 +77,7 @@ class _EditProfileState extends State<EditProfile> {
     await FirebaseFirestore.instance
         .doc('users/${UserRepo.customer.uid}')
         .update(UserRepo.customer.toMap());
+    _pickedImage = null;
   }
 
   Future _pickImageCamera() async {
@@ -121,7 +127,7 @@ class _EditProfileState extends State<EditProfile> {
                   width: sizeWidth,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/background.png'),
+                        image: AssetImage('assets/backgroundTravel.jpg'),
                         fit: BoxFit.fill),
                   ),
                   child: Align(
@@ -287,43 +293,65 @@ class _EditProfileState extends State<EditProfile> {
                         TextFieldBirthday(
                           labelText: "Birthday",
                           placeholder: "Sep 12, 1998",
+                          textEditingController: txtBirthday,
                         ),
                         Container(
                           alignment: Alignment.center,
                           padding: EdgeInsets.all(35),
+                          width: 200,
                           child: ElevatedButton(
                             child: isLoading
                                 ? CircularProgressIndicator(
                                     color: Colors.white,
                                   )
                                 : Text('Save'),
-                            onPressed: () async {
-                              if (isLoading) return;
-                              setState(() {
-                                isLoading = true;
-                              });
-                              if (txtName.text != UserRepo.customer.name ||
-                                  txtPhoneNumber.text !=
-                                      UserRepo.customer.phoneNumber ||
-                                  txtEmail.text != UserRepo.customer.email) {
-                                await updateInfor();
-                              }
-                              if (_pickedImage != null) {
-                                await updateImage();
-                                showSnackbar("Update succesful",
-                                    'Hello ${UserRepo.customer.name}', true);
-                              }
-                              if (txtName.text == UserRepo.customer.name &&
-                                  txtPhoneNumber.text ==
-                                      UserRepo.customer.phoneNumber &&
-                                  txtEmail.text == UserRepo.customer.email) {
-                                showSnackbar("Everything is up to date",
-                                    'Hello ${UserRepo.customer.name}', true);
-                              }
-                              setState(() {
-                                isLoading = false;
-                              });
-                            },
+                            onPressed: txtName.text == UserRepo.customer.name &&
+                                    txtPhoneNumber.text ==
+                                        UserRepo.customer.phoneNumber &&
+                                    txtEmail.text == UserRepo.customer.email &&
+                                    txtBirthday.text ==
+                                        UserRepo.customer.birthday &&
+                                    _pickedImage == null
+                                ? null
+                                : () async {
+                                    if (isLoading) return;
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    if (txtName.text !=
+                                            UserRepo.customer.name ||
+                                        txtPhoneNumber.text !=
+                                            UserRepo.customer.phoneNumber ||
+                                        txtEmail.text !=
+                                            UserRepo.customer.email ||
+                                        txtBirthday.text !=
+                                            UserRepo.customer.birthday) {
+                                      await updateInfor();
+                                    }
+                                    if (_pickedImage != null) {
+                                      await updateImage();
+                                      showSnackbar(
+                                          "Update succesful",
+                                          'Hello ${UserRepo.customer.name}',
+                                          true);
+                                    }
+                                    if (txtName.text ==
+                                            UserRepo.customer.name &&
+                                        txtPhoneNumber.text ==
+                                            UserRepo.customer.phoneNumber &&
+                                        txtEmail.text ==
+                                            UserRepo.customer.email &&
+                                        txtBirthday.text ==
+                                            UserRepo.customer.birthday) {
+                                      showSnackbar(
+                                          "Everything is up to date",
+                                          'Hello ${UserRepo.customer.name}',
+                                          true);
+                                    }
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  },
                             style: ElevatedButton.styleFrom(
                               textStyle: TextStyle(fontSize: 28),
                               minimumSize: Size.fromHeight(55),

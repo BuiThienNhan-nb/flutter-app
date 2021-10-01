@@ -6,6 +6,7 @@ class Customer {
   String? name = '';
   String? phoneNumber = '';
   String? imageUrl = '';
+  String? birthday = '';
   List<String>? favoriteDes = [];
 
   Customer({
@@ -15,6 +16,7 @@ class Customer {
     this.phoneNumber,
     this.imageUrl,
     this.favoriteDes,
+    this.birthday,
   });
 
   factory Customer.fromJson(Map<String, dynamic>? data) {
@@ -38,6 +40,9 @@ class Customer {
           (data.containsKey('favoriteDes') && data['favoriteDes'] != null)
               ? (data['favoriteDes'] as List<dynamic>).cast<String>()
               : [],
+      birthday: (data.containsKey('birthday') && data['birthday'] != null)
+          ? (data['birthday'] as String)
+          : '',
     );
   }
 
@@ -48,6 +53,7 @@ class Customer {
       'phoneNumber': phoneNumber,
       'imageUrl': imageUrl,
       'favoriteDes': favoriteDes,
+      'birthday': birthday,
     };
   }
 }

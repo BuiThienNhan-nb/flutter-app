@@ -12,6 +12,8 @@ import 'package:flutter_app/utils/button_widget.dart';
 import 'package:flutter_app/utils/email_field_widget.dart';
 import 'package:flutter_app/utils/password_field_widget.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
+import 'package:flutter_app/utils/text_birthday_signup.dart';
+import 'package:flutter_app/utils/text_field_birthday.dart';
 import 'package:flutter_app/utils/text_input_field.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +32,7 @@ class _SignUpState extends State<SignUp> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _birthdayController = TextEditingController();
 
   @override
   void dispose() {
@@ -38,6 +41,7 @@ class _SignUpState extends State<SignUp> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _birthdayController.dispose();
     super.dispose();
   }
 
@@ -67,6 +71,7 @@ class _SignUpState extends State<SignUp> {
           phoneNumber: _phoneController.text.trim(),
           favoriteDes: [],
           imageUrl: '',
+          birthday: _birthdayController.text.trim(),
         );
         UserRepo userRepo = UserRepo();
         await userRepo.createUser(UserRepo.customer.uid);
@@ -103,7 +108,7 @@ class _SignUpState extends State<SignUp> {
                 child: HeaderWidget(150, true, Icons.person_add_alt_1_rounded),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(25, 50, 25, 10),
+                margin: EdgeInsets.fromLTRB(25, 25, 25, 10),
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 alignment: Alignment.center,
                 child: Column(
@@ -122,7 +127,7 @@ class _SignUpState extends State<SignUp> {
                                   color: Colors.blue[900],
                                 ),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(height: 10),
                               TextInputField(
                                 controller: _nameController,
                                 hintText: 'Name',
@@ -131,7 +136,7 @@ class _SignUpState extends State<SignUp> {
                                 typeValidation: 'name',
                               ),
                               const SizedBox(
-                                height: 16,
+                                height: 14,
                               ),
                               TextInputField(
                                 controller: _phoneController,
@@ -141,25 +146,33 @@ class _SignUpState extends State<SignUp> {
                                 typeValidation: 'phone',
                               ),
                               const SizedBox(
-                                height: 16,
+                                height: 14,
                               ),
                               EmailFieldWidget(controller: _emailController),
                               const SizedBox(
-                                height: 16,
+                                height: 14,
                               ),
                               PasswordFieldWidget(
                                 controller: _passwordController,
                                 hintText: 'Password',
                               ),
                               const SizedBox(
-                                height: 16,
+                                height: 14,
                               ),
                               PasswordFieldWidget(
                                 controller: _confirmPasswordController,
                                 hintText: 'Confirm Password',
                               ),
                               const SizedBox(
-                                height: 45,
+                                height: 14,
+                              ),
+                              TextBirthdaySignUp(
+                                hintText: 'Birthday',
+                                textEditingController: _birthdayController,
+                                textInputType: TextInputType.datetime,
+                              ),
+                              const SizedBox(
+                                height: 20,
                               ),
                               ButtonWidget(text: 'Sign Up', onClicked: signUp),
                               const SizedBox(
