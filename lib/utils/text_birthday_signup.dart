@@ -7,14 +7,10 @@ class TextBirthdaySignUp extends StatelessWidget {
   TextBirthdaySignUp({
     required this.hintText,
     required this.textEditingController,
-    required this.textInputType,
   });
-  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate = DateTime(2020);
   final TextEditingController textEditingController;
-  //final TextEditingController controller;
   final String hintText;
-  final TextInputType textInputType;
-  // final String typeValidation;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +31,6 @@ class TextBirthdaySignUp extends StatelessWidget {
             size: AppValue.AuthFontSize * 1.4,
           ),
         ),
-        keyboardType: textInputType,
         onEditingComplete: () => TextInput.finishAutofillContext(),
         validator: (input) {
           if (input == null || input.isEmpty) return '${hintText} is required';
@@ -49,7 +44,7 @@ class TextBirthdaySignUp extends StatelessWidget {
   _selectDate(BuildContext context) async {
     DateTime? newSelectedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
+      initialDate: _selectedDate != null ? _selectedDate : DateTime(2020),
       firstDate: DateTime(1900),
       lastDate: DateTime(2021),
     );

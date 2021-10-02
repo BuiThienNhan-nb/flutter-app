@@ -42,7 +42,8 @@ class _EditProfileState extends State<EditProfile> {
     txtName.text = '${UserRepo.customer.name}';
     txtPhoneNumber.text = '${UserRepo.customer.phoneNumber}';
     txtEmail.text = '${UserRepo.customer.email}';
-    txtBirthday.text = '${UserRepo.customer.birthday}';
+    txtBirthday.text =
+        '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(UserRepo.customer.birthday!.seconds * 1000))}';
   }
 
   Future<void> updateInfor() async {
@@ -50,11 +51,14 @@ class _EditProfileState extends State<EditProfile> {
       if (txtName.text != UserRepo.customer.name ||
           txtPhoneNumber.text != UserRepo.customer.phoneNumber ||
           txtEmail.text != UserRepo.customer.email ||
-          txtBirthday.text != UserRepo.customer.birthday) {
+          txtBirthday.text !=
+              DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(
+                  UserRepo.customer.birthday!.seconds * 1000))) {
         UserRepo.customer.name = txtName.text;
         UserRepo.customer.phoneNumber = txtPhoneNumber.text;
         UserRepo.customer.email = txtEmail.text;
-        UserRepo.customer.birthday = txtBirthday.text;
+        UserRepo.customer.birthday =
+            Timestamp.fromDate(DateFormat('yMMMd').parse(txtBirthday.text));
         await FirebaseFirestore.instance
             .doc('users/${UserRepo.customer.uid}')
             .update(UserRepo.customer.toMap());
@@ -310,7 +314,11 @@ class _EditProfileState extends State<EditProfile> {
                                         UserRepo.customer.phoneNumber &&
                                     txtEmail.text == UserRepo.customer.email &&
                                     txtBirthday.text ==
-                                        UserRepo.customer.birthday &&
+                                        DateFormat.yMMMd().format(
+                                            DateTime.fromMillisecondsSinceEpoch(
+                                                UserRepo.customer.birthday!
+                                                        .seconds *
+                                                    1000)) &&
                                     _pickedImage == null
                                 ? null
                                 : () async {
@@ -325,7 +333,11 @@ class _EditProfileState extends State<EditProfile> {
                                         txtEmail.text !=
                                             UserRepo.customer.email ||
                                         txtBirthday.text !=
-                                            UserRepo.customer.birthday) {
+                                            DateFormat.yMMMd().format(DateTime
+                                                .fromMillisecondsSinceEpoch(
+                                                    UserRepo.customer.birthday!
+                                                            .seconds *
+                                                        1000))) {
                                       await updateInfor();
                                     }
                                     if (_pickedImage != null) {
@@ -342,7 +354,11 @@ class _EditProfileState extends State<EditProfile> {
                                         txtEmail.text ==
                                             UserRepo.customer.email &&
                                         txtBirthday.text ==
-                                            UserRepo.customer.birthday) {
+                                            DateFormat.yMMMd().format(DateTime
+                                                .fromMillisecondsSinceEpoch(
+                                                    UserRepo.customer.birthday!
+                                                            .seconds *
+                                                        1000))) {
                                       showSnackbar(
                                           "Everything is up to date",
                                           'Hello ${UserRepo.customer.name}',

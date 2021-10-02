@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_app/utils/text_birthday_signup.dart';
 import 'package:flutter_app/utils/text_field_birthday.dart';
 import 'package:flutter_app/utils/text_input_field.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class SignUp extends StatefulWidget {
   final Function toggleScreen;
@@ -71,7 +73,8 @@ class _SignUpState extends State<SignUp> {
           phoneNumber: _phoneController.text.trim(),
           favoriteDes: [],
           imageUrl: '',
-          birthday: _birthdayController.text.trim(),
+          birthday: Timestamp.fromDate(
+              DateFormat('yMMMd').parse(_birthdayController.text)),
         );
         UserRepo userRepo = UserRepo();
         await userRepo.createUser(UserRepo.customer.uid);
@@ -169,7 +172,6 @@ class _SignUpState extends State<SignUp> {
                               TextBirthdaySignUp(
                                 hintText: 'Birthday',
                                 textEditingController: _birthdayController,
-                                textInputType: TextInputType.datetime,
                               ),
                               const SizedBox(
                                 height: 20,

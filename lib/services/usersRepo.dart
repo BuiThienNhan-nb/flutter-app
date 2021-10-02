@@ -10,7 +10,7 @@ class UserRepo {
       phoneNumber: '',
       favoriteDes: [],
       imageUrl: '',
-      birthday: '');
+      birthday: null);
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<bool> checkExist(String uid) async {
@@ -60,7 +60,7 @@ class UserRepo {
         phoneNumber: '',
         imageUrl: '',
         favoriteDes: [],
-        birthday: '',
+        birthday: null,
       );
     }
   }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Customer {
@@ -6,7 +7,7 @@ class Customer {
   String? name = '';
   String? phoneNumber = '';
   String? imageUrl = '';
-  String? birthday = '';
+  Timestamp? birthday;
   List<String>? favoriteDes = [];
 
   Customer({
@@ -41,7 +42,7 @@ class Customer {
               ? (data['favoriteDes'] as List<dynamic>).cast<String>()
               : [],
       birthday: (data.containsKey('birthday') && data['birthday'] != null)
-          ? (data['birthday'] as String)
+          ? (data['birthday'])
           : '',
     );
   }
