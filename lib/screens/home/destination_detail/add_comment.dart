@@ -27,6 +27,7 @@ class _AddCommentState extends State<AddComment> {
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             child: TextFormField(
+              cursorColor: Colors.orange,
               controller: controlerComment,
               decoration: InputDecoration(
                   labelText: 'comment', border: OutlineInputBorder()),

@@ -5,6 +5,7 @@ import 'package:flutter_app/screens/home/destination_detail/add_comment.dart';
 import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/fav_button.dart';
+// import 'package:flutter_app/utils/ratting_bar_widget.dart';
 import 'package:get/get.dart';
 
 class DestinationDetail extends StatelessWidget {
@@ -147,6 +148,13 @@ class DestinationDetail extends StatelessWidget {
                           height: 18,
                         ),
                         Container(
+                          // child: RattingBar(
+                          //   initalRating: destination.rattingPoint,
+                          //   destination: destination,
+                          //   isRatting: isRatting(UserRepo.customer.rattingDes),
+                          // ),
+                          // padding: EdgeInsets.all(10.0),
+                          alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               color: Colors.white,
@@ -178,10 +186,8 @@ class DestinationDetail extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
-              AddComment(
-                nameDes: destination.name,
-              ),
-              TextButton(
+              MaterialButton(
+                textColor: Colors.orange,
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -192,13 +198,34 @@ class DestinationDetail extends StatelessWidget {
                     ),
                   );
                 },
-                child: Text('all comment'),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.comment),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text('add comment')
+                  ],
+                ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  bool isRatting(List<Map<String, dynamic>> list) {
+    List<String> newList = [];
+    for (var i in list) {
+      var valueList = i.entries.toList();
+      newList.add(valueList[0].value);
+    }
+    if (newList.contains(destination.uid)) {
+      return true;
+    }
+    return false;
   }
 }
 
