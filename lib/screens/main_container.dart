@@ -1,12 +1,9 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/screens/favorites/favorite.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/setting/setting.dart';
-import 'package:get/get.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainContainer extends StatefulWidget {
@@ -16,8 +13,6 @@ class MainContainer extends StatefulWidget {
 }
 
 class _MainContainerState extends State<MainContainer> {
-  Widget pageChosen = HomeScreen();
-
   List<Widget> _buildScreens() {
     return [HomeScreen(), FavoriteScreen(), SettingScreen(), SettingScreen()];
   }

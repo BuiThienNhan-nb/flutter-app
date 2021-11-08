@@ -43,7 +43,7 @@ class Customer {
               : [],
       birthday: (data.containsKey('birthday') && data['birthday'] != null)
           ? (data['birthday'])
-          : '',
+          : Timestamp.fromDate(DateTime.now()),
     );
   }
 
