@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/screens/authenticate/verify_email.dart';
 import 'package:flutter_app/services/authentication.dart';
 import 'package:flutter_app/services/usersRepo.dart';
@@ -61,7 +62,7 @@ class _IntroPageState extends State<SplashScreen>
             duration: Duration(milliseconds: 800));
       }
     } else {
-      Get.offAllNamed("/login");
+      Get.offAllNamed("/onboardingScreen");
     }
   }
 
@@ -77,13 +78,13 @@ class _IntroPageState extends State<SplashScreen>
               duration: transitionDuration,
               curve: Curves.fastOutSlowIn,
               style: TextStyle(
-                color: Color(0xFF4e954e),
+                color: Palette.orange,
                 fontSize: !expanded ? _bigFontSize : 50,
                 fontFamily: 'Montserrat',
                 fontWeight: FontWeight.w600,
               ),
               child: Text(
-                "N",
+                "T",
               ),
             ),
             AnimatedCrossFade(
@@ -108,18 +109,17 @@ class _IntroPageState extends State<SplashScreen>
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          "GHIA",
+          "RAVEL",
           style: TextStyle(
-            color: Colors.black,
+            color: Palette.orange,
             fontSize: 50,
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w600,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 30.0),
+        Container(
           child: LottieBuilder.asset(
-            'assets/food.json',
+            'assets/travel.json',
             onLoaded: (composition) {
               lottieAnimation..duration = composition.duration;
             },
