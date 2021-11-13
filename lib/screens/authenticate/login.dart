@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/const_values/palette.dart';
-import 'package:flutter_app/models/customers.dart';
 import 'package:flutter_app/screens/authenticate/header_decoration.dart';
 import 'package:flutter_app/screens/authenticate/signUp.dart';
 import 'package:flutter_app/screens/authenticate/verify_email.dart';
@@ -127,11 +126,16 @@ class _LoginScreenState extends State<LoginScreen> {
                               PasswordFieldWidget(
                                 controller: _passwordController,
                                 hintText: 'Password',
+                                currentPassword: '',
                               ),
                               const SizedBox(
                                 height: 40,
                               ),
-                              ButtonWidget(text: 'Login', onClicked: login),
+                              ButtonWidget(
+                                text: 'Login',
+                                onClicked: login,
+                                color: Palette.myColor,
+                              ),
                               const SizedBox(
                                 height: 16,
                               ),

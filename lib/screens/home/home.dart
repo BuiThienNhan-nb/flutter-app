@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/screens/home/status_bar.dart';
-import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
 import 'package:flutter_app/utils/custom_listview_item/province_cate_item.dart';
 import 'package:flutter_app/utils/custom_listview_item/recommended_destination_card.dart';
@@ -27,10 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return SafeArea(
       child: Container(
         decoration: BoxDecoration(
-          // image: DecorationImage(
-          //   image: AssetImage("assets/background.jpg"),
-          //   fit: BoxFit.cover,
-          // ),
           color: Palette.myLightGrey,
         ),
         // padding: EdgeInsets.only(bottom: 30),
@@ -65,7 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Obx(
                     () => ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: destinationController.listDestinations.length,
+                      itemCount:
+                          destinationController.listDestinations.length >= 5
+                              ? 5
+                              : destinationController.listDestinations.length,
                       itemBuilder: (context, index) =>
                           RecommendedDestinationCard(
                               size: size,
