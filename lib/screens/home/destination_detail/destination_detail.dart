@@ -1,12 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/models/destinations.dart';
-import 'package:flutter_app/screens/home/destination_detail/add_comment.dart';
 import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/fav_button.dart';
-// import 'package:flutter_app/utils/ratting_bar_widget.dart';
-import 'package:get/get.dart';
 
 class DestinationDetail extends StatelessWidget {
   final Destination destination;
@@ -30,7 +27,7 @@ class DestinationDetail extends StatelessWidget {
                 children: [
                   Container(
                     width: size.width,
-                    height: size.height * 0.4,
+                    height: size.height * 0.5,
                     child: Hero(
                       tag: tag,
                       child: CachedNetworkImage(
@@ -40,7 +37,7 @@ class DestinationDetail extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    height: 350,
+                    height: size.height * 0.53,
                     color: Colors.black12,
                     padding: EdgeInsets.only(top: 50),
                     child: Column(
@@ -50,6 +47,7 @@ class DestinationDetail extends StatelessWidget {
                           padding: EdgeInsets.only(
                             left: 24,
                             right: 24,
+                            top: 20,
                           ),
                           child: Row(
                             children: [

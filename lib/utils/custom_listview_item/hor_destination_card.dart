@@ -9,14 +9,21 @@ class HorizontalDestinationCard extends StatelessWidget {
   final Destination destination;
   final Function function;
   final size;
+  final isFromFavorite;
   const HorizontalDestinationCard(
-      {Key? key, required this.destination, required this.function, this.size})
+      {Key? key,
+      required this.destination,
+      required this.function,
+      this.size,
+      required this.isFromFavorite})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double borderRadius = 15.0;
-    final tag = 'horizontal-${destination.uid}';
+    final tag = isFromFavorite
+        ? 'favorite-${destination.uid}'
+        : 'horizontal-${destination.uid}';
     return Container(
       padding: EdgeInsets.only(bottom: 15),
       width: size,

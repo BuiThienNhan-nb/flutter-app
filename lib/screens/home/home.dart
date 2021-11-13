@@ -132,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .listDestinationsByProvince[index],
                       function: destinationController.navigateToDesDetail,
                       size: size,
+                      isFromFavorite: false,
                     ),
                   ),
                 ),
