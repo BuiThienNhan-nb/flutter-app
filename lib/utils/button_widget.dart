@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/const_values/value.dart';
 
 class ButtonWidget extends StatelessWidget {
   final String text;
+  final Color color;
   final VoidCallback onClicked;
 
   const ButtonWidget({
     Key? key,
     required this.text,
     required this.onClicked,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class ButtonWidget extends StatelessWidget {
           shadowColor: Colors.grey,
           minimumSize: Size(150, 60),
           shape: StadiumBorder(),
-          primary: Palette.myColor,
+          primary: color,
         ),
         child: FittedBox(
           child: Text(

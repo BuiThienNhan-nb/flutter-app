@@ -5,11 +5,13 @@ import 'package:flutter_app/const_values/value.dart';
 class PasswordFieldWidget extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
+  final String currentPassword;
 
   const PasswordFieldWidget({
     Key? key,
     required this.controller,
     required this.hintText,
+    required this.currentPassword,
   }) : super(key: key);
 
   @override
@@ -50,6 +52,10 @@ class _PasswordFieldWidgetState extends State<PasswordFieldWidget> {
             return '${widget.hintText} is required';
           if (input.length < 6)
             return '${widget.hintText} has to be at least 6 characters';
+          if (widget.currentPassword.trim() != '' &&
+              input.trim() != widget.currentPassword.trim()) {
+            return 'Retype password is not equal to current type password';
+          }
         },
         enableSuggestions: false,
         autocorrect: false,

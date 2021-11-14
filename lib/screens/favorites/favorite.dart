@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
-import 'package:flutter_app/models/destinations.dart';
+import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({Key? key}) : super(key: key);
@@ -20,15 +21,18 @@ class FavoriteScreen extends StatelessWidget {
           centerTitle: true,
           title: Text(
             'Favorites',
-            style: TextStyle(
+            style: GoogleFonts.varelaRound(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
           backgroundColor: Colors.white,
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 12, 0, 30),
-          child: Container(
+        body: Container(
+          color: Palette.myLightGrey,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 12, 0, 0),
             child:
                 // Obx(
                 //   () =>
@@ -44,6 +48,7 @@ class FavoriteScreen extends StatelessWidget {
                   destination: destinationController.listFavDestinations[index],
                   function: destinationController.navigateToDesDetail,
                   size: 300.0,
+                  isFromFavorite: true,
                 ),
                 secondaryActions: <Widget>[
                   IconSlideAction(
@@ -59,7 +64,6 @@ class FavoriteScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // ),
           ),
         ),
       ),

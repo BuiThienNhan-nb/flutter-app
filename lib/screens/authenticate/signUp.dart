@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/models/customers.dart';
 import 'package:flutter_app/screens/authenticate/header_decoration.dart';
 import 'package:flutter_app/screens/authenticate/login.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_app/utils/email_field_widget.dart';
 import 'package:flutter_app/utils/password_field_widget.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:flutter_app/utils/text_birthday_signup.dart';
-import 'package:flutter_app/utils/text_field_birthday.dart';
 import 'package:flutter_app/utils/text_input_field.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -158,6 +158,7 @@ class _SignUpState extends State<SignUp> {
                               PasswordFieldWidget(
                                 controller: _passwordController,
                                 hintText: 'Password',
+                                currentPassword: '',
                               ),
                               const SizedBox(
                                 height: 14,
@@ -165,6 +166,7 @@ class _SignUpState extends State<SignUp> {
                               PasswordFieldWidget(
                                 controller: _confirmPasswordController,
                                 hintText: 'Confirm Password',
+                                currentPassword: _passwordController.text,
                               ),
                               const SizedBox(
                                 height: 14,
@@ -176,7 +178,11 @@ class _SignUpState extends State<SignUp> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              ButtonWidget(text: 'Sign Up', onClicked: signUp),
+                              ButtonWidget(
+                                text: 'Sign Up',
+                                onClicked: signUp,
+                                color: Palette.myColor,
+                              ),
                               const SizedBox(
                                 height: 16,
                               ),
