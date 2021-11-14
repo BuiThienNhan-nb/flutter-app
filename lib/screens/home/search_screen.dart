@@ -101,6 +101,7 @@ class SearchData extends SearchDelegate<Destination> {
                 name: '',
                 description: '',
                 imageUrl: '',
+                videoUrl: '',
                 favorites: 0));
       },
       icon: Icon(Icons.arrow_back),

@@ -5,6 +5,7 @@ class Destination {
   String name;
   String description;
   String imageUrl;
+  String videoUrl;
   int favorites;
 
   Destination(
@@ -12,7 +13,8 @@ class Destination {
       required this.name,
       required this.description,
       required this.imageUrl,
-      required this.favorites});
+      required this.favorites,
+      required this.videoUrl});
 
   factory Destination.fromJson(DocumentSnapshot doc) {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
@@ -28,6 +30,9 @@ class Destination {
       imageUrl: (data.containsKey('imageUrl') && data['imageUrl'] != null)
           ? data['imageUrl'] as String
           : '',
+      videoUrl: (data.containsKey('videoUrl') && data['videoUrl'] != null)
+          ? data['videoUrl'] as String
+          : '',
       favorites: (data.containsKey('favorites') && data['favorites'] != null)
           ? data['favorites'] as int
           : 0,
@@ -39,7 +44,8 @@ class Destination {
       'name': name,
       'description': description,
       'imageUrl': imageUrl,
-      'favorites': favorites,
+      'videoUrl': videoUrl,
+      'favorites': favorites
     };
   }
 }
