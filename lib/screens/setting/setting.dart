@@ -27,7 +27,6 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    final deviceWidth = MediaQuery.of(context).size.width;
 
     return SafeArea(
       child: Container(
@@ -52,7 +51,7 @@ class _SettingScreenState extends State<SettingScreen> {
               iconData: Icons.person,
               text: "Edit Profile",
               function: () {
-                Get.to(() => EditProfile(), transition: Transition.leftToRight);
+                Get.to(() => EditProfile(), transition: Transition.rightToLeft);
               },
             ),
             SettingItem(
@@ -80,7 +79,7 @@ class _SettingScreenState extends State<SettingScreen> {
               text: "Change Password",
               function: () {
                 Get.to(() => ChangePassword(),
-                    transition: Transition.leftToRight);
+                    transition: Transition.rightToLeft);
               },
             ),
             SettingItem(

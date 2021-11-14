@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
+import 'package:flutter_app/screens/home/custom_listview_item/hor_destination_card.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
-import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,6 +15,7 @@ class FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     destinationController.listFavDestination.bindStream(
         DestinationRepo().favDestinationStream(UserRepo.customer.favoriteDes));
+    final deviceHeight = MediaQuery.of(context).size.height;
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -30,6 +31,7 @@ class FavoriteScreen extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
         body: Container(
+          height: deviceHeight,
           color: Palette.myLightGrey,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 0, 0),
@@ -48,7 +50,8 @@ class FavoriteScreen extends StatelessWidget {
                   destination: destinationController.listFavDestinations[index],
                   function: destinationController.navigateToDesDetail,
                   size: 300.0,
-                  isFromFavorite: true,
+                  tag:
+                      'favorite-destination-${destinationController.listFavDestinations[index].uid}',
                 ),
                 secondaryActions: <Widget>[
                   IconSlideAction(

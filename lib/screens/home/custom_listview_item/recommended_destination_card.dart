@@ -94,7 +94,13 @@ class RecommendedDestinationCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     child: destination.imageUrl.isEmpty
                         ? Container(
-                            color: Colors.grey.shade400,
+                            color: Colors.black87,
+                            child: Center(
+                              child: Text(
+                                "Has no image yet",
+                                style: TextStyle(color: Colors.white60),
+                              ),
+                            ),
                           )
                         : Container(
                             child: Hero(

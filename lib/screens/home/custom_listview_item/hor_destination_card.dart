@@ -9,21 +9,24 @@ class HorizontalDestinationCard extends StatelessWidget {
   final Destination destination;
   final Function function;
   final size;
-  final isFromFavorite;
+  // final isFromFavorite;
+  final String tag;
+
   const HorizontalDestinationCard(
       {Key? key,
       required this.destination,
       required this.function,
       this.size,
-      required this.isFromFavorite})
+      // required this.isFromFavorite,
+      required this.tag})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final double borderRadius = 15.0;
-    final tag = isFromFavorite
-        ? 'favorite-${destination.uid}'
-        : 'horizontal-${destination.uid}';
+    // final tag = isFromFavorite
+    //     ? 'favorite-${destination.uid}'
+    //     : 'horizontal-${destination.uid}';
     return Container(
       padding: EdgeInsets.only(bottom: 15),
       width: size,
@@ -39,7 +42,18 @@ class HorizontalDestinationCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(borderRadius),
                   child: destination.imageUrl.isEmpty
                       ? Container(
-                          color: Colors.grey.shade400,
+                          width: size * 0.4,
+                          height: size * 0.3,
+                          color: Colors.black87,
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.all(size * 0.05),
+                              child: Text(
+                                "Has no image yet",
+                                style: TextStyle(color: Colors.white60),
+                              ),
+                            ),
+                          ),
                         )
                       : CachedNetworkImage(
                           width: size * 0.4,

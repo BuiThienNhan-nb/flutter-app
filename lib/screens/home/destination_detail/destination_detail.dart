@@ -88,17 +88,27 @@ class _DestinationDetailState extends State<DestinationDetail> {
                       children: [
                         Container(
                           width: size.width,
-                          height: size.height * 0.4,
+                          height: size.height * 0.45,
                           child: Hero(
                             tag: widget.tag,
-                            child: CachedNetworkImage(
-                              imageUrl: widget.destination.imageUrl,
-                              fit: BoxFit.fill,
-                            ),
+                            child: widget.destination.imageUrl.isEmpty
+                                ? Container(
+                                    color: Colors.black87,
+                                    child: Center(
+                                      child: Text(
+                                        "Has no image yet",
+                                        style: TextStyle(color: Colors.white60),
+                                      ),
+                                    ),
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl: widget.destination.imageUrl,
+                                    fit: BoxFit.fill,
+                                  ),
                           ),
                         ),
                         Container(
-                          height: 350,
+                          height: size.height * 0.45,
                           color: Colors.black12,
                           padding: EdgeInsets.only(top: 50),
                           child: Column(
@@ -220,14 +230,17 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                     borderRadius: BorderRadius.only(
                                         topLeft: Radius.circular(30),
                                         topRight: Radius.circular(30))),
-                                height: 50,
+                                height: size.height * 0.03,
                               )
                             ],
                           ),
                         )
                       ],
                     ),
-                    player,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: player,
+                    ),
                     SizedBox(
                       height: 8,
                     ),

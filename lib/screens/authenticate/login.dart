@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Palette.myLightGrey,
         body: SingleChildScrollView(
           child: Column(
             children: [

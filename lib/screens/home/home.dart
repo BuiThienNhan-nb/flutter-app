@@ -1,16 +1,18 @@
 import 'dart:ui';
 import 'package:flutter_app/const_values/palette.dart';
+import 'package:flutter_app/screens/home/all_destination.dart';
 import 'package:flutter_app/screens/home/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/screens/home/status_bar.dart';
-import 'package:flutter_app/utils/custom_listview_item/hor_destination_card.dart';
-import 'package:flutter_app/utils/custom_listview_item/province_cate_item.dart';
-import 'package:flutter_app/utils/custom_listview_item/recommended_destination_card.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'custom_listview_item/hor_destination_card.dart';
+import 'custom_listview_item/province_cate_item.dart';
+import 'custom_listview_item/recommended_destination_card.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -52,6 +54,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 20),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Text(
+                //         'Recommended',
+                //         style: GoogleFonts.varelaRound(
+                //           fontSize: 20,
+                //           fontWeight: FontWeight.bold,
+                //         ),
+                //       ),
+                //       Spacer(),
+                //       GestureDetector(
+                //         child: Text(
+                //           'See all',
+                //           style: GoogleFonts.varelaRound(
+                //             fontSize: 16,
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+
                 SizedBox(
                   height: 5,
                 ),
@@ -77,12 +104,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                Text(
-                  'Provinces List',
-                  style: GoogleFonts.varelaRound(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Provinces List',
+                      style: GoogleFonts.varelaRound(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => AllDestinationScreen(),
+                            transition: Transition.rightToLeft);
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'See all',
+                            style: GoogleFonts.varelaRound(fontSize: 16),
+                          ),
+                          Icon(Icons.arrow_right)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -130,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           .listDestinationsByProvince[index],
                       function: destinationController.navigateToDesDetail,
                       size: size,
-                      isFromFavorite: false,
+                      tag:
+                          'horizontal-${destinationController.listDestinationsByProvince[index].uid}',
                     ),
                   ),
                 ),
