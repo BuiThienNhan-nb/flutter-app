@@ -3,15 +3,13 @@ import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/models/post.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 
-import 'destinationsRepo.dart';
-
 class PostRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Stream<List<Post>> postStream() {
     return _db
         .collection('posts')
-        // .orderBy('postDate', descending: true)
+        .orderBy('postDate', descending: true)
         .snapshots()
         .map((QuerySnapshot query) {
       List<Post> list = [];

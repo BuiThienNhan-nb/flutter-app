@@ -85,7 +85,7 @@ class _PostItemState extends State<PostItem> {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '${DateFormat.yMd().format(DateTime.fromMillisecondsSinceEpoch(widget.post.postDate.seconds * 1000))} - ${widget.post.destination.value.name}',
+                      '${DateFormat('dd/M/yyyy').format(DateTime.fromMillisecondsSinceEpoch(widget.post.postDate.seconds * 1000))} - ${widget.post.destination.value.name}',
                       style: TextStyle(fontSize: 11),
                     ),
                   ],

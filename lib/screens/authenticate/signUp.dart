@@ -72,6 +72,7 @@ class _SignUpState extends State<SignUp> {
           name: _nameController.text.trim(),
           phoneNumber: _phoneController.text.trim(),
           favoriteDes: [],
+          favoritePost: [],
           imageUrl: '',
           birthday: Timestamp.fromDate(
               DateFormat('yMMMd').parse(_birthdayController.text)),
@@ -81,19 +82,6 @@ class _SignUpState extends State<SignUp> {
         Get.to(() => VerifyEmail(),
             transition: Transition.rightToLeft,
             duration: Duration(milliseconds: 800));
-        // User? user = FirebaseAuth.instance.currentUser;
-        // UserRepo.customer = Customer(
-        //   uid: user!.uid,
-        //   email: user.email,
-        //   name: _nameController.text.trim(),
-        //   phoneNumber: _phoneController.text.trim(),
-        //   favoriteDes: [],
-        // );
-        // UserRepo userRepo = UserRepo();
-        // await userRepo.createUser(UserRepo.customer.uid);
-        // Get.offAllNamed('/mainContainer');
-        // showSnackbar(
-        //     'Register successful', 'Welcome ${UserRepo.customer.name}', true);
       }
     }
   }

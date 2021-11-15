@@ -12,6 +12,7 @@ class SocialScreen extends StatefulWidget {
 }
 
 class _SocialScreenState extends State<SocialScreen> {
+  bool sortByDate = true;
   @override
   Widget build(BuildContext context) {
     // destinationController.fetchEntirePost();
@@ -28,6 +29,24 @@ class _SocialScreenState extends State<SocialScreen> {
           ),
         ),
         backgroundColor: Colors.white,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                sortByDate
+                    ? destinationController.listPosts
+                        .sort((b, a) => a.favorites.compareTo(b.favorites))
+                    : destinationController.listPosts
+                        .sort((b, a) => a.postDate.compareTo(b.postDate));
+                sortByDate = !sortByDate;
+              });
+            },
+            icon: Icon(
+              sortByDate ? Icons.date_range : Icons.favorite,
+              color: Colors.black,
+            ),
+          )
+        ],
       ),
       body: Container(
         height: deviceHeight,
