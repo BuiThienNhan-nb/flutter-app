@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
+import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/models/post.dart';
 import 'package:flutter_app/screens/social/post_fav_button.dart';
 import 'package:flutter_app/services/usersRepo.dart';
@@ -113,44 +114,88 @@ class _PostItemState extends State<PostItem> {
               ),
             ),
             Container(height: deviceHeight * 0.01),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: widget.post.destination.value.imageUrl.isEmpty
-                  ? Container(
-                      color: Colors.black87,
-                      child: Center(
-                        child: Text(
-                          "Has no image yet",
-                          style: TextStyle(color: Colors.white60),
-                        ),
-                      ),
-                    )
-                  : CachedNetworkImage(
-                      height: deviceHeight * 0.3,
-                      width: deviceWidth * 0.9,
-                      imageUrl: widget.post.destination.value.imageUrl,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => Shimmer.fromColors(
-                        baseColor: Colors.grey,
-                        highlightColor: Colors.grey.shade200,
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      color: Colors.grey,
+            Container(
+              height: deviceHeight * 0.3,
+              width: deviceWidth * 0.9,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 1,
+                                blurRadius: 2,
+                                offset: Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: widget
+                                    .post.destination.value.imageUrl.isEmpty
+                                ? Container(
+                                    color: Colors.black87,
+                                    child: Center(
+                                      child: Text(
+                                        "Has no image yet",
+                                        style: TextStyle(color: Colors.white60),
+                                      ),
+                                    ),
+                                  )
+                                : CachedNetworkImage(
+                                    height: deviceHeight * 0.3,
+                                    width: deviceWidth * 0.9,
+                                    imageUrl:
+                                        widget.post.destination.value.imageUrl,
+                                    fit: BoxFit.fill,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey,
+                                      highlightColor: Colors.grey.shade200,
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Palette.myLightGrey,
+                        splashFactory: InkRipple.splashFactory,
+                        borderRadius: BorderRadius.circular(20),
+                        onTap: () => destinationController.navigateToDesDetail(
+                            widget.post.destination.value,
+                            "from-social-${widget.post}"),
                       ),
                     ),
+                  ),
+                ],
+              ),
             ),
             Container(height: deviceHeight * 0.01),
           ],

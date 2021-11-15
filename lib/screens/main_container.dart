@@ -42,7 +42,7 @@ class _MainContainerState extends State<MainContainer> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.post_add,
+          Icons.description,
           size: 25,
         ),
         title: ("Post"),
