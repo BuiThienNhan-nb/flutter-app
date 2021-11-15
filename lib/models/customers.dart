@@ -9,6 +9,7 @@ class Customer {
   String? imageUrl = '';
   Timestamp? birthday;
   List<String>? favoriteDes = [];
+  List<String>? favoritePost = [];
 
   Customer({
     required this.uid,
@@ -17,6 +18,7 @@ class Customer {
     this.phoneNumber,
     this.imageUrl,
     this.favoriteDes,
+    this.favoritePost,
     this.birthday,
   });
 
@@ -41,6 +43,10 @@ class Customer {
           (data.containsKey('favoriteDes') && data['favoriteDes'] != null)
               ? (data['favoriteDes'] as List<dynamic>).cast<String>()
               : [],
+      favoritePost:
+          (data.containsKey('favoritePost') && data['favoritePost'] != null)
+              ? (data['favoritePost'] as List<dynamic>).cast<String>()
+              : [],
       birthday: (data.containsKey('birthday') && data['birthday'] != null)
           ? (data['birthday'])
           : Timestamp.fromDate(DateTime.now()),
@@ -54,6 +60,7 @@ class Customer {
       'phoneNumber': phoneNumber,
       'imageUrl': imageUrl,
       'favoriteDes': favoriteDes,
+      'favoritePost': favoritePost,
       'birthday': birthday,
     };
   }

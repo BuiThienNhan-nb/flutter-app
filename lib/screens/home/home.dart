@@ -30,10 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
         decoration: BoxDecoration(
           color: Palette.myLightGrey,
         ),
-        // padding: EdgeInsets.only(bottom: 30),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 60),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,31 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.only(right: 20),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Text(
-                //         'Recommended',
-                //         style: GoogleFonts.varelaRound(
-                //           fontSize: 20,
-                //           fontWeight: FontWeight.bold,
-                //         ),
-                //       ),
-                //       Spacer(),
-                //       GestureDetector(
-                //         child: Text(
-                //           'See all',
-                //           style: GoogleFonts.varelaRound(
-                //             fontSize: 16,
-                //           ),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-
                 SizedBox(
                   height: 5,
                 ),
@@ -174,13 +148,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.vertical,
                     itemCount:
                         destinationController.listDestinationsByProvince.length,
-                    itemBuilder: (context, index) => HorizontalDestinationCard(
-                      destination: destinationController
-                          .listDestinationsByProvince[index],
-                      function: destinationController.navigateToDesDetail,
-                      size: size,
-                      tag:
-                          'horizontal-${destinationController.listDestinationsByProvince[index].uid}',
+                    itemBuilder: (context, index) => Container(
+                      padding: EdgeInsets.only(bottom: 12),
+                      child: HorizontalDestinationCard(
+                        destination: destinationController
+                            .listDestinationsByProvince[index],
+                        function: destinationController.navigateToDesDetail,
+                        size: size,
+                        tag:
+                            'horizontal-${destinationController.listDestinationsByProvince[index].uid}',
+                      ),
                     ),
                   ),
                 ),

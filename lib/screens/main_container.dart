@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/palette.dart';
-import 'package:flutter_app/screens/favorites/favorite.dart';
+import 'package:flutter_app/screens/favorites/favoriteScreen.dart';
 import 'package:flutter_app/screens/home/home.dart';
 import 'package:flutter_app/screens/setting/setting.dart';
+import 'package:flutter_app/screens/social/socialScreen.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class MainContainer extends StatefulWidget {
@@ -14,7 +15,7 @@ class MainContainer extends StatefulWidget {
 
 class _MainContainerState extends State<MainContainer> {
   List<Widget> _buildScreens() {
-    return [HomeScreen(), FavoriteScreen(), SettingScreen(), SettingScreen()];
+    return [HomeScreen(), FavoriteScreen(), SocialScreen(), SettingScreen()];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
@@ -41,10 +42,10 @@ class _MainContainerState extends State<MainContainer> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(
-          Icons.history,
+          Icons.post_add,
           size: 25,
         ),
-        title: ("History"),
+        title: ("Post"),
         activeColorPrimary: Palette.orange,
         // activeColorSecondary: Colors.white,
         inactiveColorPrimary: CupertinoColors.systemGrey2,

@@ -28,7 +28,7 @@ class HorizontalDestinationCard extends StatelessWidget {
     //     ? 'favorite-${destination.uid}'
     //     : 'horizontal-${destination.uid}';
     return Container(
-      padding: EdgeInsets.only(bottom: 15),
+      // padding: EdgeInsets.only(bottom: 15),
       width: size,
       // height: size,
       child: Stack(

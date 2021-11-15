@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/models/destinations.dart';
-import 'package:flutter_app/models/provinces.dart';
 import 'package:flutter_app/services/usersRepo.dart';
-import 'package:get/get.dart';
 
 class DestinationRepo {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -67,6 +64,28 @@ class DestinationRepo {
     });
   }
 
+  Stream<Destination> destinationByIdStream(String _uid) {
+    return _db
+        .collection('destinations')
+        .snapshots()
+        .map((QuerySnapshot query) {
+      Destination _destination = Destination(
+          uid: 'uid',
+          name: '',
+          description: '',
+          imageUrl: '',
+          favorites: 0,
+          videoUrl: '');
+      for (var item in query.docs) {
+        if (item.id == _uid) {
+          _destination = Destination.fromJson(item);
+          break;
+        }
+      }
+      return _destination;
+    });
+  }
+
   // Future<void> updateUserFav(Destination destination, bool isLiked) async {
   //   if (!isLiked) {
   //     await _db.collection('users').doc('${UserRepo.customer.uid}').update({
@@ -92,6 +111,24 @@ class DestinationRepo {
   //         });
   //   }
   // }
+
+  Future<Destination> fetchDestinationById(String uid) async {
+    DocumentSnapshot documentReference =
+        await _db.collection('destinations').doc(uid).get();
+
+    if (documentReference.exists) {
+      return Destination.fromJson(documentReference);
+    } else {
+      print('DESTINATION REPO: Fecth destination failed');
+      return Destination(
+          uid: 'uid',
+          name: '',
+          description: '',
+          imageUrl: '',
+          favorites: 0,
+          videoUrl: '');
+    }
+  }
 
   Future<bool> updateUserFav(Destination destination, bool isLiked) async {
     bool _success = false;

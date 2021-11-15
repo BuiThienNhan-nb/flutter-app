@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/screens/authenticate/verify_email.dart';
 import 'package:flutter_app/services/authentication.dart';
@@ -68,6 +69,7 @@ class _IntroPageState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    destinationController.fetchEntirePost();
     return Material(
       child: Container(
         color: Colors.white,

@@ -33,17 +33,13 @@ class FavoriteScreen extends StatelessWidget {
         body: Container(
           height: deviceHeight,
           color: Palette.myLightGrey,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 0, 0),
-            child:
-                // Obx(
-                //   () =>
-                ListView.builder(
-              // physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              itemCount: destinationController.listFavDestinations.length,
-              itemBuilder: (context, index) => Slidable(
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            itemCount: destinationController.listFavDestinations.length,
+            itemBuilder: (context, index) => Container(
+              padding: EdgeInsets.only(left: 12, right: 12, top: 12),
+              child: Slidable(
                 actionPane: SlidableScrollActionPane(),
                 actionExtentRatio: 0.3,
                 child: HorizontalDestinationCard(

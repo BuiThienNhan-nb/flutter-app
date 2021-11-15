@@ -65,17 +65,16 @@ class UserRepo {
     }
   }
 
-  // Stream<List<String>> listUserFavDesIdStream(String id) {
-  //   return _db
-  //       .collection('destinations')
-  //       .snapshots()
-  //       .map((QuerySnapshot query) {
-  //     List<Destination> list = [];
-  //     query.docs.forEach((element) {
-  //       //add data
-  //       list.add(Destination.fromJson(element));
-  //     });
-  //     return list;
-  //   });
-  // }
+  Stream<Customer> customerByIdStream(String _uid) {
+    return _db.collection('users').snapshots().map((QuerySnapshot query) {
+      Customer _customer = Customer(uid: 'uid');
+      for (var item in query.docs) {
+        if (item.id == _uid) {
+          _customer = Customer.fromJson(item.data() as Map<String, dynamic>?);
+          break;
+        }
+      }
+      return _customer;
+    });
+  }
 }

@@ -1,10 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/const_values/palette.dart';
+import 'package:flutter_app/models/customers.dart';
 import 'package:flutter_app/models/destinations.dart';
+import 'package:flutter_app/models/post.dart';
 import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
+import 'package:flutter_app/screens/home/destination_detail/content_text_field.dart';
+import 'package:flutter_app/services/postRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
+import 'package:flutter_app/utils/button_widget.dart';
 import 'package:flutter_app/utils/fav_button.dart';
-// import 'package:flutter_app/utils/ratting_bar_widget.dart';
+import 'package:flutter_app/utils/snack_bar_widget.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
@@ -25,6 +34,8 @@ class DestinationDetail extends StatefulWidget {
 
 class _DestinationDetailState extends State<DestinationDetail> {
   late YoutubePlayerController _controller;
+  final _formKey = GlobalKey<FormState>();
+  final _contentTxtController = TextEditingController();
 
   @override
   void initState() {
@@ -55,6 +66,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
   @override
   void dispose() {
     _controller.close();
+    _contentTxtController.dispose();
     super.dispose();
   }
 
@@ -104,6 +116,27 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                 : CachedNetworkImage(
                                     imageUrl: widget.destination.imageUrl,
                                     fit: BoxFit.fill,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey,
+                                      highlightColor: Colors.grey.shade200,
+                                      child: Stack(
+                                        children: [
+                                          Positioned.fill(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                           ),
                         ),
@@ -134,10 +167,15 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                       ),
                                     ),
                                     Spacer(),
-                                    Icon(
-                                      Icons.share,
-                                      color: Colors.white,
-                                      size: 24,
+                                    IconButton(
+                                      onPressed: () {
+                                        editPost();
+                                      },
+                                      icon: Icon(
+                                        Icons.share,
+                                        color: Colors.white,
+                                        size: 24,
+                                      ),
                                     ),
                                     SizedBox(
                                       width: 24,
@@ -217,12 +255,6 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                 height: 18,
                               ),
                               Container(
-                                // child: RattingBar(
-                                //   initalRating: destination.rattingPoint,
-                                //   destination: destination,
-                                //   isRatting: isRatting(UserRepo.customer.rattingDes),
-                                // ),
-                                // padding: EdgeInsets.all(10.0),
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
@@ -238,7 +270,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.only(left: 18, right: 18, bottom: 15),
                       child: player,
                     ),
                     SizedBox(
@@ -302,6 +334,59 @@ class _DestinationDetailState extends State<DestinationDetail> {
       return true;
     }
     return false;
+  }
+
+  void editPost() {
+    Get.bottomSheet(Container(
+      color: Colors.white,
+      padding: EdgeInsets.all(12),
+      child: Wrap(
+        children: [
+          Text(
+            'Contents',
+            style: GoogleFonts.varelaRound(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 20),
+          Form(
+              key: _formKey,
+              child: ContentTextFieldWidget(
+                  controller: _contentTxtController,
+                  icon: Icon(Icons.content_copy),
+                  hintText: "Content",
+                  textInputFormatter:
+                      FilteringTextInputFormatter.singleLineFormatter)),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () async {
+                  await PostRepo().addPost(
+                    Post(
+                        uid: '',
+                        content: "${_contentTxtController.text.trim()}",
+                        customer: UserRepo.customer.obs,
+                        destination: widget.destination.obs,
+                        postDate: Timestamp.fromDate(DateTime.now()),
+                        favorites: 0),
+                  );
+                  Get.back();
+                  showSnackbar("Posting", 'Share destination success', true);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  child: Text("Share", style: TextStyle(color: Palette.orange)),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    ));
   }
 }
 

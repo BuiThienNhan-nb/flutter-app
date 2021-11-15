@@ -1,7 +1,9 @@
 import 'package:flutter_app/models/destinations.dart';
+import 'package:flutter_app/models/post.dart';
 import 'package:flutter_app/models/provinces.dart';
 import 'package:flutter_app/screens/home/destination_detail/destination_detail.dart';
 import 'package:flutter_app/services/destinationsRepo.dart';
+import 'package:flutter_app/services/postRepo.dart';
 import 'package:flutter_app/services/provincesRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:get/get.dart';
@@ -9,26 +11,29 @@ import 'package:get/get.dart';
 class DestinationController extends GetxController {
   static DestinationController instance = Get.find();
 
-  RxList<Province> listProvince = <Province>[].obs;
+  RxList<Province> _listProvince = <Province>[].obs;
   RxList<Destination> listDestination = <Destination>[].obs;
   RxString provinceSelectedId = ''.obs;
   RxList<Destination> listDestinationByProvince = <Destination>[].obs;
   RxList<Destination> listFavDestination = <Destination>[].obs;
+  RxList<Post> _listPost = <Post>[].obs;
 
-  List<Province> get listProvinces => listProvince.value;
+  List<Province> get listProvinces => _listProvince.value;
   List<Destination> get listDestinations => listDestination.value;
   List<Destination> get listDestinationsByProvince =>
       listDestinationByProvince.value;
   List<Destination> get listFavDestinations => listFavDestination.value;
+  List<Post> get listPosts => _listPost.value;
 
   @override
   void onInit() {
     super.onInit();
 
-    listProvince.bindStream(ProvinceRepo().provinceStream());
+    _listProvince.bindStream(ProvinceRepo().provinceStream());
     listDestination.bindStream(DestinationRepo().destinationStream());
     listDestinationByProvince.bindStream(DestinationRepo()
         .destinationByProvinceStream(provinceSelectedId.value));
+    _listPost.bindStream(PostRepo().postStream());
 
     // ever(UserRepo.customer.favoriteDes.obs, loadFavDes);
     // ever(listProvince, initDestinationByProvince);
@@ -60,6 +65,22 @@ class DestinationController extends GetxController {
     listDestinationByProvince
         .bindStream(DestinationRepo().destinationByProvinceStream(id));
     update();
+  }
+
+  void fetchEntirePost() {
+    _listPost.forEach((element) {
+      element.customer.bindStream(
+          UserRepo().customerByIdStream(element.customer.value.uid));
+      element.destination.bindStream(DestinationRepo()
+          .destinationByIdStream(element.destination.value.uid));
+    });
+  }
+
+  void fetchEntireSpecificPost(Post post) {
+    post.customer
+        .bindStream(UserRepo().customerByIdStream(post.customer.value.uid));
+    post.destination.bindStream(
+        DestinationRepo().destinationByIdStream(post.destination.value.uid));
   }
 
   // fetchDestinationByProvince(String id) {
