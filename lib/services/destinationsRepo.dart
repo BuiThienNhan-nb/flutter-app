@@ -75,7 +75,8 @@ class DestinationRepo {
           description: '',
           imageUrl: '',
           favorites: 0,
-          videoUrl: '');
+          videoUrl: '',
+          geoPoint: GeoPoint(0, 0));
       for (var item in query.docs) {
         if (item.id == _uid) {
           _destination = Destination.fromJson(item);
@@ -126,7 +127,8 @@ class DestinationRepo {
           description: '',
           imageUrl: '',
           favorites: 0,
-          videoUrl: '');
+          videoUrl: '',
+          geoPoint: GeoPoint(0, 0));
     }
   }
 

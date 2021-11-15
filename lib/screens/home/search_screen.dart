@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/controller.dart';
@@ -102,7 +103,8 @@ class SearchData extends SearchDelegate<Destination> {
                 description: '',
                 imageUrl: '',
                 videoUrl: '',
-                favorites: 0));
+                favorites: 0,
+                geoPoint: GeoPoint(0, 0)));
       },
       icon: Icon(Icons.arrow_back),
     );

@@ -38,21 +38,23 @@ class Post {
           : new Customer(uid: 'uid').obs,
       destination: (data.containsKey('desId') && data['desId'] != null)
           ? new Destination(
-                  uid: data['desId'] as String,
-                  name: '',
-                  description: '',
-                  imageUrl: '',
-                  favorites: 0,
-                  videoUrl: '')
-              .obs
+              uid: data['desId'] as String,
+              name: '',
+              description: '',
+              imageUrl: '',
+              favorites: 0,
+              videoUrl: '',
+              geoPoint: GeoPoint(0, 0),
+            ).obs
           : new Destination(
-                  uid: '',
-                  name: '',
-                  description: '',
-                  imageUrl: '',
-                  favorites: 0,
-                  videoUrl: '')
-              .obs,
+              uid: '',
+              name: '',
+              description: '',
+              imageUrl: '',
+              favorites: 0,
+              videoUrl: '',
+              geoPoint: GeoPoint(0, 0),
+            ).obs,
     );
   }
 

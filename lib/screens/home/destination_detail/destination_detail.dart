@@ -9,6 +9,7 @@ import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
 import 'package:flutter_app/screens/home/destination_detail/content_text_field.dart';
 import 'package:flutter_app/services/postRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
+import 'package:flutter_app/services/weather.dart';
 import 'package:flutter_app/utils/button_widget.dart';
 import 'package:flutter_app/utils/fav_button.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
@@ -36,6 +37,10 @@ class _DestinationDetailState extends State<DestinationDetail> {
   late YoutubePlayerController _controller;
   final _formKey = GlobalKey<FormState>();
   final _contentTxtController = TextEditingController();
+  WeatherModel weatherModel = WeatherModel();
+  int temperature = 0;
+  String weatherIcon = '☀️';
+  String weatherMessage = 'a';
 
   @override
   void initState() {
@@ -61,6 +66,31 @@ class _DestinationDetailState extends State<DestinationDetail> {
     _controller.onExitFullscreen = () {
       log('Exited Fullscreen');
     };
+    // updateUI(WeatherModel().getCityWeather('Ca Mau'));
+    // print(widget.destination.geoPoint.latitude);
+  }
+
+  void updateUI(dynamic weatherData) {
+    setState(() {
+      if (weatherData == null) {
+        temperature = 0;
+        weatherIcon = 'Error';
+        weatherMessage = 'Unable to get weather data';
+        return;
+      }
+      double temp = weatherData['main']['temp'];
+      temperature = temp.toInt();
+      var condition = weatherData['weather'][0]['id'];
+      weatherIcon = weatherModel.getWeatherIcon(condition);
+      weatherMessage = weatherModel.getMessage(temperature);
+    });
+  }
+
+  void initContext() async {
+    var weatherData =
+        await weatherModel.getLocationWeather(widget.destination.geoPoint);
+    if (!mounted) return;
+    updateUI(weatherData);
   }
 
   @override
@@ -75,6 +105,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
     final size = MediaQuery.of(context).size;
     // String videoUrl = widget.destination.videoUrl.toString();
     const player = YoutubePlayerIFrame();
+    initContext();
     return YoutubePlayerControllerProvider(
       controller: _controller,
       child: Scaffold(
@@ -204,49 +235,31 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 23),
-                                    ),
-                                    SizedBox(
-                                      height: 12,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.location_on,
-                                          color: Colors.white70,
-                                          size: 25,
-                                        ),
-                                        SizedBox(
-                                          width: 8,
-                                        ),
-                                        Text(
-                                          "Koh Chang Tai, Thailand",
-                                          style: TextStyle(
-                                              color: Colors.white70,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 17),
-                                        ),
-                                      ],
+                                          fontSize: 28),
                                     ),
                                     SizedBox(
                                       height: 8,
                                     ),
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
                                       children: [
-                                        RatingBar(2.1.round()),
+                                        Text(
+                                          "$weatherIcon",
+                                          style: TextStyle(fontSize: 35),
+                                        ),
                                         SizedBox(
                                           width: 8,
                                         ),
                                         Text(
-                                          "2.1",
+                                          "$temperature°",
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 17),
-                                        )
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 25),
+                                        ),
                                       ],
+                                    ),
+                                    SizedBox(
+                                      height: 8,
                                     ),
                                   ],
                                 ),

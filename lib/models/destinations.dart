@@ -7,6 +7,7 @@ class Destination {
   String imageUrl;
   String videoUrl;
   int favorites;
+  GeoPoint geoPoint;
 
   Destination(
       {required this.uid,
@@ -14,7 +15,8 @@ class Destination {
       required this.description,
       required this.imageUrl,
       required this.favorites,
-      required this.videoUrl});
+      required this.videoUrl,
+      required this.geoPoint});
 
   factory Destination.fromJson(DocumentSnapshot doc) {
     Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
@@ -36,6 +38,9 @@ class Destination {
       favorites: (data.containsKey('favorites') && data['favorites'] != null)
           ? data['favorites'] as int
           : 0,
+      geoPoint: (data.containsKey('location') && data['location'] != null)
+          ? data['location']
+          : GeoPoint(0, 0),
     );
   }
 
