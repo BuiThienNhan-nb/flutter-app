@@ -14,11 +14,13 @@ import 'package:flutter_app/utils/fav_button.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 import 'package:get/get.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:developer';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class DestinationDetail extends StatefulWidget {
   final Destination destination;
@@ -75,7 +77,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
         weatherMessage = 'Unable to get weather data';
         return;
       }
-      double temp = weatherData['main']['temp'];
+      var temp = weatherData['main']['temp'];
       temperature = temp.toInt();
       var condition = weatherData['weather'][0]['id'];
       weatherIcon = weatherModel.getWeatherIcon(condition);
@@ -204,7 +206,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                     Spacer(),
                                     IconButton(
                                       onPressed: () {
-                                        editPost();
+                                        sharePost();
                                       },
                                       icon: Icon(
                                         Icons.share,
@@ -295,6 +297,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
                     ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 24),
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         "${widget.destination.description}",
                         textAlign: TextAlign.start,
@@ -308,29 +311,62 @@ class _DestinationDetailState extends State<DestinationDetail> {
                     SizedBox(
                       height: 16,
                     ),
-                    MaterialButton(
-                      textColor: Colors.orange,
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AllComment(
-                              nameDes: widget.destination.name,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 22, right: 22),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          FavoriteButton(
+                            isFavorite: UserRepo.customer.favoriteDes!
+                                .contains(widget.destination.uid),
+                            count: widget.destination.favorites,
+                            size: 40.0,
+                            destination: widget.destination,
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AllComment(
+                                  nameDes: widget.destination.name,
+                                ),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(Icons.comment),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text('Comments')
+                              ],
                             ),
                           ),
-                        );
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.comment),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text('add comment')
+                          TextButton(
+                            onPressed: () => navigateToMap(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  EvaIcons.navigation2,
+                                  color: Colors.green,
+                                ),
+                                SizedBox(
+                                  width: 5.0,
+                                ),
+                                Text(
+                                  'Maps',
+                                  style: TextStyle(color: Colors.green),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
+                    SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -353,7 +389,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
     return false;
   }
 
-  void editPost() {
+  void sharePost() {
     Get.bottomSheet(Container(
       color: Colors.white,
       padding: EdgeInsets.all(12),
@@ -405,6 +441,13 @@ class _DestinationDetailState extends State<DestinationDetail> {
       ),
     ));
   }
+
+  void navigateToMap() {
+    String query = Uri.encodeComponent(widget.destination.name);
+    String ggMapUrlByDesName =
+        "https://www.google.com/maps/search/?api=1&query=$query";
+    launch(ggMapUrlByDesName);
+  }
 }
 
 class RatingBar extends StatelessWidget {
@@ -453,7 +496,3 @@ class RatingBar extends StatelessWidget {
     ));
   }
 }
-// Scaffold(
-//       backgroundColor: Colors.white,
-//       body: 
-//     );
