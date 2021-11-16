@@ -52,7 +52,7 @@ class _FavoriteButtonState extends State<PostFavoriteButton> {
         Widget result;
         if (count == 0) {
           result = Text(
-            "love",
+            "0",
             style: TextStyle(color: color),
           );
         } else

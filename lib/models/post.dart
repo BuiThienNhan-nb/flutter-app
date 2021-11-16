@@ -45,6 +45,7 @@ class Post {
               favorites: 0,
               videoUrl: '',
               geoPoint: GeoPoint(0, 0),
+              imagesUrl: [],
             ).obs
           : new Destination(
               uid: '',
@@ -54,6 +55,7 @@ class Post {
               favorites: 0,
               videoUrl: '',
               geoPoint: GeoPoint(0, 0),
+              imagesUrl: [],
             ).obs,
     );
   }

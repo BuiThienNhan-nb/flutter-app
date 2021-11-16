@@ -65,70 +65,12 @@ class _MainContainerState extends State<MainContainer> {
 
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   bottomNavigationBar: CurvedNavigationBar(
-    //     height: 55,
-    //     backgroundColor: Colors.white,
-    //     color: Colors.lightBlue,
-    //     items: <Widget>[
-    //       Icon(
-    //         Icons.home,
-    //         size: 30,
-    //         color: Colors.white,
-    //       ),
-    //       Icon(
-    //         Icons.explore,
-    //         size: 30,
-    //         color: Colors.white,
-    //       ),
-    //       Icon(
-    //         Icons.settings,
-    //         size: 30,
-    //         color: Colors.white,
-    //       ),
-    //     ],
-    //     onTap: (value) {
-    //       setState(() {
-    //         //set on tap icon
-    //         switch (value) {
-    //           case 0:
-    //             pageChosen = HomeScreen();
-    //             pageDisplayController.updatePageDisplay(HomeScreen());
-    //             break;
-    //           case 1:
-    //             pageChosen = ExploreScreen();
-    //             pageDisplayController.updatePageDisplay(ExploreScreen());
-    //             break;
-    //           case 2:
-    //             pageChosen = SettingScreen();
-    //             pageDisplayController.updatePageDisplay(SettingScreen());
-    //             break;
-    //           // default:
-    //           //   pageChosen = widget.pageDisplay;
-    //           //   break;
-    //         }
-    //       });
-    //     },
-    //   ),
-    //   body: Obx(
-    //     () => Container(
-    //       color: Colors.transparent,
-    //       child: Center(
-    //         //show page
-    //         child: pageDisplayController.onPageDisplay,
-    //       ),
-    //     ),
-    //   ),
-    // );
     return PersistentTabView(
       context,
       screens: _buildScreens(),
       items: _navBarsItems(),
       // confineInSafeArea: true,
       backgroundColor: Colors.white,
-      // handleAndroidBackButtonPress: true,
-      // resizeToAvoidBottomInset: true,
-      // stateManagement: true,
       navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0 ? 0.0 : 45,
       hideNavigationBarWhenKeyboardShows: true,
       margin: EdgeInsets.only(left: 70, right: 70, bottom: 20),

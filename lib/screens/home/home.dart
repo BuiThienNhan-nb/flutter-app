@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/screens/home/all_destination.dart';
+import 'package:flutter_app/screens/home/destination_detail/carousel_des_widget.dart';
 import 'package:flutter_app/screens/home/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

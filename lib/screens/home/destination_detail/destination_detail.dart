@@ -2,15 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/palette.dart';
-import 'package:flutter_app/models/customers.dart';
 import 'package:flutter_app/models/destinations.dart';
 import 'package:flutter_app/models/post.dart';
 import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
+import 'package:flutter_app/screens/home/destination_detail/carousel_des_widget.dart';
 import 'package:flutter_app/screens/home/destination_detail/content_text_field.dart';
 import 'package:flutter_app/services/postRepo.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/services/weather.dart';
-import 'package:flutter_app/utils/button_widget.dart';
 import 'package:flutter_app/utils/fav_button.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,8 +65,6 @@ class _DestinationDetailState extends State<DestinationDetail> {
     _controller.onExitFullscreen = () {
       log('Exited Fullscreen');
     };
-    // updateUI(WeatherModel().getCityWeather('Ca Mau'));
-    // print(widget.destination.geoPoint.latitude);
   }
 
   void updateUI(dynamic weatherData) {
@@ -129,48 +126,55 @@ class _DestinationDetailState extends State<DestinationDetail> {
                   children: [
                     Stack(
                       children: [
-                        Container(
-                          width: size.width,
-                          height: size.height * 0.45,
-                          child: Hero(
-                            tag: widget.tag,
-                            child: widget.destination.imageUrl.isEmpty
-                                ? Container(
-                                    color: Colors.black87,
-                                    child: Center(
-                                      child: Text(
-                                        "Has no image yet",
-                                        style: TextStyle(color: Colors.white60),
-                                      ),
-                                    ),
-                                  )
-                                : CachedNetworkImage(
-                                    imageUrl: widget.destination.imageUrl,
-                                    fit: BoxFit.fill,
-                                    placeholder: (context, url) =>
-                                        Shimmer.fromColors(
-                                      baseColor: Colors.grey,
-                                      highlightColor: Colors.grey.shade200,
-                                      child: Stack(
-                                        children: [
-                                          Positioned.fill(
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
+                        widget.destination.imagesUrl.length > 1
+                            ? CarouselDestinationWidget(
+                                destination: widget.destination,
+                                size: Size(size.width, size.height * 0.45))
+                            : Container(
+                                width: size.width,
+                                height: size.height * 0.45,
+                                child: Hero(
+                                  tag: widget.tag,
+                                  child: widget.destination.imageUrl.isEmpty
+                                      ? Container(
+                                          color: Colors.black87,
+                                          child: Center(
+                                            child: Text(
+                                              "Has no image yet",
+                                              style: TextStyle(
+                                                  color: Colors.white60),
+                                            ),
+                                          ),
+                                        )
+                                      : CachedNetworkImage(
+                                          imageUrl: widget.destination.imageUrl,
+                                          fit: BoxFit.fill,
+                                          placeholder: (context, url) =>
+                                              Shimmer.fromColors(
+                                            baseColor: Colors.grey,
+                                            highlightColor:
+                                                Colors.grey.shade200,
+                                            child: Stack(
                                               children: [
-                                                Expanded(
-                                                  child: Container(
-                                                    color: Colors.grey,
+                                                Positioned.fill(
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                          ),
-                        ),
+                                        ),
+                                ),
+                              ),
                         Container(
                           height: size.height * 0.45,
                           color: Colors.black12,

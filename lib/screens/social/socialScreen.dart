@@ -15,7 +15,6 @@ class _SocialScreenState extends State<SocialScreen> {
   bool sortByDate = true;
   @override
   Widget build(BuildContext context) {
-    // destinationController.fetchEntirePost();
     final deviceHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -65,7 +64,8 @@ class _SocialScreenState extends State<SocialScreen> {
               child: PostItem(
                 post: destinationController.listPosts[index],
                 callBack: () {
-                  destinationController.fetchEntirePost();
+                  sortByDate = true;
+                  // destinationController.fetchEntirePost();
                   setState(() {});
                 },
               ),

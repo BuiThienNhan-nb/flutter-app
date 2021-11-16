@@ -53,6 +53,8 @@ dependencies:
   youtube_player_iframe: ^2.2.2
   url_launcher: ^6.0.12
   http: ^0.13.4
+  carousel_slider: ^4.0.0
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:

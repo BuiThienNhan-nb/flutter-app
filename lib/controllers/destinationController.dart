@@ -34,13 +34,6 @@ class DestinationController extends GetxController {
     listDestinationByProvince.bindStream(DestinationRepo()
         .destinationByProvinceStream(provinceSelectedId.value));
     _listPost.bindStream(PostRepo().postStream());
-
-    // ever(UserRepo.customer.favoriteDes.obs, loadFavDes);
-    // ever(listProvince, initDestinationByProvince);
-    // ever(provinceSelectedId, updateDestinationByProvince);
-    // ever(provinceSelectedId, fetchDestinationByProvince);
-    // listDestinationByProvince.bindStream(DestinationRepo()
-    //     .destinationByProvinceStream(provinceSelectedId.value));
   }
 
   initDestinationByProvince(List<Province> list) {
@@ -48,13 +41,6 @@ class DestinationController extends GetxController {
     listDestinationByProvince
         .bindStream(DestinationRepo().destinationByProvinceStream(list[0].uid));
   }
-
-  // void loadFavDes(List<String>? uids) {
-  //   listFavDestination = <Destination>[].obs;
-  //   listDestinations.forEach((element) {
-  //     if (uids!.contains(element.uid)) listFavDestinations.add(element);
-  //   });
-  // }
 
   void navigateToDesDetail(Destination destination, tag) {
     Get.to(() => DestinationDetail(destination: destination, tag: tag));
@@ -74,6 +60,7 @@ class DestinationController extends GetxController {
       element.destination.bindStream(DestinationRepo()
           .destinationByIdStream(element.destination.value.uid));
     });
+    update();
   }
 
   void fetchEntireSpecificPost(Post post) {
@@ -81,10 +68,10 @@ class DestinationController extends GetxController {
         .bindStream(UserRepo().customerByIdStream(post.customer.value.uid));
     post.destination.bindStream(
         DestinationRepo().destinationByIdStream(post.destination.value.uid));
+    update();
   }
 
-  // fetchDestinationByProvince(String id) {
-  //   listDestinationByProvince
-  //       .bindStream(DestinationRepo().destinationByProvinceStream(id));
-  // }
+  void fetchPost() async {
+    await PostRepo().fetchPost().then((value) => _listPost = value.obs);
+  }
 }

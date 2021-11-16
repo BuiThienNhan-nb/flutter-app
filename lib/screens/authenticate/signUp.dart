@@ -169,7 +169,7 @@ class _SignUpState extends State<SignUp> {
                               ButtonWidget(
                                 text: 'Sign Up',
                                 onClicked: signUp,
-                                color: Palette.myColor,
+                                color: Palette.orange,
                               ),
                               const SizedBox(
                                 height: 16,

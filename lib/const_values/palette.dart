@@ -14,7 +14,7 @@ class Palette {
 
   // Print int value for Color() from hex string
   void hexToColor(String code) {
-    print('${int.parse(code.substring(1, 7), radix: 16) + 0xFF000000}');
+    print('COLOR: ${int.parse(code.substring(1, 7), radix: 16) + 0xFF000000}');
   }
 
   static const MaterialColor myOrangeMaterialColor = const MaterialColor(
@@ -30,6 +30,22 @@ class Palette {
       700: const Color(4294925313 + 0xFF000000),
       800: const Color(4294925313 + 0xFF000000),
       900: const Color(4294925313 + 0xFF000000),
+    },
+  );
+
+  static const MaterialColor orangeMaterialColor = const MaterialColor(
+    4294944299 + 0xFF000000,
+    const <int, Color>{
+      50: const Color(4294944299 + 0xFF000000),
+      100: const Color(4294944299 + 0xFF000000),
+      200: const Color(4294944299 + 0xFF000000),
+      300: const Color(4294944299 + 0xFF000000),
+      400: const Color(4294944299 + 0xFF000000),
+      500: const Color(4294944299 + 0xFF000000),
+      600: const Color(4294944299 + 0xFF000000),
+      700: const Color(4294944299 + 0xFF000000),
+      800: const Color(4294944299 + 0xFF000000),
+      900: const Color(4294944299 + 0xFF000000),
     },
   );
 }

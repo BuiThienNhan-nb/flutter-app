@@ -54,4 +54,14 @@ class PostRepo {
       destinationController.fetchEntirePost();
     });
   }
+
+  Future<List<Post>> fetchPost() async {
+    List<Post> list = [];
+    await _db.collection('posts').get().then((value) {
+      value.docs.forEach((element) {
+        list.add(Post.fromJson(element));
+      });
+    });
+    return list;
+  }
 }

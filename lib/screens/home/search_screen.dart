@@ -104,7 +104,8 @@ class SearchData extends SearchDelegate<Destination> {
                 imageUrl: '',
                 videoUrl: '',
                 favorites: 0,
-                geoPoint: GeoPoint(0, 0)));
+                geoPoint: GeoPoint(0, 0),
+                imagesUrl: []));
       },
       icon: Icon(Icons.arrow_back),
     );

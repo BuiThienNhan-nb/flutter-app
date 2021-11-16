@@ -5,6 +5,7 @@ class Destination {
   String name;
   String description;
   String imageUrl;
+  List<String> imagesUrl;
   String videoUrl;
   int favorites;
   GeoPoint geoPoint;
@@ -14,6 +15,7 @@ class Destination {
       required this.name,
       required this.description,
       required this.imageUrl,
+      required this.imagesUrl,
       required this.favorites,
       required this.videoUrl,
       required this.geoPoint});
@@ -41,6 +43,9 @@ class Destination {
       geoPoint: (data.containsKey('location') && data['location'] != null)
           ? data['location']
           : GeoPoint(0, 0),
+      imagesUrl: (data.containsKey('imagesUrl') && data['imagesUrl'] != null)
+          ? (data['imagesUrl'] as List<dynamic>).cast<String>()
+          : [],
     );
   }
 
@@ -49,6 +54,7 @@ class Destination {
       'name': name,
       'description': description,
       'imageUrl': imageUrl,
+      'imagesUrl': imagesUrl,
       'videoUrl': videoUrl,
       'favorites': favorites
     };

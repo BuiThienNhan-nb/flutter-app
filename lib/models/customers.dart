@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Customer {
   final String uid;
@@ -22,9 +21,10 @@ class Customer {
     this.birthday,
   });
 
-  factory Customer.fromJson(Map<String, dynamic>? data) {
+  factory Customer.fromJson(DocumentSnapshot doc) {
+    Map<String, dynamic>? data = doc.data() as Map<String, dynamic>?;
     return Customer(
-      uid: FirebaseAuth.instance.currentUser!.uid,
+      uid: doc.id,
       // email: data!['email'] as String,
       email: (data!.containsKey('email') && data['email'] != null)
           ? data['email'] as String

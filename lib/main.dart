@@ -31,16 +31,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      // theme: ThemeData(primaryColor: Palette.darkOrange),
-
-      // theme: ThemeData(
-      //   primaryColor: Palette.myColor,
-      //   primarySwatch: Colors.blue,
-      // ),
-
       theme: ThemeData(
         primaryColor: Colors.blue,
-        primarySwatch: Palette.myOrangeMaterialColor,
+        primarySwatch: Palette.orangeMaterialColor,
       ),
 
       // home: Authenication(),

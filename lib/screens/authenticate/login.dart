@@ -134,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ButtonWidget(
                                 text: 'Login',
                                 onClicked: login,
-                                color: Palette.myColor,
+                                color: Palette.orange,
                               ),
                               const SizedBox(
                                 height: 16,

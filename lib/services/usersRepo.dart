@@ -49,8 +49,7 @@ class UserRepo {
         await _db.collection('users').doc(uid).get();
 
     if (documentReference.exists) {
-      return Customer.fromJson(
-          documentReference.data() as Map<String, dynamic>?);
+      return Customer.fromJson(documentReference);
     } else {
       print('USER REPO: Fecth user failed');
       return Customer(
@@ -70,7 +69,7 @@ class UserRepo {
       Customer _customer = Customer(uid: 'uid');
       for (var item in query.docs) {
         if (item.id == _uid) {
-          _customer = Customer.fromJson(item.data() as Map<String, dynamic>?);
+          _customer = Customer.fromJson(item);
           break;
         }
       }
