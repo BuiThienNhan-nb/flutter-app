@@ -31,7 +31,7 @@ class _FavoriteButtonState extends State<FavoriteButton> {
         final bool _success = await DestinationRepo()
             .updateUserFav(widget.destination, widget.isFavorite);
         widget.count = widget.destination.favorites = _success
-            ? (widget.isFavorite ? widget.count - 1 : widget.count + 1)
+            ? (!widget.isFavorite ? widget.count - 1 : widget.count + 1)
             : widget.count;
         widget.isFavorite = _success ? !widget.isFavorite : widget.isFavorite;
         return _success ? !isLiked : isLiked;

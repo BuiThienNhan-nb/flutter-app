@@ -149,16 +149,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     scrollDirection: Axis.vertical,
                     itemCount:
                         destinationController.listDestinationsByProvince.length,
-                    itemBuilder: (context, index) => Container(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: HorizontalDestinationCard(
-                        destination: destinationController
-                            .listDestinationsByProvince[index],
-                        function: destinationController.navigateToDesDetail,
-                        size: size,
-                        tag:
-                            'horizontal-${destinationController.listDestinationsByProvince[index].uid}',
-                      ),
+                    itemBuilder: (context, index) => HorizontalDestinationCard(
+                      destination: destinationController
+                          .listDestinationsByProvince[index],
+                      function: destinationController.navigateToDesDetail,
+                      size: size,
+                      tag:
+                          'horizontal-${destinationController.listDestinationsByProvince[index].uid}',
                     ),
                   ),
                 ),

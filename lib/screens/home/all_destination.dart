@@ -37,21 +37,21 @@ class AllDestinationScreen extends StatelessWidget {
         body: Container(
           height: deviceHeight,
           color: Palette.myLightGrey,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(12, 12, 0, 0),
-            child: ListView.builder(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: destinationController.listDestinations.length,
-                itemBuilder: (context, index) => HorizontalDestinationCard(
+          child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              itemCount: destinationController.listDestinations.length,
+              itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(top: 10, left: 8, right: 8),
+                    child: HorizontalDestinationCard(
                       destination:
                           destinationController.listDestinations[index],
                       function: destinationController.navigateToDesDetail,
                       size: 300.0,
                       tag:
                           'all-destination-${destinationController.listDestinations[index].uid}',
-                    )),
-          ),
+                    ),
+                  )),
         ),
       ),
     );
