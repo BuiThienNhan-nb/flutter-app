@@ -17,6 +17,7 @@ class DestinationController extends GetxController {
   RxList<Destination> listDestinationByProvince = <Destination>[].obs;
   RxList<Destination> listFavDestination = <Destination>[].obs;
   RxList<Post> _listPost = <Post>[].obs;
+  RxString _avatarUrl = ''.obs;
 
   List<Province> get listProvinces => _listProvince.value;
   List<Destination> get listDestinations => listDestination.value;
@@ -24,6 +25,7 @@ class DestinationController extends GetxController {
       listDestinationByProvince.value;
   List<Destination> get listFavDestinations => listFavDestination.value;
   List<Post> get listPosts => _listPost.value;
+  String get avatarUrl => _avatarUrl.value;
 
   @override
   void onInit() {
@@ -71,7 +73,12 @@ class DestinationController extends GetxController {
     update();
   }
 
-  void fetchPost() async {
-    await PostRepo().fetchPost().then((value) => _listPost = value.obs);
+  // void fetchPost() async {
+  //   await PostRepo().fetchPost().then((value) => _listPost = value.obs);
+  // }
+
+  void bindAvaUrl(String uid) {
+    _avatarUrl.bindStream(UserRepo().customerAvatarUrl(uid));
+    update();
   }
 }

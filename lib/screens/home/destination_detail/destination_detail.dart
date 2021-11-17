@@ -215,14 +215,7 @@ class _DestinationDetailState extends State<DestinationDetail> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: 24,
-                                    ),
-                                    FavoriteButton(
-                                      isFavorite: UserRepo.customer.favoriteDes!
-                                          .contains(widget.destination.uid),
-                                      count: widget.destination.favorites,
-                                      size: 40.0,
-                                      destination: widget.destination,
+                                      width: 20,
                                     ),
                                   ],
                                 ),

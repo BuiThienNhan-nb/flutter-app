@@ -88,32 +88,6 @@ class DestinationRepo {
     });
   }
 
-  // Future<void> updateUserFav(Destination destination, bool isLiked) async {
-  //   if (!isLiked) {
-  //     await _db.collection('users').doc('${UserRepo.customer.uid}').update({
-  //       'favoriteDes': UserRepo.customer.favoriteDes
-  //     }).then((value) async => {
-  //           await _db
-  //               .collection('destinations')
-  //               .doc('${destination.uid}')
-  //               .update({'favorites': destination.favorites + 1}).then(
-  //                   (value) =>
-  //                       UserRepo.customer.favoriteDes!.add(destination.uid))
-  //         });
-  //   } else {
-  //     await _db.collection('users').doc('${UserRepo.customer.uid}').update({
-  //       'favoriteDes': UserRepo.customer.favoriteDes
-  //     }).then((value) async => {
-  //           await _db
-  //               .collection('destinations')
-  //               .doc('${destination.uid}')
-  //               .update({'favorites': destination.favorites - 1}).then(
-  //                   (value) =>
-  //                       UserRepo.customer.favoriteDes!.remove(destination.uid))
-  //         });
-  //   }
-  // }
-
   Future<Destination> fetchDestinationById(String uid) async {
     DocumentSnapshot documentReference =
         await _db.collection('destinations').doc(uid).get();

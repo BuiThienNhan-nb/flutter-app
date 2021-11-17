@@ -11,7 +11,6 @@ import 'package:flutter_app/utils/text_field_editProfile.dart';
 import 'package:flutter_app/utils/text_field_birthday.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class EditProfile extends StatefulWidget {
@@ -28,13 +27,15 @@ class _EditProfileState extends State<EditProfile> {
   var txtBirthday = TextEditingController();
   File? _pickedImage = null;
   late String url;
-  // @override
-  // void dispose() {
-  //   txtName.dispose();
-  //   txtPhoneNumber.dispose();
-  //   txtEmail.dispose();
-  //   super.dispose();
-  // }
+
+  @override
+  void dispose() {
+    super.dispose();
+    txtName.dispose();
+    txtPhoneNumber.dispose();
+    txtEmail.dispose();
+    txtBirthday.dispose();
+  }
 
   @override
   void initState() {
@@ -369,10 +370,10 @@ class _EditProfileState extends State<EditProfile> {
                                     });
                                   },
                             style: ElevatedButton.styleFrom(
-                              textStyle: TextStyle(fontSize: 28),
-                              minimumSize: Size.fromHeight(55),
-                              shape: StadiumBorder(),
-                            ),
+                                textStyle: TextStyle(
+                                    fontSize: 25, color: Colors.white),
+                                minimumSize: Size.fromHeight(50),
+                                shape: StadiumBorder()),
                           ),
                         )
                       ],

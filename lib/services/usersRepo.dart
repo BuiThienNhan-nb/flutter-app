@@ -35,12 +35,6 @@ class UserRepo {
   }
 
   Future<void> deleteUser(String uid) async {
-    // DocumentReference documentReference = _db.collection('users').doc(uid);
-    // return await documentReference
-    //     .set(customer.toMap())
-    //     .then((value) => print('User Added'))
-    //     .catchError((error) => showSnackbar(
-    //         'Failed', 'Create user data fail cause by $error', false));
     return await _db.collection('users').doc(uid).delete();
   }
 
@@ -74,6 +68,16 @@ class UserRepo {
         }
       }
       return _customer;
+    });
+  }
+
+  Stream<String> customerAvatarUrl(String uid) {
+    return _db.collection('users').doc(uid).snapshots().map((event) {
+      Map<String, dynamic>? data = event.data();
+      String url = (data!.containsKey('imageUrl') && data['imageUrl'] != null)
+          ? data['imageUrl'] as String
+          : '';
+      return url;
     });
   }
 }
