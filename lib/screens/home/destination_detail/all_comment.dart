@@ -62,18 +62,11 @@ class _AllCommentState extends State<AllComment> {
               'delete',
             ),
           ),
-          const PopupMenuItem<String>(
-            value: 'report',
-            child: Text('report'),
-          ),
         ],
         onSelected: (value) {
           switch (value) {
             case 'delete':
               deleteComment(key, uid);
-              break;
-            case 'report':
-              print('image: ${widget.nameDes} $key');
               break;
             default:
           }

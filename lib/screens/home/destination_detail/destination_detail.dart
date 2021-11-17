@@ -377,18 +377,6 @@ class _DestinationDetailState extends State<DestinationDetail> {
     );
   }
 
-  bool isRatting(List<Map<String, dynamic>> list) {
-    List<String> newList = [];
-    for (var i in list) {
-      var valueList = i.entries.toList();
-      newList.add(valueList[0].value);
-    }
-    if (newList.contains(widget.destination.uid)) {
-      return true;
-    }
-    return false;
-  }
-
   void sharePost() {
     Get.bottomSheet(Container(
       color: Colors.white,
@@ -447,52 +435,5 @@ class _DestinationDetailState extends State<DestinationDetail> {
     String ggMapUrlByDesName =
         "https://www.google.com/maps/search/?api=1&query=$query";
     launch(ggMapUrlByDesName);
-  }
-}
-
-class RatingBar extends StatelessWidget {
-  final int rating;
-  RatingBar(this.rating);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.star,
-          color: rating >= 1 ? Colors.white70 : Colors.white30,
-        ),
-        SizedBox(
-          width: 3,
-        ),
-        Icon(
-          Icons.star,
-          color: rating >= 2 ? Colors.white70 : Colors.white30,
-        ),
-        SizedBox(
-          width: 3,
-        ),
-        Icon(
-          Icons.star,
-          color: rating >= 3 ? Colors.white70 : Colors.white30,
-        ),
-        SizedBox(
-          width: 3,
-        ),
-        Icon(
-          Icons.star,
-          color: rating >= 4 ? Colors.white70 : Colors.white30,
-        ),
-        SizedBox(
-          width: 3,
-        ),
-        Icon(
-          Icons.star,
-          color: rating >= 5 ? Colors.white70 : Colors.white30,
-        ),
-      ],
-    ));
   }
 }
