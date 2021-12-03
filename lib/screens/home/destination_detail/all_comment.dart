@@ -31,11 +31,15 @@ class _AllCommentState extends State<AllComment> {
               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                   Animation<double> animation, int index) {
                 return ListTile(
-                  title: Text(snapshot.value['name']),
+                  title: updateComment(snapshot.value['name'])
+                      ? Text(snapshot.value['name'])
+                      : Text(UserRepo.customer.name.toString()),
                   subtitle: Text(snapshot.value['comment']),
                   trailing: myPopMenuButton(snapshot.key, snapshot.value['id']),
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage('${snapshot.value['image']}'),
+                    backgroundImage: updateImage(snapshot.value['image'])
+                        ? NetworkImage('${snapshot.value['image']}')
+                        : NetworkImage('${UserRepo.customer.imageUrl}'),
                   ),
                 );
               },
@@ -81,6 +85,22 @@ class _AllCommentState extends State<AllComment> {
       showSnackbar('Delete Success', 'Your comment has been deleted. ', true);
     } else {
       showSnackbar('Error', 'Can\'t delete other users\' comment.', false);
+    }
+  }
+
+  bool updateComment(String name) {
+    if (UserRepo.customer.name != name) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool updateImage(String image) {
+    if (UserRepo.customer.imageUrl != image) {
+      return false;
+    } else {
+      return true;
     }
   }
 }
