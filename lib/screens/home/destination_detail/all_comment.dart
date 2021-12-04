@@ -31,11 +31,17 @@ class _AllCommentState extends State<AllComment> {
               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                   Animation<double> animation, int index) {
                 return ListTile(
-                  title: Text(snapshot.value['name']),
+                  title: updateName(snapshot.value['name'], snapshot.key,
+                          snapshot.value['id'])
+                      ? Text(snapshot.value['name'])
+                      : Text(UserRepo.customer.name.toString()),
                   subtitle: Text(snapshot.value['comment']),
                   trailing: myPopMenuButton(snapshot.key, snapshot.value['id']),
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage('${snapshot.value['image']}'),
+                    backgroundImage: updateImage(snapshot.value['image'],
+                            snapshot.key, snapshot.value['id'])
+                        ? NetworkImage('${snapshot.value['image']}')
+                        : NetworkImage('${UserRepo.customer.imageUrl}'),
                   ),
                 );
               },
@@ -81,6 +87,31 @@ class _AllCommentState extends State<AllComment> {
       showSnackbar('Delete Success', 'Your comment has been deleted. ', true);
     } else {
       showSnackbar('Error', 'Can\'t delete other users\' comment.', false);
+    }
+  }
+
+  bool updateName(String name, var key, String uid) {
+    if (UserRepo.customer.name != name && UserRepo.customer.uid == uid) {
+      databaseRef
+          .child('image: ${widget.nameDes}')
+          .child(key)
+          .update({"name": UserRepo.customer.name});
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool updateImage(String image, var key, String uid) {
+    if (UserRepo.customer.imageUrl != image && UserRepo.customer.uid == uid) {
+      databaseRef
+          .child('image: ${widget.nameDes}')
+          .child(key)
+          .update({"image": UserRepo.customer.imageUrl});
+
+      return false;
+    } else {
+      return true;
     }
   }
 }
