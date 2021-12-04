@@ -27,6 +27,9 @@ class _EditProfileState extends State<EditProfile> {
   var txtBirthday = TextEditingController();
   File? _pickedImage = null;
   late String url;
+  String birthdayDB = DateFormat.yMMMd().format(
+      DateTime.fromMillisecondsSinceEpoch(
+          UserRepo.customer.birthday!.seconds * 1000));
 
   @override
   void dispose() {
@@ -45,6 +48,8 @@ class _EditProfileState extends State<EditProfile> {
     txtEmail.text = '${UserRepo.customer.email}';
     txtBirthday.text =
         '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(UserRepo.customer.birthday!.seconds * 1000))}';
+    birthdayDB = DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(
+        UserRepo.customer.birthday!.seconds * 1000));
   }
 
   Future<void> updateInfor() async {
@@ -65,6 +70,9 @@ class _EditProfileState extends State<EditProfile> {
             .update(UserRepo.customer.toMap());
         showSnackbar(
             "Update succesful", 'Hello ${UserRepo.customer.name}', true);
+        birthdayDB = DateFormat.yMMMd().format(
+            DateTime.fromMillisecondsSinceEpoch(
+                UserRepo.customer.birthday!.seconds * 1000));
       }
     }
   }
@@ -132,7 +140,7 @@ class _EditProfileState extends State<EditProfile> {
                   width: sizeWidth,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/backgroundTravel.jpg'),
+                        image: AssetImage('assets/30189.jpg'),
                         fit: BoxFit.fill),
                   ),
                   child: Align(
@@ -333,12 +341,7 @@ class _EditProfileState extends State<EditProfile> {
                                             UserRepo.customer.phoneNumber ||
                                         txtEmail.text !=
                                             UserRepo.customer.email ||
-                                        txtBirthday.text !=
-                                            DateFormat.yMMMd().format(DateTime
-                                                .fromMillisecondsSinceEpoch(
-                                                    UserRepo.customer.birthday!
-                                                            .seconds *
-                                                        1000))) {
+                                        txtBirthday.text != birthdayDB) {
                                       await updateInfor();
                                     }
                                     if (_pickedImage != null) {
