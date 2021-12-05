@@ -15,7 +15,7 @@
     <li><a href="#Install-Requirement">Install Requirement</a></li>
     <li><a href="#Development-Enviroment">Development Enviroment</a></li>
     <li><a href="#Dependencies">Dependencies</a></li>
-    <li><a href="#Issues">Issues</a></li>
+    <li><a href="#Known-Issues">Known Issues</a></li>
   </ol>
 </details>
 
@@ -50,12 +50,14 @@
 ## Development Enviroment
  * Ứng dụng được xây dựng trên Android Studio và Text editor Visual Studio Code với Android SDK 30.
  * Ứng dụng được phát triển trên các thiết bị máy tính sử dụng Windows 10.
- * Các vấn đề trong quá trình thực thi ứng dụng trên một số nền tảng sẽ được liệt kê trong #Issues.
+ * Các vấn đề trong quá trình thực thi ứng dụng trên một số nền tảng sẽ được liệt kê trong (<a href="#Known-Issues">Known Issues</a>)
  * Ứng dụng được kiểm thử trên thiết bị thực SamSung A71 và Redmi Note 9s.
 
 ## Dependencies
  * Cơ sở dữ liệu của ứng dụng được quản lý trên [Firestore](https://firebase.google.com/docs/firestore).
  * Có sử dụng API để hiển thị thời tiết hiện tại [Link API](https://openweathermap.org/api).
+ * Sử dụng Github để quản lý đồ án.
+ * Các tài liệu liên quan [Related Documments](https://drive.google.com/drive/u/2/folders/17eugsuN97RmTzSrBJYJk7G62D441BZ4f).
 
-## Issues
+## Known Issues
   * Null
