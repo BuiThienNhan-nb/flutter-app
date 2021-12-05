@@ -9,11 +9,11 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#Guiding Teacher">Guiding Teacher</a></li>
+    <li><a href="#Guiding-Teacher">Guiding Teacher</a></li>
     <li><a href="#Contributors">Contributors</a></li>
-    <li><a href="#Project Description and Content">Project Description and Content</a></li>
-    <li><a href="#Install Requirement">Install Requirement</a></li>
-    <li><a href="#Development Enviroment">Development Enviroment</a></li>
+    <li><a href="#Project-Description and Content">Project Description and Content</a></li>
+    <li><a href="#Install-Requirement">Install Requirement</a></li>
+    <li><a href="#Development-Enviroment">Development Enviroment</a></li>
     <li><a href="#Dependencies">Dependencies</a></li>
     <li><a href="#Issues">Issues</a></li>
   </ol>
