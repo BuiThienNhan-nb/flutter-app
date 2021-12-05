@@ -9,13 +9,13 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#Guiding Teacher">Usage</a></li>
-    <li><a href="#Contributors">Roadmap</a></li>
-    <li><a href="#Project Description and Content">Contributing</a></li>
-    <li><a href="#Install Requirement">License</a></li>
-    <li><a href="#Development Enviroment">Contact</a></li>
-    <li><a href="#Dependencies">Acknowledgments</a></li>
-    <li><a href="#Issues">Acknowledgments</a></li>
+    <li><a href="#Guiding Teacher">Guiding Teacher</a></li>
+    <li><a href="#Contributors">Contributors</a></li>
+    <li><a href="#Project Description and Content">Project Description and Content</a></li>
+    <li><a href="#Install Requirement">Install Requirement</a></li>
+    <li><a href="#Development Enviroment">Development Enviroment</a></li>
+    <li><a href="#Dependencies">Dependencies</a></li>
+    <li><a href="#Issues">Issues</a></li>
   </ol>
 </details>
 
@@ -55,7 +55,7 @@
 
 ## Dependencies
  * Cơ sở dữ liệu của ứng dụng được quản lý trên [Firestore](https://firebase.google.com/docs/firestore).
- * Có sử dụng API để hiển thị thời tiết hiện tại [link](https://openweathermap.org/api).
+ * Có sử dụng API để hiển thị thời tiết hiện tại [Link API](https://openweathermap.org/api).
 
 ## Issues
   * Null
