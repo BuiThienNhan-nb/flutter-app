@@ -25,11 +25,9 @@ class _EditProfileState extends State<EditProfile> {
   var txtPhoneNumber = TextEditingController();
   var txtEmail = TextEditingController();
   var txtBirthday = TextEditingController();
+  // DateTime birthdayDB = DateTime.now();
   File? _pickedImage = null;
   late String url;
-  String birthdayDB = DateFormat.yMMMd().format(
-      DateTime.fromMillisecondsSinceEpoch(
-          UserRepo.customer.birthday!.seconds * 1000));
 
   @override
   void dispose() {
@@ -47,9 +45,7 @@ class _EditProfileState extends State<EditProfile> {
     txtPhoneNumber.text = '${UserRepo.customer.phoneNumber}';
     txtEmail.text = '${UserRepo.customer.email}';
     txtBirthday.text =
-        '${DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(UserRepo.customer.birthday!.seconds * 1000))}';
-    birthdayDB = DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(
-        UserRepo.customer.birthday!.seconds * 1000));
+        '${DateFormat('dd/MM/yyyy').format(UserRepo.customer.birthday!.toDate())}';
   }
 
   Future<void> updateInfor() async {
@@ -57,24 +53,22 @@ class _EditProfileState extends State<EditProfile> {
       if (txtName.text != UserRepo.customer.name ||
           txtPhoneNumber.text != UserRepo.customer.phoneNumber ||
           txtEmail.text != UserRepo.customer.email ||
-          txtBirthday.text !=
-              DateFormat.yMMMd().format(DateTime.fromMillisecondsSinceEpoch(
-                  UserRepo.customer.birthday!.seconds * 1000))) {
+          txtBirthday.text.compareTo(DateFormat('dd/MM/yyyy')
+                  .format(UserRepo.customer.birthday!.toDate())) !=
+              0) {
         UserRepo.customer.name = txtName.text;
         UserRepo.customer.phoneNumber = txtPhoneNumber.text;
         UserRepo.customer.email = txtEmail.text;
-        UserRepo.customer.birthday =
-            Timestamp.fromDate(DateFormat('yMMMd').parse(txtBirthday.text));
+        UserRepo.customer.birthday = Timestamp.fromDate(
+            DateFormat('dd/MM/yyyy').parse(txtBirthday.text));
         await FirebaseFirestore.instance
             .doc('users/${UserRepo.customer.uid}')
             .update(UserRepo.customer.toMap());
         showSnackbar(
             "Update succesful", 'Hello ${UserRepo.customer.name}', true);
-        birthdayDB = DateFormat.yMMMd().format(
-            DateTime.fromMillisecondsSinceEpoch(
-                UserRepo.customer.birthday!.seconds * 1000));
       }
     }
+    setState(() {});
   }
 
   updateImage() async {
@@ -140,7 +134,7 @@ class _EditProfileState extends State<EditProfile> {
                   width: sizeWidth,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/30189.jpg'),
+                        image: AssetImage('assets/backgroundTravel.jpg'),
                         fit: BoxFit.fill),
                   ),
                   child: Align(
@@ -307,6 +301,8 @@ class _EditProfileState extends State<EditProfile> {
                           labelText: "Birthday",
                           placeholder: "Sep 12, 1998",
                           textEditingController: txtBirthday,
+                          callback: (_newDateString) =>
+                              setState(() => txtBirthday.text = _newDateString),
                         ),
                         Container(
                           alignment: Alignment.center,
@@ -322,12 +318,11 @@ class _EditProfileState extends State<EditProfile> {
                                     txtPhoneNumber.text ==
                                         UserRepo.customer.phoneNumber &&
                                     txtEmail.text == UserRepo.customer.email &&
-                                    txtBirthday.text ==
-                                        DateFormat.yMMMd().format(
-                                            DateTime.fromMillisecondsSinceEpoch(
+                                    txtBirthday.text.compareTo(
+                                            DateFormat('dd/MM/yyyy').format(
                                                 UserRepo.customer.birthday!
-                                                        .seconds *
-                                                    1000)) &&
+                                                    .toDate())) ==
+                                        0 &&
                                     _pickedImage == null
                                 ? null
                                 : () async {
@@ -341,7 +336,11 @@ class _EditProfileState extends State<EditProfile> {
                                             UserRepo.customer.phoneNumber ||
                                         txtEmail.text !=
                                             UserRepo.customer.email ||
-                                        txtBirthday.text != birthdayDB) {
+                                        txtBirthday.text.compareTo(
+                                                DateFormat('dd/MM/yyyy').format(
+                                                    UserRepo.customer.birthday!
+                                                        .toDate())) !=
+                                            0) {
                                       await updateInfor();
                                     }
                                     if (_pickedImage != null) {
@@ -357,12 +356,11 @@ class _EditProfileState extends State<EditProfile> {
                                             UserRepo.customer.phoneNumber &&
                                         txtEmail.text ==
                                             UserRepo.customer.email &&
-                                        txtBirthday.text ==
-                                            DateFormat.yMMMd().format(DateTime
-                                                .fromMillisecondsSinceEpoch(
+                                        txtBirthday.text.compareTo(
+                                                DateFormat('dd/MM/yyyy').format(
                                                     UserRepo.customer.birthday!
-                                                            .seconds *
-                                                        1000))) {
+                                                        .toDate())) ==
+                                            0) {
                                       showSnackbar(
                                           "Everything is up to date",
                                           'Hello ${UserRepo.customer.name}',
