@@ -14,8 +14,7 @@ class AllComment extends StatefulWidget {
 }
 
 class _AllCommentState extends State<AllComment> {
-  var databaseRef = FirebaseDatabase.instance.reference().child('users');
-
+  var databaseRef = FirebaseDatabase.instance.reference();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,22 +26,18 @@ class _AllCommentState extends State<AllComment> {
             child: FirebaseAnimatedList(
               // physics: NeverScrollableScrollPhysics(),
               // shrinkWrap: true,
-              query: databaseRef.child('image: ${widget.nameDes}'),
+              query: databaseRef.child('users').child(
+                    'destination: ${widget.nameDes}',
+                  ),
               itemBuilder: (BuildContext context, DataSnapshot snapshot,
                   Animation<double> animation, int index) {
                 return ListTile(
-                  title: updateName(snapshot.value['name'], snapshot.key,
-                          snapshot.value['id'])
-                      ? Text(snapshot.value['name'])
-                      : Text(UserRepo.customer.name.toString()),
+                  title: Text(snapshot.value['name']),
                   subtitle: Text(snapshot.value['comment']),
                   trailing: myPopMenuButton(snapshot.key, snapshot.value['id']),
                   leading: CircleAvatar(
-                    backgroundImage: updateImage(snapshot.value['image'],
-                            snapshot.key, snapshot.value['id'])
-                        ? NetworkImage('${snapshot.value['image']}')
-                        : NetworkImage('${UserRepo.customer.imageUrl}'),
-                  ),
+                      backgroundImage:
+                          NetworkImage('${snapshot.value['image']}')),
                 );
               },
             ),
@@ -83,35 +78,14 @@ class _AllCommentState extends State<AllComment> {
 
   void deleteComment(var key, var uid) {
     if (uid == UserRepo.customer.uid) {
-      databaseRef.child('image: ${widget.nameDes}').child(key).remove();
+      databaseRef
+          .child('users')
+          .child('destination: ${widget.nameDes}')
+          .child(key)
+          .remove();
       showSnackbar('Delete Success', 'Your comment has been deleted. ', true);
     } else {
       showSnackbar('Error', 'Can\'t delete other users\' comment.', false);
-    }
-  }
-
-  bool updateName(String name, var key, String uid) {
-    if (UserRepo.customer.name != name && UserRepo.customer.uid == uid) {
-      databaseRef
-          .child('image: ${widget.nameDes}')
-          .child(key)
-          .update({"name": UserRepo.customer.name});
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  bool updateImage(String image, var key, String uid) {
-    if (UserRepo.customer.imageUrl != image && UserRepo.customer.uid == uid) {
-      databaseRef
-          .child('image: ${widget.nameDes}')
-          .child(key)
-          .update({"image": UserRepo.customer.imageUrl});
-
-      return false;
-    } else {
-      return true;
     }
   }
 }

@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +28,8 @@ class _EditProfileState extends State<EditProfile> {
   var txtPhoneNumber = TextEditingController();
   var txtEmail = TextEditingController();
   var txtBirthday = TextEditingController();
+  List<String> listKey = [];
+  final List<String> listDes = [];
   File? _pickedImage = null;
   late String url;
 
@@ -63,13 +68,48 @@ class _EditProfileState extends State<EditProfile> {
         await FirebaseFirestore.instance
             .doc('users/${UserRepo.customer.uid}')
             .update(UserRepo.customer.toMap());
+
+        // update name to firebase realtime
+        await updateNameToRealtime();
+        // await updateNameToRealtime();
+
         showSnackbar(
             "Update succesful", 'Hello ${UserRepo.customer.name}', true);
       }
     }
   }
 
-  updateImage() async {
+  Future<void> updateNameToRealtime() async {
+    await getListKeyComment();
+
+    listDes.toSet().toList().forEach((des) {
+      // print(des);
+      listKey.toSet().toList().forEach((key) {
+        FirebaseDatabase.instance
+            .reference()
+            .child('users')
+            .child('destination: $des')
+            .child(key)
+            .once()
+            .then((snapshot) async {
+          if (snapshot.value != null) {
+            if (snapshot.value['id'] != null &&
+                snapshot.value['id'] == UserRepo.customer.uid) {
+              print('$des - $key');
+              await FirebaseDatabase.instance
+                  .reference()
+                  .child('users')
+                  .child('destination: $des')
+                  .child(key)
+                  .update({'name': UserRepo.customer.name});
+            }
+          }
+        });
+      });
+    });
+  }
+
+  Future<void> updateImage() async {
     var imageFile = FirebaseStorage.instance
         .ref()
         .child('images')
@@ -82,7 +122,66 @@ class _EditProfileState extends State<EditProfile> {
     await FirebaseFirestore.instance
         .doc('users/${UserRepo.customer.uid}')
         .update(UserRepo.customer.toMap());
+
+    // update image to firebase realtime
+    await getListKeyComment();
+    print(listDes);
+    listDes.toSet().toList().forEach((des) {
+      listKey.toSet().toList().forEach((key) {
+        print('$des - $key');
+        FirebaseDatabase.instance
+            .reference()
+            .child('users')
+            .child('destination: $des')
+            .child(key)
+            .once()
+            .then((snapshot) async {
+          if (snapshot.value != null) {
+            if (snapshot.value['id'] != null &&
+                snapshot.value['id'] == UserRepo.customer.uid) {
+              print('$des - $key');
+              await FirebaseDatabase.instance
+                  .reference()
+                  .child('users')
+                  .child('destination: $des')
+                  .child(key)
+                  .update({'image': UserRepo.customer.imageUrl});
+            }
+          }
+        });
+      });
+    });
     _pickedImage = null;
+  }
+
+  void getListDes(key) async {
+    await FirebaseDatabase.instance
+        .reference()
+        .child('comments')
+        .child(UserRepo.customer.uid)
+        .child(key)
+        .once()
+        .then((snapshot) {
+      // print(snapshot.value['destination']);
+      listDes.add(snapshot.value['destination']);
+    });
+    // print(listDes.toSet().toList());
+  }
+
+  Future<void> getListKeyComment() async {
+    FirebaseDatabase.instance
+        .reference()
+        .child('keys')
+        .child(UserRepo.customer.uid)
+        .orderByChild('key')
+        .onChildAdded
+        .forEach((key) async {
+      // print(key.snapshot.value['key']);
+      getListDes(key.snapshot.value['key']);
+      listKey.add(key.snapshot.value['key']);
+      // print(listKey);
+    });
+    print(listKey);
   }
 
   Future _pickImageCamera() async {
@@ -339,6 +438,8 @@ class _EditProfileState extends State<EditProfile> {
                                                     UserRepo.customer.birthday!
                                                             .seconds *
                                                         1000))) {
+                                      await updateInfor();
+                                      await updateInfor();
                                       await updateInfor();
                                     }
                                     if (_pickedImage != null) {
