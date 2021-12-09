@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:intl/intl.dart';
 
@@ -50,11 +51,11 @@ class _AddCommentState extends State<AddComment> {
   }
 
   void insertData(String comment, String nameDes) {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM').format(now);
-
+    String formattedDate =
+        DateFormat("dd/MM/yyyy HH:mm:ss").format(DateTime.now());
     String keyUsers =
         databaseRef.child('users').child('destination: $nameDes').push().key;
+
     databaseRef
         .child('users')
         .child('destination: $nameDes')
@@ -66,17 +67,23 @@ class _AddCommentState extends State<AddComment> {
       'time': formattedDate,
       'image': UserRepo.customer.imageUrl,
     });
-
-    databaseRef
-        .child('comments')
-        .child(UserRepo.customer.uid)
-        .child(keyUsers)
-        .set({
-      'destination': widget.nameDes,
-    });
+    if (!commentController.comments.contains(widget.nameDes)) {
+      databaseRef
+          .child('comments')
+          .child(UserRepo.customer.uid)
+          .child(keyUsers)
+          .set({
+        'destination': widget.nameDes,
+      });
+      commentController.comments.add(widget.nameDes);
+    }
     databaseRef.child('keys').child(UserRepo.customer.uid).child(keyUsers).set({
       'key': keyUsers,
     });
+    if (!commentController.keys.contains(keyUsers)) {
+      commentController.keys.add(keyUsers);
+    }
+    int i = 0;
     controlerComment.clear();
   }
 }
