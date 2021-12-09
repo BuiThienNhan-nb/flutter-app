@@ -64,6 +64,7 @@ class _EditProfileState extends State<EditProfile> {
         await FirebaseFirestore.instance
             .doc('users/${UserRepo.customer.uid}')
             .update(UserRepo.customer.toMap());
+        await UserRepo().updateUserRealtime(UserRepo.customer);
         showSnackbar(
             "Update succesful", 'Hello ${UserRepo.customer.name}', true);
       }

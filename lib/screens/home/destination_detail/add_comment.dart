@@ -53,8 +53,9 @@ class _AddCommentState extends State<AddComment> {
     DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
     dynamic currentTime = DateFormat.jm().format(DateTime.now());
 
-    String key = databaseRef.child('users').child('image: $nameDes').push().key;
-    databaseRef.child('users').child('image: $nameDes').child(key).set({
+    String key =
+        databaseRef.child('users').child('destination: $nameDes').push().key;
+    databaseRef.child('users').child('destination: $nameDes').child(key).set({
       'comment': comment,
       'id': UserRepo.customer.uid,
       'name': UserRepo.customer.name,

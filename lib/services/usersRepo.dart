@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_app/models/customers.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 
@@ -79,5 +80,10 @@ class UserRepo {
           : '';
       return url;
     });
+  }
+
+  Future<void> updateUserRealtime(Customer customer) async {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.reference().child('users');
   }
 }
