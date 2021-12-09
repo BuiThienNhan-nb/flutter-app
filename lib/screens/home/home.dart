@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter_app/const_values/palette.dart';
+import 'package:flutter_app/controllers/get_list_des_controller.dart';
 import 'package:flutter_app/screens/home/all_destination.dart';
-import 'package:flutter_app/screens/home/destination_detail/carousel_des_widget.dart';
 import 'package:flutter_app/screens/home/search_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    commentController.getListKeys();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // print('LIST FAVORITE DESTINATIONS: ${UserRepo.customer.favoriteDes}');

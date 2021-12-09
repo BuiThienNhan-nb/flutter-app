@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/const_values/palette.dart';
 import 'package:flutter_app/models/destinations.dart';
 import 'package:flutter_app/models/post.dart';
-import 'package:flutter_app/screens/home/destination_detail/all_comment.dart';
+import 'package:flutter_app/screens/home/destination_detail/comment/all_comment.dart';
 import 'package:flutter_app/screens/home/destination_detail/carousel_des_widget.dart';
 import 'package:flutter_app/screens/home/destination_detail/content_text_field.dart';
 import 'package:flutter_app/services/postRepo.dart';

@@ -1,9 +1,10 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/const_values/controller.dart';
 import 'package:flutter_app/services/usersRepo.dart';
 import 'package:flutter_app/utils/snack_bar_widget.dart';
 import 'package:intl/intl.dart';
@@ -25,9 +26,12 @@ class _EditProfileState extends State<EditProfile> {
   var txtPhoneNumber = TextEditingController();
   var txtEmail = TextEditingController();
   var txtBirthday = TextEditingController();
+  List<String> listKey = [];
+  final List<String> listDes = [];
   // DateTime birthdayDB = DateTime.now();
   File? _pickedImage = null;
   late String url;
+  final DatabaseReference _dbRef = FirebaseDatabase.instance.reference();
 
   @override
   void dispose() {
@@ -64,14 +68,32 @@ class _EditProfileState extends State<EditProfile> {
         await FirebaseFirestore.instance
             .doc('users/${UserRepo.customer.uid}')
             .update(UserRepo.customer.toMap());
-        showSnackbar(
-            "Update succesful", 'Hello ${UserRepo.customer.name}', true);
+
+        // update name to firebase realtime
+        await updateNameToRealtime();
       }
     }
     setState(() {});
   }
 
-  updateImage() async {
+  Future<void> updateNameToRealtime() async {
+    // await getListKeyComment();
+    commentController.comments.forEach(
+      (des) => commentController.keys.forEach(
+        (key) => _dbRef.child('users/destination: $des/$key').once().then(
+          (snapshot) async {
+            if (snapshot.value['id'] == UserRepo.customer.uid) {
+              await _dbRef
+                  .child('users/destination: $des/$key')
+                  .update({'name': UserRepo.customer.name});
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Future<void> updateImage() async {
     var imageFile = FirebaseStorage.instance
         .ref()
         .child('images')
@@ -84,6 +106,20 @@ class _EditProfileState extends State<EditProfile> {
     await FirebaseFirestore.instance
         .doc('users/${UserRepo.customer.uid}')
         .update(UserRepo.customer.toMap());
+
+    commentController.comments.forEach(
+      (des) => commentController.keys.forEach(
+        (key) => _dbRef.child('users/destination: $des/$key').once().then(
+          (snapshot) async {
+            if (snapshot.value['id'] == UserRepo.customer.uid) {
+              await _dbRef
+                  .child('users/destination: $des/$key')
+                  .update({'image': UserRepo.customer.imageUrl});
+            }
+          },
+        ),
+      ),
+    );
     _pickedImage = null;
   }
 
@@ -366,6 +402,10 @@ class _EditProfileState extends State<EditProfile> {
                                           'Hello ${UserRepo.customer.name}',
                                           true);
                                     }
+                                    showSnackbar(
+                                        "Update succesful",
+                                        'Hello ${UserRepo.customer.name}',
+                                        true);
                                     setState(() {
                                       isLoading = false;
                                     });
