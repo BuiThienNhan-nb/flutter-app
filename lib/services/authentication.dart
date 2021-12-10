@@ -50,6 +50,7 @@ class AuthenticationServices {
       phoneNumber: '',
       imageUrl: '',
       favoriteDes: [],
+      favoritePost: [],
     );
   }
 }
