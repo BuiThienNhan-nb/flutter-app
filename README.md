@@ -46,7 +46,7 @@
  * Ứng dụng dược tương thích với hầu hết các nền tảng android từ 7.0.
  * Khách hàng có thể đăng ký tài khoản ngay trên ứng dụng hoặc đăng nhập thông qua tài khoản ứng dụng cung cấp.
  * Các giao diện được hiển thị tốt nhất với thiết bị có kích thước 5,7" - 1080x2280px.
- * Link demo ứng dụng trên SamSung A71 - Android 11: [Youtube].(https://youtu.be/jCgElfDkBgg)
+ * Link demo ứng dụng trên SamSung A71 - Android 11: [Youtube](https://youtu.be/jCgElfDkBgg).
 
 ## Development Enviroment
  * Ứng dụng được xây dựng trên Android Studio và Text editor Visual Studio Code với Android SDK 30.
