@@ -12,8 +12,8 @@
     <li><a href="#Guiding-Teacher">Guiding Teacher</a></li>
     <li><a href="#Contributors">Contributors</a></li>
     <li><a href="#Project-Description-and-Content">Project Description and Content</a></li>
-    <li><a href="#Install-Requirement">Install Requirement</a></li>
     <li><a href="#Development-Enviroment">Development Enviroment</a></li>
+    <li><a href="#Install-Requirement">Install Requirement</a></li>
     <li><a href="#Dependencies">Dependencies</a></li>
     <li><a href="#Known-Issues">Known Issues</a></li>
   </ol>
@@ -42,17 +42,18 @@
      * Cá nhân hóa thông tin được cung cấp cho ứng dụng và các thông tin được phép hiển thị cho người dùng khác.
      * Lưu trữ các địa điểm được người dùng yêu thích.
 
-## Install Requirement
- * Ứng dụng dược tương thích với hầu hết các nền tảng android từ 7.0.
- * Khách hàng có thể đăng ký tài khoản ngay trên ứng dụng hoặc đăng nhập thông qua tài khoản ứng dụng cung cấp.
- * Các giao diện được hiển thị tốt nhất với thiết bị có kích thước 5,7" - 1080x2280px.
- * Link demo ứng dụng trên SamSung A71 - Android 11: [Youtube](https://youtu.be/jCgElfDkBgg).
-
 ## Development Enviroment
  * Ứng dụng được xây dựng trên Android Studio và Text editor Visual Studio Code với Android SDK 30.
  * Ứng dụng được phát triển trên các thiết bị máy tính sử dụng Windows 10.
  * Các vấn đề trong quá trình thực thi ứng dụng trên một số nền tảng sẽ được liệt kê trong (<a href="#Known-Issues">Known Issues</a>)
  * Ứng dụng được kiểm thử trên thiết bị thực SamSung A71 và Redmi Note 9s.
+
+## Install Requirement
+ * Ứng dụng dược tương thích với hầu hết các nền tảng android từ 7.0.
+ * Khách hàng có thể đăng ký tài khoản ngay trên ứng dụng hoặc đăng nhập thông qua tài khoản ứng dụng cung cấp.
+ * Các giao diện được hiển thị tốt nhất với thiết bị có kích thước 5,7" - 1080x2280px.
+ * Gặp vấn đề khi đăng nhập vào ứng dụng khi sử dụng trên thiết bị SamSung A50
+ * Link demo ứng dụng trên SamSung A71 - Android 11: [Youtube](https://youtu.be/jCgElfDkBgg).
 
 ## Dependencies
  * Cơ sở dữ liệu của ứng dụng được quản lý trên [Firestore](https://firebase.google.com/docs/firestore).
